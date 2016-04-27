@@ -61,7 +61,7 @@ def ScrapeImage(graph, _dir='./', limit=60, records='records.txt'):
             location = node['location']
             url = node['url']
             now = datetime.datetime.now()
-            timestamp = now.strftime("%Y-%m-%d-%H-%m-") + str(now.second).zfill(2)
+            timestamp = now.strftime("%Y-%m-%d-%H-%M-") + str(now.second).zfill(2)
             filename = '%s_%s.jpg' % (timestamp, location)
             records.write('%s\t%s\t%s\t%s' % (address, url, location, filename))
             #print(address)
