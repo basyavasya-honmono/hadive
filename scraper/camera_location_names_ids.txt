@@ -1,0 +1,582 @@
+,location,camera_id,borough
+0,1 Ave @ 110 St,368,Manhattan
+1,1 Ave @ 124 St,360,Manhattan
+2,1 Ave @ 23 St,361,Manhattan
+3,1 Ave @ 42 St,550,Manhattan
+4,1 Ave @ 62 St,940,Manhattan
+5,1 Ave @ 79 St,Inactive,Manhattan
+6,1 Ave @ 86 St,370,Manhattan
+7,1 Ave @ 96 St,537,Manhattan
+8,1 Ave @ E 14 St,789,Manhattan
+9,1 Ave and 34 St,Inactive,Manhattan
+10,10 Ave @ 57 St,828,Manhattan
+11,11 Ave @ 34 ST,Inactive,Manhattan
+12,11 Ave @ 42 St,Inactive,Manhattan
+13,11 Ave @ 57 St,827,Manhattan
+14,12 Ave @ 14 St,Inactive,Manhattan
+15,12 Ave @ 22 St,547,Manhattan
+16,12 Ave @ 34 St,545,Manhattan
+17,12 Ave @ 42 St,544,Manhattan
+18,12 Ave @ 57 St,543,Manhattan
+19,2 Ave @ 110 St,Inactive,Manhattan
+20,2 Ave @ 125 St,247,Manhattan
+21,2 Ave @ 23 St,794,Manhattan
+22,2 Ave @ 36 St-Midtown Tunnel,165,Manhattan
+23,2 Ave @ 42 St,551,Manhattan
+24,2 Ave @ 49 St,Inactive,Manhattan
+25,2 Ave @ 58 St,472,Manhattan
+26,2 Ave @ 59 St (QBB),164,Manhattan
+27,2 Ave @ 74 St,934,Manhattan
+28,2 Ave @ E 14 St,846,Manhattan
+29,207 ST @ 9 Ave,328,Manhattan
+30,3 Ave @ 23 St,495,Manhattan
+31,3 AVE @ 34 ST,403,Manhattan
+32,3 Ave @ 42 St,398,Manhattan
+33,3 Ave @ 49 St,410,Manhattan
+34,3 Ave @ 57 St,399,Manhattan
+35,3 Ave @ 59 St,400,Manhattan
+36,3 Ave @ E 14 St,845,Manhattan
+37,5 Ave @ 23 St,168,Manhattan
+38,5 Ave @ 34 St,415,Manhattan
+39,5 Ave @ 42 St,523,Manhattan
+40,5 Ave @ 49 St,169,Manhattan
+41,5 Ave @ 57 St,409,Manhattan
+42,5 Ave @ 65 St,906,Manhattan
+43,5 Ave @ 66 St,907,Manhattan
+44,5 Ave @ 72 St,Inactive,Manhattan
+45,5 Ave @ 96 St,908,Manhattan
+46,6 Ave @ 14 St,509,Manhattan
+47,6 Ave @ 23 St,511,Manhattan
+48,6 Ave @ 34 St,170,Manhattan
+49,6 Ave @ 42 St,173,Manhattan
+50,6 Ave @ 49 St,171,Manhattan
+51,6 Ave @ 57 St,414,Manhattan
+52,6 Ave @ 58 St,473,Manhattan
+53,6 Ave @ West Houston St,717,Manhattan
+54,7 Ave @ 145 St,529,Manhattan
+55,7 Ave @ 23St,510,Manhattan
+56,7 Ave @ 34 St,501,Manhattan
+57,7 Ave @ 43 St,Inactive,Manhattan
+58,7 Ave @ 49 St,416,Manhattan
+59,7 Ave @ 57 St,504,Manhattan
+60,8 Ave @ 14 St,503,Manhattan
+61,8 Ave @ 34 St,180,Manhattan
+62,8 Ave @ 42 St,181,Manhattan
+63,8 Ave @ 49 St,420,Manhattan
+64,8 Ave @ Columbus Cr South,179,Manhattan
+65,8th Ave @ 23 St,500,Manhattan
+66,9 Ave @ 23 St,229,Manhattan
+67,9 Ave @ 30 St,Inactive,Manhattan
+68,9 Ave @ 34 St,178,Manhattan
+69,9 Ave @ 37 St,507,Manhattan
+70,9 Ave @ 42 St,506,Manhattan
+71,9 Ave @ 48 St,Inactive,Manhattan
+72,9 Ave @ 49 St,502,Manhattan
+73,9 Ave @ 57 St,508,Manhattan
+74,Amsterdam @ 178 St,248,Manhattan
+75,Amsterdam @ 72 St,526,Manhattan
+76,Amsterdam @ 86 St,527,Manhattan
+77,Amsterdam Ave @ 125 St,741,Manhattan
+78,Amsterdam Ave @ 181 St,847,Manhattan
+79,Amsterdam Ave @ 60 St,Inactive,Manhattan
+80,Baxter St @ Canal Street,Inactive,Manhattan
+81,Broadway @ 125 St,Inactive,Manhattan
+82,Broadway @ 145 St,937,Manhattan
+83,Broadway @ 169 Street,224,Manhattan
+84,Broadway @ 42 St,475,Manhattan
+85,Broadway @ 43 St,899,Manhattan
+86,Broadway @ 46 Street,187,Manhattan
+87,Broadway @ 51 St,421,Manhattan
+88,Broadway @ 96 St,739,Manhattan
+89,Broadway @ Chambers St,Inactive,Manhattan
+90,Broadway @ Vesey St,351,Manhattan
+91,Brooklyn Battery Tunnel @ West Street,311,Manhattan
+92,Brooklyn Bridge - Ped Walk Way,Inactive,Manhattan
+93,Brooklyn Bridge @ Centre Street,175,Manhattan
+94,Canal Street @ Allen Street,435,Manhattan
+95,Canal Street @ Chrystie Street,434,Manhattan
+96,Central Park S @ Columbus Cr,166,Manhattan
+97,Church Street @ Vesey,163,Manhattan
+98,Columbus Ave @ 67 St,Inactive,Manhattan
+99,Columbus Ave @ 90 St,Inactive,Manhattan
+100,Columbus St @ 65 St,505,Manhattan
+101,CPW @ 96 St,524,Manhattan
+102,Dyer @ 42 Street,182,Manhattan
+103,E 57 St @ QBB,176,Manhattan
+104,E 63 St @ QBB,177,Manhattan
+105,East Houston St @ Ave B,790,Manhattan
+106,East Houston St @ Ave D,791,Manhattan
+107,FDR @ 120 St,795,Manhattan
+108,FDR @ 48 St,735,Manhattan
+109,FDR @ E 127 St,734,Manhattan
+110,FDR @ E 53 St,733,Manhattan
+111,FDR @ E 6 St,732,Manhattan
+112,FDR @ Grand St,731,Manhattan
+113,FDR @ Jackson St,736,Manhattan
+114,FDR Dr @ 10 St,930,Manhattan
+115,FDR Dr @ 111 ST,274,Manhattan
+116,FDR Dr @ 135 Street,188,Manhattan
+117,FDR Dr @ 155 Street,233,Manhattan
+118,FDR Dr @ 23 St,253,Manhattan
+119,FDR Dr @ 38 St,689,Manhattan
+120,FDR Dr @ 73 St,692,Manhattan
+121,FDR Dr @ 79 St,691,Manhattan
+122,FDR Dr @ 90 St,690,Manhattan
+123,FDR Dr @ 96 Street,186,Manhattan
+124,FDR Dr @ Brooklyn Bridge Exit NB,437,Manhattan
+125,FDR Dr @ Brooklyn Bridge Exit SB,436,Manhattan
+126,FDR Dr @ Catherine Street,183,Manhattan
+127,FDR Dr @ Old Slip,223,Manhattan
+128,FDR Dr @ Old Slip,929,Manhattan
+129,Ft Washington @ 178 St,841,Manhattan
+130,Ft Washinton @ 179 St,840,Manhattan
+131,Grand St @ Allen St,519,Manhattan
+132,Grand St @ Bowery,838,Manhattan
+133,Grand St @ Broadway,516,Manhattan
+134,Grand St @ Essex St,517,Manhattan
+135,Greenwich St @ Morris St,512,Manhattan
+136,Harlem Rvr Dr (FDR) @ 166 St,805,Manhattan
+137,Henry Hudson @ 137 St,558,Manhattan
+138,Henry Hudson @ 158 St,554,Manhattan
+139,Henry Hudson @ South Bound,308,Manhattan
+140,Henry Hudson Pkwy @ 125 St,Inactive,Manhattan
+141,Henry Hudson Pkwy @ 125 St,933,Manhattan
+142,Henry Hudson Pkwy @ 70 St,895,Manhattan
+143,Henry Hudson Pkwy @ 96 St,Inactive,Manhattan
+144,Holland Tunnel,157,Manhattan
+145,Houston St @ Bowery St,720,Manhattan
+146,Houston St @ Broadway,722,Manhattan
+147,Houston St @ Christies St,721,Manhattan
+148,Houston St @ Lafeyette St,Inactive,Manhattan
+149,Lenox Ave @ 125 St,530,Manhattan
+150,Lenox Ave @ 135 St,521,Manhattan
+151,Lexington Ave @ 23 St,541,Manhattan
+152,Lexington Ave @ 34 St,542,Manhattan
+153,Lexington Ave @ 42 St,413,Manhattan
+154,Lexington Ave @ 49 St,Inactive,Manhattan
+155,Lexington Ave @ 57 ST,404,Manhattan
+156,Lexington Ave @ 72 St,540,Manhattan
+157,MADISON @ 34 ST,406,Manhattan
+158,MADISON @ 57 ST,407,Manhattan
+159,Madison Ave @ 42 St,522,Manhattan
+160,Madison Ave @ 49 St,528,Manhattan
+161,Madison Ave @ 96 St,536,Manhattan
+162,Manhattan BBT Entrance,Inactive,Manhattan
+163,MHB -19 Manh N URDW @ Anch,821,Manhattan
+164,MHB-16 Manh Colonade Entr,869,Manhattan
+165,MHB-16A Manh East of Colonnade Entr,870,Manhattan
+166,MHB-17 Manh LRW @ X OVER,813,Manhattan
+167,MHB-18 Manh LRW @ EOF X Over,814,Manhattan
+168,MHB-20 Mahn S URW @ Anch,466,Manhattan
+169,MHB-21 Manh N URDWY @ Arch,800,Manhattan
+170,MHB-22 Manh N URDWY @ Twr,801,Manhattan
+171,MHB-23 Manh LRDWY @ Twr,802,Manhattan
+172,MHB-24 Manh S URDWY @ Twr,803,Manhattan
+173,MHB-25 Manh S URW @ Twr Walkwy,467,Manhattan
+174,MHB-26 BKLYN N UPRDW @ TWR - Bikeway,809,Manhattan
+175,MHB-27 Bklyn N URDWY @ Twr,806,Manhattan
+176,MHB-28 Bklyn LRDW @ Twr,807,Manhattan
+177,MHB-29 Brklyn S URDWY @ Twr,808,Manhattan
+178,MHB-30 @ BRK S URW @ TWR Walk Way,798,Manhattan
+179,MHB-32 Bklyn S URDW @ Anch,822,Manhattan
+180,Montgomergy @ South St,446,Manhattan
+181,Park Ave @ 23 St,531,Manhattan
+182,Park Ave @ 34 St,419,Manhattan
+183,Park Ave @ 57 St,552,Manhattan
+184,Park Ave @ 72 St,909,Manhattan
+185,Park Ave @ 96 St,910,Manhattan
+186,Pearl St @ Dover,426,Manhattan
+187,Pearl Street @ St. James Pl,427,Manhattan
+188,QBB LL CM @ W Channel,480,Manhattan
+189,QBB LL CM @ York Ave,893,Manhattan
+190,QBB NOR @ 1 Ave,928,Manhattan
+191,QBB NOR @ W Channel,898,Manhattan
+192,QBB NOR @ York Ave,478,Manhattan
+193,QBB SOR @ 1 Ave,476,Manhattan
+194,QBB UL CM @ Roosevelt,481,Manhattan
+195,QBB UL CM @ York Ave,479,Manhattan
+196,QBB UL Entrance @ Thomson Ave,922,Manhattan
+197,Queens Midtown Tunnel @ Manhattan Side,320,Manhattan
+198,RT. 9A @ N. Moore St,430,Manhattan
+199,South St @ Broad St,344,Manhattan
+200,South Street @ Pike Street,438,Manhattan
+201,St Nicholas Ave @ 125 St,740,Manhattan
+202,St Nicholas Ave @ 145 St,532,Manhattan
+203,St Nicholas Ave @ 181 St,Inactive,Manhattan
+204,Sutton Pl @ 58 St,474,Manhattan
+205,Triborough Bridges @ Manhattan Bound,301,Manhattan
+206,Union Sq @ 14 St,535,Manhattan
+207,Varick St @ Hudson Street,Inactive,Manhattan
+208,Water St @ John St,339,Manhattan
+209,Water St @ Wall St,338,Manhattan
+210,WBB-20 @ MidSpan,461,Manhattan
+211,WBB-21 @ SOR Manh Appr,462,Manhattan
+212,WBB-22 @ S Manh Twr,Inactive,Manhattan
+213,WBB-23 @ N Manh Twr,464,Manhattan
+214,West Broadway @ West Houston St,718,Manhattan
+215,West Houston @ Hudson St,716,Manhattan
+216,West Houston @ Varick St,725,Manhattan
+217,West St @ Albany St,Inactive,Manhattan
+218,West St @ Canal St,211,Manhattan
+219,West St @ Clarkson,Inactive,Manhattan
+220,West St @ Murray,Inactive,Manhattan
+221,West St @ West Houston St,Inactive,Manhattan
+222,West Street @ Intrepid,319,Manhattan
+223,Worth St @ Centre St,Inactive,Manhattan
+224,Worth Street @ Bowery,433,Manhattan
+225,Worth Street @ Lafayette Street,432,Manhattan
+226,Worth Street @ W. Broadway,431,Manhattan
+227,York Ave @ 63 St,941,Manhattan
+228,Adams St @ Tillary St,Inactive,Bronx
+229,Atlantic Ave @ Boerum St,Inactive,Bronx
+230,Atlantic Ave @ BQE,492,Bronx
+231,Atlantic Ave @ Vanderbilt Ave,Inactive,Bronx
+232,Belt Pkwy @ 150th St,Inactive,Bronx
+233,Belt Pkwy @ 158 St,699,Bronx
+234,Belt Pkwy @ 68 St,139,Bronx
+235,Belt Pkwy @ Bay 8th St,Inactive,Bronx
+236,Belt Pkwy @ Erskine,141,Bronx
+237,Belt Pkwy @ Flatbush,Inactive,Bronx
+238,Belt Pkwy @ Ocean Pkwy,Inactive,Bronx
+239,Belt Pkwy @ Pennsylvania Ave,Inactive,Bronx
+240,Belt Pkwy@ Cross Bay Blvd,Inactive,Bronx
+241,Boerum Pl @ Fulton St & Joralemon St,Inactive,Bronx
+242,BQE @ Hamilton Ave B-G Ramp,Inactive,Bronx
+243,Brooklyn Queens Expy - GCP @ 31st Ave,635,Bronx
+244,Brooklyn Queens Expy @  Metropolitan Ave,624,Bronx
+245,Brooklyn Queens Expy @ 31st Ave,632,Bronx
+246,Brooklyn Queens Expy @ Adams St,611,Bronx
+247,Brooklyn Queens Expy @ Atlantic Ave,595,Bronx
+248,Brooklyn Queens Expy @ Broadway St,620,Bronx
+249,Brooklyn Queens Expy @ Congress St,592,Bronx
+250,Brooklyn Queens Expy @ Furman St LL,603,Bronx
+251,Brooklyn Queens Expy @ Furman St UL,600,Bronx
+252,Brooklyn Queens Expy @ Hamilton Ave,583,Bronx
+253,Brooklyn Queens Expy @ Kent Ave,615,Bronx
+254,Brooklyn Queens Expy @ Lee Ave,619,Bronx
+255,Brooklyn Queens Expy @ Manhattan Ave,627,Bronx
+256,Brooklyn Queens Expy @ Middagh St LL,609,Bronx
+257,Brooklyn Queens Expy @ Middagh St UL,605,Bronx
+258,Brooklyn Queens Expy @ Morgan Ave,Inactive,Bronx
+259,Brooklyn Queens Expy @ Sackett St,589,Bronx
+260,Brooklyn Queens Expy @ Sands St,614,Bronx
+261,Brooklyn Queens Expy @ South 5th St,622,Bronx
+262,Brooklyn Queens Expy @ State St UL,598,Bronx
+263,Brooklyn Queens Expy @ Union St,588,Bronx
+264,Brooklyn Queens Expy @ Wythe Ave,616,Bronx
+265,Brooklyn-Battery Tunnel @ Brooklyn Side,312,Bronx
+266,Cadman Plz West @ Tillary St,Inactive,Bronx
+267,Cross Bay Blvd @  Wildlife Refuge,706,Brooklyn
+268,Cross Bay Blvd @ 157 Ave,703,Brooklyn
+269,Cross Bay Blvd @ Rockaway Blvd,705,Brooklyn
+270,Flatbush Ave @ Ave U,876,Brooklyn
+271,Flatbush Ave @ Aviator Sports & Golf Club,839,Brooklyn
+272,Flatbush Ave @ Fillmore Ave,Inactive,Brooklyn
+273,Flatbush Ave @ Kings Hwy,877,Brooklyn
+274,Flatbush Ave @ Marine Park,878,Brooklyn
+275,Flatbush Ave @ Tillary St,439,Brooklyn
+276,Flatbush Ave @ Willoughby,440,Brooklyn
+277,Flatbush Ave and 4 Ave,487,Brooklyn
+278,Flatbush Ave and Atlantic Ave,488,Brooklyn
+279,Flatbush Ave@ 6 Ave,Inactive,Brooklyn
+280,Gowanus Expwy @ 57 St,Inactive,Brooklyn
+281,Gowanus Expwy @ 6 Ave,Inactive,Brooklyn
+282,Gowanus Expwy @ 63 Street,Inactive,Brooklyn
+283,Gowanus Expwy @ 72 Street,Inactive,Brooklyn
+284,Gowanus Expwy @ 79 Street,Inactive,Brooklyn
+285,Gowanus Expwy @ Fort Hamilton Pkwy,Inactive,Brooklyn
+286,Gowanus Expwy btwn 6 & 7 Ave,Inactive,Brooklyn
+287,Gowanus Expy @ 92 St,Inactive,Brooklyn
+288,Gowanus Expy @ Prospect Interchange,Inactive,Brooklyn
+289,Gowanus Expy @ Sackett St,Inactive,Brooklyn
+290,Gowanus Expy WB @ 36 St,Inactive,Brooklyn
+291,Grand Army Plaza,159,Brooklyn
+292,Hamilton Ave @ Hamilton Pl @ 15 St (N SR),871,Brooklyn
+293,Hamilton Ave @ Hamilton PL @ 15 St (S SR),872,Brooklyn
+294,Marine Parkway @ North Bound,313,Brooklyn
+295,MHB-16 Manhattan Colonade Entr,459,Brooklyn
+296,MHB-31 Bklyn N URW @ Anch,470,Brooklyn
+297,MHB-33 Bklyn LRW @ Ex Ramp,471,Brooklyn
+298,Ocean Pkwy @ Ave I,723,Brooklyn
+299,Ocean Pkwy @ Ave U,707,Brooklyn
+300,Ocean Pkwy @ Ave X,852,Brooklyn
+301,Ocean Pkwy @ Church Ave,793,Brooklyn
+302,Ocean Pkwy @ Ditmas Ave,724,Brooklyn
+303,Ocean Pkwy @ Kings Hwy,Inactive,Brooklyn
+304,Ocean Pkwy @ Surf Av @ Sea Breeze Ave,851,Brooklyn
+305,Old Fulton St @ Furman St,912,Brooklyn
+306,Old Fulton St @ Prospect St,Inactive,Brooklyn
+307,Prospect Expy @ 6 Ave,Inactive,Brooklyn
+308,Prospect Expy @ 7 Ave,Inactive,Brooklyn
+309,Prospect Expy @ 9 Ave,Inactive,Brooklyn
+310,Prospect Expy @ Caton Ave,Inactive,Brooklyn
+311,Prospect Expy @ Fort Hamilton Pkwy,Inactive,Brooklyn
+312,Prospect Pkwy @ 3 Ave,697,Brooklyn
+313,Sands St @ Adams St,920,Brooklyn
+314,Sands St @ BQE Ent,425,Brooklyn
+315,Sands St @ Brooklyn Bridge Ent,424,Brooklyn
+316,Stillwell Ave @ 86 St,901,Brooklyn
+317,Stillwell Ave @ Neptune Ave,857,Brooklyn
+318,Stillwell Ave @ Surf Ave,856,Brooklyn
+319,Verrazano-Narrows @ Brooklyn Bound,306,Brooklyn
+320,Washington St @ Prospect St,914,Brooklyn
+321,WBB-1 @ Bklyn Plaza,Inactive,Brooklyn
+322,WBB-14 @ NIR Bklyn Kent Ave,Inactive,Brooklyn
+323,WBB-18 @ SOR Cntr Span,458,Brooklyn
+324,WBB-19 @ Bklyn Tower,460,Brooklyn
+325,WBB-2 @ NOR Bklyn-Driggs,454,Brooklyn
+326,WBB-4 @ NOR Bklyn-Mid Span,455,Brooklyn
+327,WBB-6 @ Delancy-Clinton,456,Brooklyn
+328,Beach Channel Dr @ Beach 116 St,924,Brooklyn
+329,BRE04 WB at Bronx Rvr Pkwy Ex51,Inactive,Brooklyn
+330,BRE05 WB at Castle Hill Ave Ex52,Inactive,Brooklyn
+331,BRE07 NB at Quincy Ave - Ex7B,Inactive,Brooklyn
+332,Bronx River Pkwy @ 233 ST,321,Brooklyn
+333,Bruckner Blvd @ Lincoln Ave,730,Brooklyn
+334,Bruckner Expy @ Bronx River Pkwy,Inactive,Brooklyn
+335,Cadman Plz E/Washington St @ Prospect St,Inactive,Brooklyn
+336,Cross Bronx Expy @ E of Bronx River Pkwy,Inactive,Brooklyn
+337,Cross Bronx Expy @ Randall Avenue,Inactive,Brooklyn
+338,E 149 St @ River Ave,810,Brooklyn
+339,Exterior St @ 3 Ave,824,Brooklyn
+340,Exterior St @ E 138 St,823,Brooklyn
+341,Fordham Rd @ Hughes Ave,Inactive,Brooklyn
+342,Fordham Rd and Grand Concourse,318,Brooklyn
+343,Grand Concourse @ 161 St,812,Brooklyn
+344,Grand Concourse @ E 149 St,825,Brooklyn
+345,Henry Hudson @ North Bound,307,Brooklyn
+346,Henry Hudson Pkwy @ 232 St,278,Brooklyn
+347,Hutchinson River Pkwy @ East Tremont,Inactive,Brooklyn
+348,Hutchinson Rvr Pkwy @ Whitestone Br,Inactive,Brooklyn
+349,Macombs Dam Bridge,294,Brooklyn
+350,Macombs Dam Bridge @ E 161 St,811,Brooklyn
+351,Major Deegan @ Triboro Bridge,Inactive,Brooklyn
+352,Major Deegan Expy @ N of Alex Hamilton Bridge,203,Brooklyn
+353,Major Deegan Expy @ S of W 167 Street,Inactive,Brooklyn
+354,Malcom X Blvd @ 145 St,932,Brooklyn
+355,MDE10 NB at W.175th St - Ex7 CBX,Inactive,Brooklyn
+356,NE Thruway @ Conner St,277,Brooklyn
+357,New Eng Thru @ Bartow,147,Brooklyn
+358,New England Trwy @ East Tremont,Inactive,Brooklyn
+359,Pelham Pkwy @ Stillwell Ave,866,Brooklyn
+360,Pelham Pkwy E/B @ Boston Rd,883,Brooklyn
+361,Pelham Pkwy W/B @ Boston Rd,884,Brooklyn
+362,Pelham Shore Rd @ City Island Rd,885,Brooklyn
+363,Third Ave Bridge,826,Brooklyn
+364,Throgs Neck Bridge @ Bronx Bound,Inactive,Brooklyn
+365,Triborough Bridge Bronx Bound,298,Brooklyn
+366,Whitestone @ Bronx Bound,302,Brooklyn
+367,Beach Channel Dr @B 101 St,816,Queens
+368,Beach Channel Dr @B 140 St,815,Queens
+369,Beach Channel Dr @B 32 St,818,Queens
+370,Beach Channel Dr @B 90 St,Inactive,Queens
+371,Beach Channel Dr @B Mott Ave,Inactive,Queens
+372,Belt Pkwy @ 130 St,128,Queens
+373,Belt Pkwy @ Brookville Blvd,Inactive,Queens
+374,Belt Pkwy @ Springfield Blvd,Inactive,Queens
+375,BQE E/B Ent. Ramp @ Broadway,711,Queens
+376,BQE31 - EB at 54th Ave - Ex35,Inactive,Queens
+377,BQE33 WB at 45th St - Ex35,670,Queens
+378,BQE35 EB at 61st St - Ex39,671,Queens
+379,BQE39 WB at Broadway - Ex40,672,Queens
+380,BQE40 WB at Northern Blvd - Ex41,673,Queens
+381,Brooklyn Queens Expwyat Stewart Avenue,Inactive,Queens
+382,Clearview @ Northern Blvd,Inactive,Queens
+383,Clearview Expy @ 26th Ave,448,Queens
+384,Clearview Expy @ 35 St,449,Queens
+385,College Point Blvd @ 35 Ave,873,Queens
+386,College Point Blvd @ Booth Memorial Ave,Inactive,Queens
+387,College Point Blvd @ Roosevelt Ave,874,Queens
+388,College Point Blvd @ Sanford Ave,875,Queens
+389,Cross Bay Blvd @ 20 Rd,696,Queens
+390,Cross Bay Blvd @ 6 Rd,936,Queens
+391,Cross Bay Blvd @ North Channel Bridge,700,Queens
+392,Cross Island Expy @ 14 Ave,450,Queens
+393,Cross Island Pkwy @ Bayside Marina,281,Queens
+394,Cross Island Pkwy @ Throgsneck,143,Queens
+395,Cross Island Pkwy @ Union Tpke,120,Queens
+396,CrossBay @ North Bound,316,Queens
+397,CrossBay @ South Bound,315,Queens
+398,CVE02 NB at 64th Ave,674,Queens
+399,CVE03 SB at 56th Ave,675,Queens
+400,CVE04 SB at 48th Ave,676,Queens
+401,Farmers Blvd @ 147 Ave @ 175 St,829,Queens
+402,Farmers Blvd @ N Conduit Ave,835,Queens
+403,GCP @ 166 St,119,Queens
+404,GCP @ 214 St,118,Queens
+405,GCP @ 31 ST,160,Queens
+406,GCP @ Astoria Blvd @ 49 St,142,Queens
+407,GCP @ LGA 94 St Exit,713,Queens
+408,GCP EB @ 126 St,Inactive,Queens
+409,GCP06 WB at 27th Ave - Ex6,Inactive,Queens
+410,GCP07 EB at Ditmars Blvd - Ex9,Inactive,Queens
+411,GCP08 EB at Roosevelt Ave - Ex9,Inactive,Queens
+412,GR Brewer @ Belt,152,Queens
+413,Grand Central Pkwy @ 37 Street,Inactive,Queens
+414,Grand Central Pkwy @ 46 street,Inactive,Queens
+415,Grand Central Pkwy @ 72 Street,Inactive,Queens
+416,Grand Central Pkwy @ 75 Street,Inactive,Queens
+417,Grand Central Pkwy E/Connector @ 126 St,Inactive,Queens
+418,Guy Brewer Blvd @ N Conduit Ave,Inactive,Queens
+419,Hillside Ave @ Little Neck Pkwy,788,Queens
+420,Jackie Robinson Pkwy @ Jamaica Ave,938,Queens
+421,Jackie Robinson Pkwy @ Metropolitan Ave,916,Queens
+422,Jackie Robinson Pkwy @ Queens Blvd,897,Queens
+423,Kissena Blvd @ Holly Ave,900,Queens
+424,Kissena Blvd @ LIE N S/R,902,Queens
+425,Kissena Blvd @ Sanford Ave,935,Queens
+426,LIE @ College Point Blvd,894,Queens
+427,LIE @ Kissena Blvd,121,Queens
+428,LIE @ Marathon Pkwy,712,Queens
+429,LIE @ Oceania St,Inactive,Queens
+430,LIE @ QMT-  Pulaski Br,Inactive,Queens
+431,LIE EB @ Pulaski Bridge,Inactive,Queens
+432,Long Island Expy @ 163rd St,660,Queens
+433,Long Island Expy @ 172nd St,Inactive,Queens
+434,Long Island Expy @ 185th St,Inactive,Queens
+435,Long Island Expy @ 27th St,Inactive,Queens
+436,Long Island Expy @ 48 St UL,Inactive,Queens
+437,Long Island Expy @ 48th St LL,Inactive,Queens
+438,Long Island Expy @ 58th St LL,Inactive,Queens
+439,Long Island Expy @ 75 St,Inactive,Queens
+440,Long Island Expy @ 84 St,Inactive,Queens
+441,Long Island Expy @ 99 St,Inactive,Queens
+442,Long Island Expy @ Francis Lewis Blvd,Inactive,Queens
+443,Long Island Expy @ Grand Avenue,Inactive,Queens
+444,Long Island Expy @ Grand Central Pkwy,Inactive,Queens
+445,Long Island Expy @ Greenpoint Ave,Inactive,Queens
+446,Long Island Expy @ Kissena Blvd,659,Queens
+447,Long Island Expy @ Lawrence St,Inactive,Queens
+448,Long Island Expy @ ramp to W/B BQE,Inactive,Queens
+449,Long Island Expy @ Underhill Ave,Inactive,Queens
+450,Long Island Expy btwn 50 St - 58th St,Inactive,Queens
+451,Long Island Expy ramp to W/B BQE,Inactive,Queens
+452,Main St @ LIE N S/R,903,Queens
+453,Main St @ Roosevelt Ave,904,Queens
+454,Main St @ Sanford Ave,927,Queens
+455,Marine Parkway @ South Bound,314,Queens
+456,Northern Blvd @ 106 St,Inactive,Queens
+457,Northern Blvd @ 108 St,848,Queens
+458,Northern Blvd @ 114 St,849,Queens
+459,Northern Blvd @ 51 St,880,Queens
+460,Northern Blvd @ 68 St,290,Queens
+461,Northern Blvd @ 97 St,402,Queens
+462,Northern Blvd @ GCP,Inactive,Queens
+463,Northern Blvd @ Honeywell Bridge,738,Queens
+464,Northern Blvd @ Junction Blvd,939,Queens
+465,Northern Blvd @ Little Neck Pkwy,746,Queens
+466,Northern Blvd @ Main St,925,Queens
+467,Northern Blvd @ Parsons Blvd,881,Queens
+468,Northern Blvd @ Union St,882,Queens
+469,QBB @ Crescent St,485,Queens
+470,QBB LL CM @ 11 St,483,Queens
+471,QBB LL CM @ East Channel,892,Queens
+472,QBB SOR @ Sutton Pl,887,Queens
+473,QBB SOR @ W Channel,888,Queens
+474,QBB UL @ Queens Pier,482,Queens
+475,QBB Uramp @ 23 St,484,Queens
+476,Qns Blvd @ 65 Ave,124,Queens
+477,Qns Blvd @ 65 PL,126,Queens
+478,Qns Blvd @ QnCnt Mall,125,Queens
+479,Queens Blvd @ 36 Street,Inactive,Queens
+480,Queens Blvd @ 39 ST,868,Queens
+481,Queens Blvd @ 39 St - East,921,Queens
+482,Queens Blvd @ 51 St,288,Queens
+483,Queens Blvd @ Jackson Ave,726,Queens
+484,Queens Blvd @ Skillman,728,Queens
+485,Queens Blvd @ Van Dam,161,Queens
+486,Queens Blvd Mid Span of QBB,498,Queens
+487,Queens Midtown Tunnel @ Queens Side,310,Queens
+488,Queens Plaza N @ Northern Blvd,737,Queens
+489,Queens Plaza North @ 2811 (Westside),215,Queens
+490,Queens Plz S @ 27 St,727,Queens
+491,Rockaway Blvd @ Baisley Blvd,833,Queens
+492,Rockaway Blvd @ Brookville Blvd,837,Queens
+493,Rockaway Blvd @ Division St,714,Queens
+494,Rockaway Blvd @ Farmers Blvd,843,Queens
+495,Rockaway Blvd @ Guy Brewer Blvd,836,Queens
+496,Rockaway Blvd @ S. Conduit Ave,842,Queens
+497,Rockaway Blvd @ Van Wyck Expy E S/R,831,Queens
+498,Rockaway Blvd @ Van Wyck Expy W S/R,830,Queens
+499,Roosevelt Ave @ Parsons Blvd,886,Queens
+500,S Conduit Ave @ 150 St,834,Queens
+501,Seagirt Blvd @ B 32 St,Inactive,Queens
+502,Seagirt Blvd @ B 9 St,855,Queens
+503,Springfield Ave @ Jamaica Ave,744,Queens
+504,Springfield Blvd @ Merrick Blvd,743,Queens
+505,Throgs Neck Bridge @ Queens Bound,304,Queens
+506,Triborough Bridge Queens Bound,299,Queens
+507,Union tpke @ Little Neck Pkwy,745,Queens
+508,Van Wyck @ Atlantic,Inactive,Queens
+509,Van Wyck Expwy @ 101  Ave SB,584,Queens
+510,Van Wyck Expwy @ 101 Ave NB,582,Queens
+511,Van Wyck Expwy @ 109 Ave,581,Queens
+512,Van Wyck Expwy @ 111 Ave,579,Queens
+513,Van Wyck Expwy @ 133 Ave SB,562,Queens
+514,Van Wyck Expwy @ 67 Rd,596,Queens
+515,Van Wyck Expwy @ 87 Ave,590,Queens
+516,Van Wyck Expwy @ 91 Ave,586,Queens
+517,Van Wyck Expwy @ Alwick Rd SB,568,Queens
+518,Van Wyck Expwy @ Atlantic Ave,585,Queens
+519,Van Wyck Expwy @ Avery Ave,Inactive,Queens
+520,Van Wyck Expwy @ College Point Blvd.,599,Queens
+521,Van Wyck Expwy @ Foch Blvd. SB,575,Queens
+522,Van Wyck Expwy @ GCP/Interchange,Inactive,Queens
+523,Van Wyck Expwy @ Hillside Ave,587,Queens
+524,Van Wyck Expwy @ Jackie Robinson Pkwy,593,Queens
+525,Van Wyck Expwy @ LIE,597,Queens
+526,Van Wyck Expwy @ Queens Blvd.(entrance ramp),Inactive,Queens
+527,Van Wyck Expwy @ Rockaway Blvd.,574,Queens
+528,Van Wyck Expwy Btwn 115 Ave. & 116 Ave,576,Queens
+529,Van Wyck Expy @ S Conduit Ave LL,391,Queens
+530,VWE01 SB at 134th St - Ex19,677,Queens
+531,VWE08 NB at Foch Blvd - Ex2,678,Queens
+532,Whitestone @ Queens Bound,303,Queens
+533,Whitestone Expwy @ 14 Ave (Median),602,Queens
+534,Whitestone Expwy @ 25 Rd (Median),601,Queens
+535,Whitestone Nof Linden Pl,Inactive,Queens
+536,Woodhaven Blvd @ Dry Harbor Rd,905,Queens
+537,Woodhaven Blvd @ Furmanville Ave,796,Queens
+538,Woodhaven Blvd @ Jamaica Ave,708,Queens
+539,Woodhaven Blvd @ Myrtle Ave,792,Queens
+540,Woodhaven Blvd @ Union Tpke,709,Queens
+541,Hylan Ave @ Page Ave,862,Staten Island
+542,Hylan Blvd @ Arden Ave,861,Staten Island
+543,Hylan Blvd @ Guyon Ave,859,Staten Island
+544,Hylan Blvd @ Huguenot Ave,860,Staten Island
+545,Hylan Blvd @ Midland Ave,864,Staten Island
+546,Hylan Blvd @ New Dorp Lane,358,Staten Island
+547,Hylan Blvd @ Richmond Ave,858,Staten Island
+548,Hylan Blvd @ Seaview Ave,850,Staten Island
+549,Hylan Blvd @ Seguine Ave,863,Staten Island
+550,Hylan Blvd @ West Fingerboard Rd & Sand Ln,879,Staten Island
+551,Korean War Veterans Pkwy @ Tyrellan Ave,Inactive,Staten Island
+552,Korean War Vetrans Pkwy @ Bloomingdale Rd,Inactive,Staten Island
+553,MLK Jr. Expwy @ Forest Ave.,Inactive,Staten Island
+554,MLK Jr. Expwy @ Walker Street,Inactive,Staten Island
+555,MLK Jr. Expwy @ Watchogue Rd,Inactive,Staten Island
+556,Outerbridge Crossing @ Tyrellan Ave,244,Staten Island
+557,SIE @ Clove Rd,245,Staten Island
+558,SIE @ Richmond Ave,112,Staten Island
+559,Staten Island Expwy @ Bradley Ave,Inactive,Staten Island
+560,Staten Island Expwy @ Forest Ave,Inactive,Staten Island
+561,Staten Island Expwy @ Gower Street,Inactive,Staten Island
+562,Staten Island Expwy @ Richmond Ave,Inactive,Staten Island
+563,Staten Island Expwy @ SIE/MLK Interchange,Inactive,Staten Island
+564,Staten Island Expwy @ Victory Blvd.,Inactive,Staten Island
+565,Staten Island Expwy @ W of South Ave,Inactive,Staten Island
+566,Verrazano-Narrows @ Staten Island Bound,305,Staten Island
+567,Victory Blvd @ Bay St,155,Staten Island
+568,Victory Blvd @ Jersey St,Inactive,Staten Island
+569,Victory Blvd WOF Campus Dr,340,Staten Island
+570,West Shore Expwy @ Edward Curry Ave,Inactive,Staten Island
+571,West Shore Expwy @ Englewood Ave,Inactive,Staten Island
+572,West Shore Expwy @ Fresh Kills Creek,Inactive,Staten Island
+573,West Shore Expwy @ Meredith Blvd.,Inactive,Staten Island
+574,West Shore Expwy @ Victory Blvd,Inactive,Staten Island
+575,West Shore Expwy @ Woodrow Rd,Inactive,Staten Island
+576,West Shore Expy @ Arden Ave,Inactive,Staten Island
+577,West Shore Expy @ Victory Blvd,702,Staten Island
+578,WSE03 SB at Bloomingdale Rd-Ex3,Inactive,Staten Island
+579,WSE04 SB at Rossville Ave - Ex4,Inactive,Staten Island
+580,WSE06 NB at Muldoon Ave - Ex5,Inactive,Staten Island
