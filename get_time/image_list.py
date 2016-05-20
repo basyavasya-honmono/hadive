@@ -4,7 +4,7 @@ import os
 
 
 def list_images(path, camera, from_hour, to_hour, how_many):
-  image_list = []
+	image_list = []
 	count = 0
 	for root, dirnames, filenames in os.walk(path):
 		for filename in fnmatch.filter(filenames, '*.jpg'):
