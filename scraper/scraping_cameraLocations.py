@@ -17,6 +17,7 @@ import urllib
 import re
 
 r = urllib.urlopen("http://dotsignals.org/multiview2.php").read()
+#Reading the URL of the page containing the lists of cameras
 soup = BeautifulSoup(r,"lxml")
 '''
 When "lxml" is not specified , BeautifulSoup will use "lxml" by default, but when run on another system, it might make
@@ -30,13 +31,15 @@ camera_ids = []
 camera_location_names = []
 
 get_span = soup.find_all("span",class_="OTopTitle")
-camera_location_names = []
+# parsing the names of the camera locations from HTML tree structure of the page 
+
 for loc in get_span:
 	camera_location_names.append(loc.get_text())
 	
 
 
 get_tds = soup.find_all("td",id="repCam__ctl0_lbNum")
+#Parsing the ids of cameras 
 for tds in get_tds:
 
 	child = tds.findChildren()#.get_text()
@@ -50,14 +53,27 @@ for tds in get_tds:
 boroughs_list = []
 
 for i in ['','1','2','3','4']:
+	# The Tables showing cameras in each borough are given id according to their borough
+	# Manhattan table's id: tableCam
+	# Bronx table's id: tableCam1
+	# Brooklyn table's id: tableCam2
+	# Queens table's id: tableCam3
+	# Staten Island table's id: tableCam4
+	
+	
 	
 	get_table = soup.find("table",id="tableCam"+i)
+	#Get the borough name
+
 	#print len(get_table.findChildren())
 	rows = len(get_table.findAll('tr'))
+	#Get the length of the table - rows are the number of camera locations in the table of the borough
 	count = rows-2
-	
+	#Subtracting 2 as the first and last row for each table do not contain camera locations
+	#First contains borough name, last contains table alignment 
 	borough = [re.sub('\s+',' ',get_table.findAll('tr')[0].findAll('td')[0].get_text().strip())]
-	
+	 
+	#Append to the borough list to form the column later
 	
 	boroughs_list += borough*count
 	

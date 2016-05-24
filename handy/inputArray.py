@@ -7,7 +7,7 @@ import matplotlib.image as mpimg
 import time
 
 
-
+#Returns the array of all the images in the path in dictionary format , i.e {name of the image: RGBarray}
 def rgbDict(path):
 	arrays = {}
 	for filename in os.listdir(path):
@@ -16,11 +16,14 @@ def rgbDict(path):
 		arrays[filename] = img
 		return arrays
 
+#Returns the array of all the images in the path in list format: [RGBarray]
 def rgbList(path):
 	arrays = {}
 	lst = map(lambda filename:cv2.imread(path+'/'+filename,1),os.listdir(path))
 	return lst
 
+
+#Returns the array of all the images in the path in dictionary format , i.e {name of the image: Greyarray}
 def greyDict(path):
 	arrays = {}
 	for filename in os.listdir(path):
@@ -29,11 +32,13 @@ def greyDict(path):
 		arrays[filename] = img
 		return arrays
 
+#Returns the array of all the images in the path in list format: [Greyarray]
 def greyList(path):
 	arrays = {}
 	lst = map(lambda filename:cv2.imread(path+'/'+filename,0),os.listdir(path))
 	return lst
 
+#Show all images in the path together
 def showAll(path,read=None):
 	# Enter any key to close
 	if read==None:
@@ -47,6 +52,7 @@ def showAll(path,read=None):
 		cv2.waitKey(0)
 		cv2.destroyAllWindows()
 
+#Histogram of all the images together
 def histogram(path):
 
 	for i in os.listdir(path):

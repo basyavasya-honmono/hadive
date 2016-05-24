@@ -21,7 +21,7 @@ if __name__ == '__main__':
 
     a = np.zeros(shape=(len(ls),20,44))
     
-
+    #Threshold all the images
     for i in range(len(ls)):
         img = cv2.imread(ls[i],0)
         #print np.shape(img)
@@ -61,7 +61,7 @@ if __name__ == '__main__':
     expected = digits.target[n_samples / 5:]
     predicted = classifier.predict(data[n_samples / 5:])
     
-
+    
     print("Classification report for classifier %s:\n%s\n"
           % (classifier, metrics.classification_report(expected, predicted)))
     print("Confusion matrix:\n%s" % metrics.confusion_matrix(expected, predicted))
