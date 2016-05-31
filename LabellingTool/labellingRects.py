@@ -34,7 +34,7 @@ class Annotate(object):
     def objCreation(self):
         #The new reactangle object after new events 
         
-        self.rect = Rectangle((0,0), 1, 1, alpha = 1,ls = 'solid',fill = False, clip_on = True,color = self.col)
+        self.rect = Rectangle((0,0), 1, 1, alpha = 1,ls = 'solid',fill = False, clip_on = True)
         self.x0 = None
         self.y0 = None
         self.x1 = None
@@ -47,11 +47,13 @@ class Annotate(object):
 
         self.blit()
         self.xy = self.xy[:-1]
+
         #Make all the rects except the previous ones
         for coords in self.xy:
             self.rect.set_width(coords[2] - coords[0])
             self.rect.set_height(coords[3] - coords[1])
             self.rect.set_xy((coords[0], coords[1]))
+            self.rect.set_color(coords[4])
             self.ax.draw_artist(self.rect)
             self.ax.figure.canvas.blit(self.ax.bbox)
 
@@ -62,13 +64,13 @@ class Annotate(object):
         sys.stdout.flush()
         if event.key == 'r':
             self.col = 'r'
-            self.objCreation()
+            #self.objCreation()
             
             
 
         elif event.key == 'b':
             self.col = 'b' 
-            self.objCreation()
+            #self.objCreation()
 
         elif event.key == 'd':
             self.deletePrevious()
@@ -102,11 +104,12 @@ class Annotate(object):
             self.y1 = event.ydata
 
             
-            self.xy.append([self.x0,self.y0,self.x1,self.y1])
+            self.xy.append([self.x0,self.y0,self.x1,self.y1,self.col])
             print self.xy
             self.rect.set_width(self.x1 - self.x0)
             self.rect.set_height(self.y1 - self.y0)
             self.rect.set_xy((self.x0, self.y0))
+            self.rect.set_color(self.col)
             self.ax.draw_artist(self.rect)
             self.ax.figure.canvas.blit(self.ax.bbox)
 
