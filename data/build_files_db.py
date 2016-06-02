@@ -40,8 +40,12 @@ def insert_db(camera_name, image_name, path):
     direction =  image_name_split[2][0]
     
     # INSERTING IMAGE TO IMAGES TABLE
-    cursor.execute("INSERT INTO IMAGES(camera, name, year, month, day, hour, minute, second, date_taken, image_path, direction) VALUES (%s,'%s',%s,%s,%s,%s,%s, %s,to_timestamp('%s', 'yyyy-mm-dd-hh24-mi-ss'),'%s','%s')" %
-                        (camera, image_name, year, month, day, hour, minute, second, image_name_split[0], path, direction ))
+    cursor.execute("""INSERT INTO IMAGES(camera, name, year, 
+                      month, day, hour, minute, second, 
+                      date_taken, image_path, direction) 
+                      VALUES (%s,'%s',%s,%s,%s,%s,%s, %s,
+                              to_timestamp('%s', 'yyyy-mm-dd-hh24-mi-ss'),'%s','%s')""" % \
+                    (camera, image_name, year, month, day, hour, minute, second, image_name_split[0], path, direction ))
 
     conn.commit()
     cursor.close()
