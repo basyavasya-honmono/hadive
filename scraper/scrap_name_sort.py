@@ -2,7 +2,7 @@
 Scraps images off NYC DOT cams
 '''
 
-import string, datetime, time, sys, argparse, os, urllib, cStringIO, glob, schedule
+import string, datetime, time, sys, argparse, os, urllib, cStringIO, glob, schedule, uuid
 from bs4 import BeautifulSoup
 from PIL import Image
 from get_time import get_time
@@ -95,12 +95,17 @@ def newFileName(_dir, _dir_new):
 
 
 def main():
+    # -- point to a text file with the webcam urls
     args_links='links2.txt'
+    # -- point to the number of minutes to run the scraper
     args_limit=1
     now = datetime.datetime.now()
     timestamp = now.strftime("%Y-%m-%d")
     raw_dir = '%s_raw_images' % timestamp
     clean_dir = '%s_clean_images' % timestamp
+    if os.path.exists(raw_dir):
+        raw_dir = '%s_%s' % (raw_dir, str(uuid.uuid4()))
+        clean_dir = '%s_%s' % (clean, str(uuid.uuid4()))
     print 'Making New Directories: %s, %s' % (raw_dir, clean_dir)
     os.makedirs(raw_dir)
     os.makedirs(clean_dir)
@@ -123,7 +128,7 @@ if __name__ == '__main__':
     parser.add_argument('-limit', dest='limit', type=int, help='the pages to scrap')
     args = parser.parse_args()
     # main(args.links, args.limit)
-    schedule.every(5).minutes.do(main)
+    schedule.every().day.at("7:30").do(job)
 
     while True:
         schedule.run_pending()
