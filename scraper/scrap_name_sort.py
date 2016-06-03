@@ -95,16 +95,17 @@ def newFileName(_dir, _dir_new):
 
 def main():
     # -- point to a text file with the webcam urls
-    args_links='links2.txt'
+    args_links='links.txt'
     # -- point to the number of minutes to run the scraper
-    args_limit=1
+    args_limit=500
     now = datetime.datetime.now()
     timestamp = now.strftime("%Y-%m-%d")
     raw_dir = '%s_raw_images' % timestamp
     clean_dir = '%s_clean_images' % timestamp
     if os.path.exists(raw_dir):
-        raw_dir = '%s_%s' % (raw_dir, str(uuid.uuid4()))
-        clean_dir = '%s_%s' % (clean_dir, str(uuid.uuid4()))
+        uniq = str(uuid.uuid4())
+        raw_dir = '%s_%s' % (raw_dir, uniq)
+        clean_dir = '%s_%s' % (clean_dir, uniq)
     print 'Making New Directories: %s, %s' % (raw_dir, clean_dir)
     os.makedirs(raw_dir)
     os.makedirs(clean_dir)
@@ -128,8 +129,8 @@ if __name__ == '__main__':
     args = parser.parse_args()
     # main(args.links, args.limit)
     print 'Starting'
-    schedule.every(2).minutes.do(main)
-    # schedule.every().day.at("7:30").do(main)
+    # schedule.every(2).minutes.do(main)
+    schedule.every().day.at("7:30").do(main)
 
     while True:
         schedule.run_pending()
