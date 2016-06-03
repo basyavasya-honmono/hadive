@@ -126,7 +126,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     # parser.add_argument('-links', dest='links', help='file with links')
     # parser.add_argument('-limit', dest='limit', type=int, help='the pages to scrap')
-    parser.add_argument('-f', dest='f', help='run a one off')
+    # parser.add_argument('--feature', dest='feature', action='store_true')
+    parser.add_argument('-f', dest='f', action='store_true', help='run a one off')
     args = parser.parse_args()
     # main(args.links, args.limit)
 
