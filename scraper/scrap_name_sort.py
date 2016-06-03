@@ -4,7 +4,6 @@ Scraps images off NYC DOT cams
 
 import string, datetime, time, sys, argparse, os, urllib, cStringIO, glob, schedule, uuid
 from bs4 import BeautifulSoup
-from PIL import Image
 from get_time import get_time
 from multiprocessing import Process
 
