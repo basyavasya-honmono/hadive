@@ -127,7 +127,8 @@ if __name__ == '__main__':
     parser.add_argument('-limit', dest='limit', type=int, help='the pages to scrap')
     args = parser.parse_args()
     # main(args.links, args.limit)
-    schedule.every().day.at("7:30").do(job)
+    print 'Starting'
+    schedule.every().day.at("7:30").do(main)
 
     while True:
         schedule.run_pending()
