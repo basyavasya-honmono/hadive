@@ -136,7 +136,7 @@ if __name__ == '__main__':
         main()
     else:
         # schedule.every(2).minutes.do(main)
-        schedule.every().day.at("14:20").do(main)
+        schedule.every().day.at("7:30").do(main)
         while True:
             schedule.run_pending()
             time.sleep(1)
