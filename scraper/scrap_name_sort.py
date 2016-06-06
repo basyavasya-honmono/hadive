@@ -97,7 +97,7 @@ def main():
     # -- point to a text file with the webcam urls
     args_links='links.txt'
     # -- point to the number of minutes to run the scraper
-    args_limit=350
+    args_limit=720
     now = datetime.datetime.now()
     timestamp = now.strftime("%Y-%m-%d")
     raw_dir = '%s_raw_images' % timestamp
