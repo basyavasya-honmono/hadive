@@ -97,7 +97,7 @@ def main():
     # -- point to a text file with the webcam urls
     args_links='links.txt'
     # -- point to the number of minutes to run the scraper
-    args_limit=500
+    args_limit=720
     now = datetime.datetime.now()
     timestamp = now.strftime("%Y-%m-%d")
     raw_dir = '%s_raw_images' % timestamp
@@ -124,17 +124,20 @@ def main():
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('-links', dest='links', help='file with links')
-    parser.add_argument('-limit', dest='limit', type=int, help='the pages to scrap')
+    # parser.add_argument('-links', dest='links', help='file with links')
+    # parser.add_argument('-limit', dest='limit', type=int, help='the pages to scrap')
+    # parser.add_argument('--feature', dest='feature', action='store_true')
+    parser.add_argument('-f', dest='f', action='store_true', help='run a one off')
     args = parser.parse_args()
     # main(args.links, args.limit)
+
     print 'Starting'
-    # schedule.every(2).minutes.do(main)
-    schedule.every().day.at("7:30").do(main)
-
-    while True:
-        schedule.run_pending()
-        time.sleep(1)
-
-    # python scrap_name_sort.py -links links.txt -limit 480
+    if args.f:
+        main()
+    else:
+        # schedule.every(2).minutes.do(main)
+        schedule.every().day.at("7:30").do(main)
+        while True:
+            schedule.run_pending()
+            time.sleep(1)
 
