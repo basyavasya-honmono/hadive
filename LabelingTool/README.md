@@ -1,23 +1,25 @@
+## TOOL DESCRIPTION
 This is the Labeling tool for the Hadive - 
-( FixedRectLabeling.py ) to draw patches around humans (positive) and non-human (negative) examples per image for training 
+[FixedRectLabeling.py](https://github.com/gdobler/hadive/blob/master/LabelingTool/FixedRectLabeling.py) to draw patches around humans (positive) and non-human (negative) examples per image for training 
 our HOG based SVM and Convolution Neural Network. The are of fixed aspect ratio (3/4). 
 
-WORKING :
+## WORKING 
+
 1. Center your mouse around the object you want to draw the patch around and click (one click). 
    This will create a patch (blue by default for humans) of aspect ratio 3/4.
 
 2. If you want to change the color of the patch - enter 'r' key to change the color of the following patch you will draw.
    This will change color to 'red' - reserved for labeling non-human examples
 
-3. If you want to remove the previous patch you drew (because you are a Perfectionist :P)- enter 'd'. This will delete the previous 
+3. If you want to remove the previous patch you drew (because you are a Perfectionist!)- enter 'd'. This will delete the previous 
    patch you drew. 
 
 4. If you just want your canvas back and remove all patched. Enter 'c' - this will clear the screen.
 
-5. RESIZING : 
-NOTE: Increase and Decrease of the patch will happen maintaining the same aspect ratio.
+5. RESIZING
+###### NOTE: Increase and Decrease of the patch will happen maintaining the same aspect ratio.
 It will not be by increase in width alone or height alone (The draggable rectangle vertices feature is not present). 
-And it works on your current patch only (the latest one you just drew). So make your current patch perfect and then move forward, unless you want to come back again by entering 'c' and redoing it (You don't want to do that!). Wondering why we did that ? Go read Hick's Law !
+And it works on your current patch only (the latest one you just drew). So make your current patch perfect and then move forward, unless you want to come back again by entering 'c' and redoing it (You don't want to do that!). Wondering why we did that ? Go read [Hick's Law](https://en.wikipedia.org/wiki/Hick%27s_law) !
 
 a. Enter 'tab' to increase the the aspect ratio of the current patch
 
@@ -29,7 +31,7 @@ c. But if you person is too small ( DOT camera shy! ) and you still want to catc
 d. But there are too small (at the corner of images) - enter 3 after you draw the patch.
    Suggested Usage For: Humans farthest from the camera (at the corners) and your Eagle Eyes caught them!
 
-e. Didn't get it perfect (Picasso, are't you ?)? Enter 'tab' and increase the patch aspect ratio or 'control' to decrease the patch aspect ratio. 
+e. Didn't get it perfect (Picasso, are't you :D ?) - Enter 'tab' and increase the patch aspect ratio or 'control' to decrease the patch aspect ratio. 
 
 The key here is in you chosing the right center of the patch (Step 1 in Working)! All action goes around it.
 
