@@ -136,6 +136,9 @@ class Annotate(object):
         elif event.key == 'b': # blue color
             # When 'b' key is pressed, the color of the next patch will be blue
             self.col = 'b' 
+
+        # elif event.key == ' ':
+        #     self.on_click(event)    
             
 
         elif event.key == 'd': # delete
@@ -155,7 +158,15 @@ class Annotate(object):
 
         elif event.key == 'control':
             # use control key to decrease the aspect ratio of the patch
-            self.resize(-1)    
+            self.resize(-1)
+
+        elif event.key == '3':
+            # use control key to decrease the aspect ratio of the patch
+            self.resize(-8)
+
+        elif event.key == '2':
+            # use control key to decrease the aspect ratio of the patch
+            self.resize(-4)                  
 
     
            
