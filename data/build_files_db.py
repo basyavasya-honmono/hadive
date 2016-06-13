@@ -14,7 +14,7 @@ def connectdb():
         print "Unable to connect to the database"
 
 # INSERTING TO DB
-def insert_db(camera_name, image_name, path):
+def insert_db(camera_name, image_name, time_fields, new_path):
     conn = connectdb()
     cursor = conn.cursor()
     
@@ -26,18 +26,21 @@ def insert_db(camera_name, image_name, path):
         cursor.execute("INSERT INTO CAMERAS(name) values ('%s')" % (camera_name));
         cursor.execute("SELECT id FROM CAMERAS WHERE name='%s'" % camera_name)
         camera = cursor.fetchall()
-    camera, = camera[0]
     
-    # SPLITING IMAGE NAME TO FIELDS
-    image_name_split = image_name.split('_')
-    time = image_name_split[0].split('-')
-    year = time[0]
-    month = time[1]
-    day = time[2]
-    hour = time[3]
-    minute = time[4]
-    second = time[5]
-    direction =  image_name_split[2][0]
+    camera_id, = camera[0]
+
+    [year, month, day, hour, minute, second, name, direction]
+    year = time_fields[0]
+    month = time_fields[1]
+    day = time_fields[2]
+    hour = time_fields[3]
+    minute = time_fields[4]
+    second = time_fields[5]
+
+    
+    direction = "-" 
+    if len(time_fields) == 8:
+        direction =   time_fields[7] 
     
     # INSERTING IMAGE TO IMAGES TABLE
     cursor.execute("""INSERT INTO IMAGES(camera, name, year, 
@@ -45,32 +48,38 @@ def insert_db(camera_name, image_name, path):
                       date_taken, image_path, direction) 
                       VALUES (%s,'%s',%s,%s,%s,%s,%s, %s,
                               to_timestamp('%s', 'yyyy-mm-dd-hh24-mi-ss'),'%s','%s')""" % \
-                    (camera, image_name, year, month, day, hour, minute, second, image_name_split[0], path, direction ))
+                    (camera_id, image_name, year, month, day, hour, minute, second, image_name_split[0], path, direction ))
 
     conn.commit()
     cursor.close()
     conn.close()
 
 # GETTING PATH FROM NAME
-def get_path(new_name):
-    time = new_name.split('_')[0]
-    path = '/'.join(time.split('-')[:-1])
+def get_path(time_fields):
+    path = '/'.join(time_fields)
     return path + '/'
 
 # RENAMING AND MOVING
 def rename_and_move(root, file):
-    old_file = os.path.join(root, file)
-    new_name = get_time(old_file) + '.jpg'
-    new_name = new_name.replace('Mark','')
-    new_path = root + '/' + get_path(new_name)
+    image_file = os.path.join(root, file)
     
-    camera_name = root[root.rfind('/')+1:]
-    #INSERTING TO DB
-    insert_db(camera_name, new_name, new_path)
+    #Extracting time fields from an image
+    time_fields = get_time(image_file)
+    
+    if isinstance(time_fields, basestring):
+        image_name_split = image_name.split('_')
+        time_fields = image_name_split[0].split('-')
 
+    camera_name = root[root.rfind('/')+1:]
+
+    #INSERTING TO DB
+    insert_db(camera_name, image_name, time_fields, new_path)
+
+    #Moving to new directory structure
+    new_path = root + '/' + get_path(time_fields)
     if not os.path.exists(new_path):
         os.makedirs(new_path)
-    shutil.move(old_file, new_path + new_name)
+    shutil.move(image_file, new_path + image_file)
 
 # RENAMING AND INSERTING TO DB
 def rename_and_dbinsert(path_file):
