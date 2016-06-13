@@ -27,6 +27,7 @@ class Annotate(object):
         
         self.w = 30.0
         self.h = 40.0
+        self.qkey = None
 
         #self.centers
         # The list that will store value of those two co-ordinates of 
@@ -40,6 +41,7 @@ class Annotate(object):
         # First event is button press event (on left key click)- 
         # on which on_click function is called
         self.ax.figure.canvas.mpl_connect('button_press_event', self.on_click)
+        self.ax.figure.canvas.mpl_connect('close_event', self.handle_close)
         
         
         # Second event to draw, in case a mistake in labelling is made, 
@@ -120,6 +122,48 @@ class Annotate(object):
         self.h =  h + self.sizeModifier*det
         self.drawRect()
 
+    def handle_close(self,event):
+        '''
+        if you ended up closing the plot using the plot's X button instead of 'q' key
+        '''
+        if self.qkey != 'q':
+            self.close_plot()
+    
+    def close_plot(self):
+        '''
+        saving numpy patches and co-ordinates of the patches 
+        '''
+        b = 0
+        r = 0
+        print 'close'
+       
+        
+        tot_patches = len(self.xy)
+        blue_patches = filter(lambda x: x[4]=='b',self.xy)
+        for blue_patch_list in blue_patches:
+            xy = blue_patch_list
+            name = 'blue'+str(b)+'.npy'
+            patch_array = img[xy[1]:xy[3],xy[0]:xy[2]]
+            np.save(name, patch_array)
+            b = b+1
+
+        red_patches = filter(lambda x: x[4]=='r',self.xy)
+        for red_patch_list in red_patches:
+            xy = red_patch_list
+            name = 'red'+str(r)+'.npy'
+            patch_array = img[xy[1]:xy[3],xy[0]:xy[2]]
+            np.save(name, patch_array)
+            r = r+1
+        
+        # xy = self.xy[0]
+        # patch = img[xy[1]:xy[3],xy[0]:xy[2]]
+        
+        # imgplot = plt.imshow(patch)
+        # plt.show()
+
+        plt.close()
+
+
         
     def colorChange(self,event):
         '''
@@ -137,6 +181,7 @@ class Annotate(object):
             # When 'b' key is pressed, the color of the next patch will be blue
             self.col = 'b' 
 
+        # Optional setting for drawing patched using spacebar
         # elif event.key == ' ':
         #     self.on_click(event)    
             
@@ -166,45 +211,13 @@ class Annotate(object):
 
         elif event.key == '2':
             # use control key to decrease the aspect ratio of the patch
-            self.resize(-4)                  
+            self.resize(-4)  
 
-    
-           
-           
-
+        
         elif event.key == 'q': # quit plot, show up the next
             # save necessary labels and close the plot
-            
-            b = 0
-            r = 0
-            #img = mpimg.imread('433.jpg')
-            
-            tot_patches = len(self.xy)
-            blue_patches = filter(lambda x: x[4]=='b',self.xy)
-            for blue_patch_list in blue_patches:
-                xy = blue_patch_list
-                name = 'blue'+str(b)+'.npy'
-                patch_array = img[xy[1]:xy[3],xy[0]:xy[2]]
-                np.save(name, patch_array)
-                b = b+1
-
-            red_patches = filter(lambda x: x[4]=='r',self.xy)
-            for red_patch_list in red_patches:
-                xy = red_patch_list
-                name = 'red'+str(r)+'.npy'
-                patch_array = img[xy[1]:xy[3],xy[0]:xy[2]]
-                np.save(name, patch_array)
-                r = r+1
-            # print type(img)
-            # count blue and red patch
-            
-            # xy = self.xy[0]
-            # patch = img[xy[1]:xy[3],xy[0]:xy[2]]
-            # ax.imshow(patch)
-            # plt.show()
-
-            plt.close()
-
+            self.qkey = 'q'
+            self.close_plot()
                 
     
 
@@ -314,7 +327,7 @@ if __name__ == '__main__':
     a = Annotate(img)
 
     plt.show()
-
+    
     # def find_files(root):
     #     for d, dirs, files in os.walk(root):
     #         for f in files:
