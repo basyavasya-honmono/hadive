@@ -61,11 +61,12 @@ def get_path(time_fields):
 
 # RENAMING AND MOVING
 def rename_and_move(root, file):
-    image_file = os.path.join(root, file)
+    image_name = os.path.join(root, file)
     
     #Extracting time fields from an image
-    time_fields = get_time(image_file)
+    time_fields = get_time(image_name)
     
+    #Checking if time fields were present in the image
     if isinstance(time_fields, basestring):
         image_name_split = image_name.split('_')
         time_fields = image_name_split[0].split('-')
@@ -79,7 +80,7 @@ def rename_and_move(root, file):
     new_path = root + '/' + get_path(time_fields)
     if not os.path.exists(new_path):
         os.makedirs(new_path)
-    shutil.move(image_file, new_path + image_file)
+    shutil.move(image_name, new_path + image_name)
 
 # RENAMING AND INSERTING TO DB
 def rename_and_dbinsert(path_file):
