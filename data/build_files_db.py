@@ -73,11 +73,12 @@ def rename_and_move(root, file):
 
     camera_name = root[root.rfind('/')+1:]
 
+    new_path = root + '/' + get_path(time_fields)
+
     #INSERTING TO DB
-    insert_db(camera_name, image_name, time_fields, new_path)
+    insert_db(camera_name, image_name, time_fields, new_path)1
 
     #Moving to new directory structure
-    new_path = root + '/' + get_path(time_fields)
     if not os.path.exists(new_path):
         os.makedirs(new_path)
     shutil.move(image_name, new_path + image_name)
