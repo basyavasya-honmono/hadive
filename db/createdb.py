@@ -33,6 +33,7 @@ imageTableSQL = '''CREATE TABLE IMAGES(
 );'''
 
 labelTableSQL =  '''CREATE TABLE LABEL(
+	id SERIAL PRIMARY KEY NOT NULL,
 	image INT REFERENCES IMAGE(id),
 	topx INT,
 	topy INT,
