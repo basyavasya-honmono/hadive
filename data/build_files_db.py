@@ -29,7 +29,6 @@ def insert_db(camera_name, image_name, time_fields, new_path):
     
     camera_id, = camera[0]
 
-    [year, month, day, hour, minute, second, name, direction]
     year = time_fields[0]
     month = time_fields[1]
     day = time_fields[2]
