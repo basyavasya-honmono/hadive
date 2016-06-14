@@ -9,25 +9,26 @@ except:
 cursor = conn.cursor() 
 
 cameraTableSQL = '''CREATE TABLE CAMERA(
-   id INT PRIMARY KEY NOT NULL,
+   id SERIAL PRIMARY KEY NOT NULL,
    name VARCHAR(50) NOT NULL,
    description VARCHAR(200),
    lat REAL NOT NULL,
-   lon REAL NOT NULL,
-   position INT
+   lon REAL NOT NULL
 );'''
 
-imageTableSQL = '''CREATE TABLE IMAGE(
-   camera INT REFERENCES CAMERA(id),
-   id INT PRIMARY KEY NOT NULL,
-   name VARCHAR(40) NOT NULL,
-   year INT NOT NULL,
-   month INT NOT NULL,
-   day INT NOT NULL,
-   hour INT NOT NULL,
-   minute INT,
-   date_taken TIMESTAMP NOT NULL,
-   image_path VARCHAR(250) NOT NULL
+imageTableSQL = '''CREATE TABLE IMAGES(
+	CAMERAS(id),
+	id SERIAL PRIMARY KEY NOT NULL,
+	name VARCHAR(200) NOT NULL,
+	year INT NOT NULL,
+	month INT NOT NULL,
+	day INT NOT NULL,
+	hour INT NOT NULL,
+	minute INT NOT NULL,
+	second INT,
+	date_taken TIMESTAMP NOT NULL,
+	image_path VARCHAR(500) NOT NULL,
+	direction VARCHAR(5)
 );'''
 
 labelTableSQL =  '''CREATE TABLE LABEL(
