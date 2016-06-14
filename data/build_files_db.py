@@ -76,7 +76,7 @@ def rename_and_move(root, file):
     new_path = root + '/' + get_path(time_fields)
 
     #INSERTING TO DB
-    insert_db(camera_name, image_name, time_fields, new_path)1
+    insert_db(camera_name, image_name, time_fields, new_path)
 
     #Moving to new directory structure
     if not os.path.exists(new_path):
