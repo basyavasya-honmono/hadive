@@ -14,7 +14,8 @@ import psycopg2
 conn = psycopg2.connect("dbname='dot_pub_cams'")
 conn = connectdb()
 cursor = conn.cursor()	
-cursor.execute("SELECT * FROM IMAGES WHERE labeled=false limit 1;")
+cursor.execute("""select distinct(id), * from images where random() < 0.01 and labeled=false limit 1;
+""")
 
 image = cursor.fetchall()
 image = image[0]
