@@ -26,7 +26,7 @@ And it works on your current patch only (the latest one you just drew). So make 
 
     *  Enter 'control' to decrease the aspect ratio of the current patch
 
-    *  But if you person is too small ( DOT camera shy! ) and you still want to catch them, draw the patch (click) and enter '2'.
+    *  But if you person is too small and far ( DOT camera shy! ) and you still want to catch them, draw the patch (click) and enter '2'.
 Suggested Usage For: Humans in usually the middle of the image, a little farther from the camera 
     *  But there are too small (at the corner of images) - enter '3' after you draw the     patch.
 Suggested Usage For: Humans farthest from the camera (at the corners) and your Eagle Eyes caught them!
@@ -37,9 +37,13 @@ Suggested Usage For: Humans farthest from the camera (at the corners) and your E
 
     * All this works in the same way for non-human labeled data you want to generate (red color patch). 
 
+  
+
 
 6. ##### Please enter 'q' at the end to quit the plot . Basically this will store all the patch co-ordinates, and patch information in the database.
 *This is how all your art will get saved into sweet little numpy files( and .hdr file)*
+
+7. Lastly, if you are done labeling - enter '0', this will end the script. But do hit 'q' to save the patches first. 
 
 
 That is almost it - any changes/suggestions - slack it/or change them yourself! 
