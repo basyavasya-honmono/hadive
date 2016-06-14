@@ -321,7 +321,7 @@ class Annotate(object):
         # some others, requires us to update the _full_ canvas, instead.
         self.background = self.ax.figure.canvas.copy_from_bbox(self.ax.figure.bbox)
         self.rect.set_visible(True)
-        self.blit()
+        # self.blit()
 
     
 
