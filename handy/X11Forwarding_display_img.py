@@ -7,9 +7,19 @@
 #Copy following lines
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
+import psycopg2
 #Reading Image
 #Specify image path
-img = mpimg.imread('2016-04-30-18-40-06_Amsterdam_Ave__125_St.jpg')
+
+conn = psycopg2.connect("dbname='dot_pub_cams'")
+conn = connectdb()
+cursor = conn.cursor()	
+cursor.execute("SELECT * FROM IMAGES WHERE labeled=false limit 1;")
+
+image = cursor.fetchall()
+image = image[0]
+
+img = mpimg.imread(image[-3] + image[2])
 #Plotting
 imgplt = plt.imshow(img)
 #this will open the plot window on your local machine
