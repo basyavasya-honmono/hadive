@@ -7,7 +7,7 @@ import numpy as np
 from matplotlib.widgets import Button
 import glob
 from tempfile import TemporaryFile
-
+import psycopg2
 
 class Annotate(object):
     def __init__(self, image,name):
@@ -346,7 +346,16 @@ if __name__ == '__main__':
 
     def main(imgname):    
          
+        conn = psycopg2.connect("dbname='dot_pub_cams'")
+        conn = connectdb()
+        cursor = conn.cursor()  
+        cursor.execute("""select distinct(id), * from images where random() < 0.01 and labeled=false limit 1;
+        """)
 
+        image = cursor.fetchall()
+        image = image[0]
+        imgname = image[-3] + image[2]
+        
         img = mpimg.imread(imgname)
         # Create the canvas
         fig = plt.figure()
