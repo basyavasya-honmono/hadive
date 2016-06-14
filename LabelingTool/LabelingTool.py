@@ -1,3 +1,4 @@
+
 import os, sys
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
@@ -9,8 +10,9 @@ from tempfile import TemporaryFile
 
 
 class Annotate(object):
-    def __init__(self, image):
+    def __init__(self, image,name):
         self.img = image
+        self.imgname = name
         self.i = 1
         self.col = 'b' # deafult color for true positive label
         self.ax = plt.gca()
@@ -103,7 +105,7 @@ class Annotate(object):
         # Resizing without dragging requires deleting previous patch
         # Saving the center, width, height of the patch before deleting it
         # As it will be used for reconstructing with increased/decreased size
-
+       
         last_obj = self.xy[-1]
         # print last_obj
         xc = last_obj[-2]
@@ -117,9 +119,11 @@ class Annotate(object):
         self.yc = yc
         self.col = col
         
-        self.w = w + self.sizeModifier*det
+        self.w = w*det 
+        print self.w
         
-        self.h =  h + self.sizeModifier*det
+        self.h =  h*det
+        
         self.drawRect()
 
     def handle_close(self,event):
@@ -135,25 +139,43 @@ class Annotate(object):
         '''
         b = 0
         r = 0
+        print os.getcwd()
         print 'close'
-       
+        header = open('header.txt','a')
         
-        tot_patches = len(self.xy)
+        
+        ##print self.xy
+
+        #self.xy = filter(lambda x: 0 not in np.shape(x) , self.xy)
         blue_patches = filter(lambda x: x[4]=='b',self.xy)
         for blue_patch_list in blue_patches:
             xy = blue_patch_list
-            name = 'blue'+str(b)+'.npy'
-            patch_array = img[xy[1]:xy[3],xy[0]:xy[2]]
-            np.save(name, patch_array)
-            b = b+1
+            name = str('NumpyPatches\\')+str(self.imgname)+'_blue'+str(b)+'.npy'
+            patch_array = self.img[xy[1]:xy[3],xy[0]:xy[2]]
+            if 0 not in np.shape(patch_array):
+                header.write("%s" % self.imgname+',')
+                print os.getcwd()
+                np.save(name, patch_array)
+                b = b+1
+                for item in xy[:5]:
+                    
+                    header.write("%s" % item+',')
+                header.write('\n')
+
 
         red_patches = filter(lambda x: x[4]=='r',self.xy)
         for red_patch_list in red_patches:
             xy = red_patch_list
-            name = 'red'+str(r)+'.npy'
-            patch_array = img[xy[1]:xy[3],xy[0]:xy[2]]
-            np.save(name, patch_array)
-            r = r+1
+            name = self.imgname+'_red'+str(r)+'.npy'
+            patch_array = self.img[xy[1]:xy[3],xy[0]:xy[2]]
+            if 0 not in np.shape(patch_array):
+                header.write("%s" % self.imgname+',')
+                np.save(name, patch_array)
+                r = r+1
+                for item in xy[:5]:
+                    
+                    header.write("%s" % item+',')
+                header.write('\n')
         
         # xy = self.xy[0]
         # patch = img[xy[1]:xy[3],xy[0]:xy[2]]
@@ -199,19 +221,19 @@ class Annotate(object):
         elif event.key == 'tab':
             # use tab to increase the aspect ratio of the patch 
 
-            self.resize(1)
+            self.resize(1.2)
 
         elif event.key == 'control':
             # use control key to decrease the aspect ratio of the patch
-            self.resize(-1)
-
-        elif event.key == '3':
-            # use control key to decrease the aspect ratio of the patch
-            self.resize(-8)
+            self.resize(0.95)
 
         elif event.key == '2':
             # use control key to decrease the aspect ratio of the patch
-            self.resize(-4)  
+            self.resize(0.85)
+
+        elif event.key == '3':
+            # use control key to decrease the aspect ratio of the patch
+            self.resize(0.50)  
 
         
         elif event.key == 'q': # quit plot, show up the next
@@ -219,6 +241,10 @@ class Annotate(object):
             self.qkey = 'q'
             self.close_plot()
                 
+        elif event.key == '0':
+            sys.exit()
+            
+
     
 
     
@@ -318,24 +344,28 @@ if __name__ == '__main__':
         # Start label tool per image object
         # '''
 
-    img = mpimg.imread('433.jpg')
-    # Create the canvas
-    fig = plt.figure()
-    ax = fig.add_subplot(111)
-    # print type(img)
-    ax.imshow(img)
-    a = Annotate(img)
+    def main(imgname):    
+         
 
-    plt.show()
+        img = mpimg.imread(imgname)
+        # Create the canvas
+        fig = plt.figure()
+        ax = fig.add_subplot(111)
+        # print type(img)
+        ax.imshow(img)
+        a = Annotate(img,imgname)
+
+        plt.show()
     
-    # def find_files(root):
-    #     for d, dirs, files in os.walk(root):
-    #         for f in files:
-    #             yield os.path.join(d, f) 
+    def find_files(root):
+        for d, dirs, files in os.walk(root):
+            for f in files:
+                yield os.path.join(d, f) 
                 
 
-    # flist = list(find_files('dir1')) 
-    # map(lambda x: main(x),flist)    
+    flist = list(find_files('trial')) 
+    flist = filter(lambda x: x.endswith('.jpg'),flist)
+    map(lambda imgname: main(imgname),flist)  
 
 
 
