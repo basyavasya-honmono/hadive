@@ -28,7 +28,8 @@ imageTableSQL = '''CREATE TABLE IMAGES(
 	second INT,
 	date_taken TIMESTAMP NOT NULL,
 	image_path VARCHAR(500) NOT NULL,
-	direction VARCHAR(5)
+	direction VARCHAR(5),
+	labeled boolean DEFAULT FALSE
 );'''
 
 labelTableSQL =  '''CREATE TABLE LABEL(
