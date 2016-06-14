@@ -17,7 +17,7 @@ cameraTableSQL = '''CREATE TABLE CAMERA(
 );'''
 
 imageTableSQL = '''CREATE TABLE IMAGES(
-	CAMERAS(id),
+	camera INT REFERENCES CAMERAS(id),
 	id SERIAL PRIMARY KEY NOT NULL,
 	name VARCHAR(200) NOT NULL,
 	year INT NOT NULL,
@@ -34,7 +34,12 @@ imageTableSQL = '''CREATE TABLE IMAGES(
 
 labelTableSQL =  '''CREATE TABLE LABEL(
 	image INT REFERENCES IMAGE(id),
-	count INT
+	topx INT,
+	topy INT,
+	botx INT,
+	boty INT,
+	label INT,
+	patch_path VARCHAR(500),
 );'''
 
 r = cursor.execute(cameraTableSQL)
