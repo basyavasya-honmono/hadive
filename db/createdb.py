@@ -8,7 +8,7 @@ except:
 
 cursor = conn.cursor() 
 
-cameraTableSQL = '''CREATE TABLE CAMERA(
+cameraTableSQL = '''CREATE TABLE CAMERAS(
    id SERIAL PRIMARY KEY NOT NULL,
    name VARCHAR(50) NOT NULL,
    description VARCHAR(200),
@@ -32,15 +32,15 @@ imageTableSQL = '''CREATE TABLE IMAGES(
 	labeled boolean DEFAULT FALSE
 );'''
 
-labelTableSQL =  '''CREATE TABLE LABEL(
+labelTableSQL =  '''CREATE TABLE LABELS(
 	id SERIAL PRIMARY KEY NOT NULL,
-	image INT REFERENCES IMAGE(id),
+	image INT REFERENCES IMAGES(id),
 	topx INT,
 	topy INT,
 	botx INT,
 	boty INT,
 	label INT,
-	patch_path VARCHAR(500),
+	patch_path VARCHAR(500)
 );'''
 
 r = cursor.execute(cameraTableSQL)
