@@ -42,8 +42,8 @@ class Annotate(object):
         # We are using three events 
         # First event is button press event (on left key click)- 
         # on which on_click function is called
-        self.ax.figure.canvas.mpl_connect('button_press_event', self.on_click)
-        self.ax.figure.canvas.mpl_connect('close_event', self.handle_close)
+        connect('button_press_event', self.on_click)
+        connect('close_event', self.handle_close)
         
         
         # Second event to draw, in case a mistake in labelling is made, 
@@ -53,7 +53,7 @@ class Annotate(object):
         # Third event - key press event
         # To change color of the patches when you want to switch between 
         # true postive and false postive labels
-        self.ax.figure.canvas.mpl_connect('key_press_event',self.colorChange)
+        connect('key_press_event',self.colorChange)
  
 
 
@@ -321,7 +321,7 @@ class Annotate(object):
         # some others, requires us to update the _full_ canvas, instead.
         self.background = self.ax.figure.canvas.copy_from_bbox(self.ax.figure.bbox)
         self.rect.set_visible(True)
-        self.blit()
+        # self.blit()
 
     
 
@@ -357,7 +357,7 @@ if __name__ == '__main__':
     a = Annotate(img,imgname)
 
     plt.show()
-    
+        
     # def find_files(root):
     #     for d, dirs, files in os.walk(root):
     #         for f in files:
