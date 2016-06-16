@@ -353,8 +353,7 @@ if __name__ == '__main__':
 
         image = cursor.fetchall()
         image = image[0]
-        imgname = str(image[-3]) + str(image[3])
-
+        imgname = str(image[-4]) + str(image[3])
         img = mpimg.imread(imgname)
         # Create the canvas
         fig = plt.figure()
