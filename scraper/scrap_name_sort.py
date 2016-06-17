@@ -59,8 +59,8 @@ def ScrapeImage(node, _dir, limit):
         url = node['url']
         now = datetime.datetime.now()
         timestamp = now.strftime("%Y-%m-%d-%H-%M-") + str(now.second).zfill(2)
-        # filename = '%s_%s.jpg' % (timestamp, location)
-        filename = '%s_%s.jpg' % (location, timestamp)
+        filename = '%s_%s.jpg' % (timestamp, location)
+        # filename = '%s_%s.jpg' % (location, timestamp)
         try:
             urllib.urlretrieve(url, _dir+filename)
             time.sleep(1)
@@ -117,8 +117,8 @@ def main():
     graph = UrlLocation(links)
     print 'Scraping Data'
     callImage(graph, args_s, args_limit)
-    print 'Updating File Names'
-    newFileName(args_s, args_new_dir)
+    # print 'Updating File Names'
+    # newFileName(args_s, args_new_dir)
     print 'Done!!!'
 
 
