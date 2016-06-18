@@ -10,9 +10,10 @@ from tempfile import TemporaryFile
 import psycopg2
 
 class Annotate(object):
-    def __init__(self, image,name):
+    def __init__(self, image,name, imgid):
         self.img = image
         self.imgname = name
+        self.imgid = imgid
         self.i = 1
         self.col = 'b' # deafult color for true positive label
         self.ax = plt.gca()
@@ -149,9 +150,29 @@ class Annotate(object):
         #self.xy = filter(lambda x: 0 not in np.shape(x) , self.xy)
         blue_patches = filter(lambda x: x[4]=='b',self.xy)
         for blue_patch_list in blue_patches:
-            xy = blue_patch_list
-            name = str('NumpyPatches\\')+str(self.imgname)+'_blue'+str(b)+'.npy'
-            patch_array = self.img[xy[1]:xy[3],xy[0]:xy[2]]
+            topx = blue_patch_list[0]
+            topy = blue_patch_list[1]
+            botx = blue_patch_list[2]
+            boty = blue_patch_list[3]
+            
+            #Saving to database
+            conn = psycopg2.connect("dbname='dot_pub_cams'")
+            cursor = conn.cursor()
+            cursor.execute("""UPDATE images SET labeled=TRUE WHERE id=""" + self.imgid)
+            cursor.execute("""INSERT INTO labels 
+            		      (image, topx, topy, botx, boty, 
+            		       label, patch_path, type )
+            		      VALUES
+            		      (%s, %s, %s, %s, %s, %s, %s, %) 
+            		      """ % (self.imgid, topx, topy, botx, boty, self.imgname, "BLUE"))
+            		      
+            # Closing db connections
+            conn.commit()
+            cursor.close()
+            conn.close()
+            
+            name = str(self.imgname) + '_blue'+str(b)+'.npy'
+            patch_array = self.img[topy:boty,topx:botx]
             if 0 not in np.shape(patch_array):
                 header.write("%s" % self.imgname+',')
                 print os.getcwd()
@@ -239,7 +260,7 @@ class Annotate(object):
         elif event.key == 'q': # quit plot, show up the next
             # save necessary labels and close the plot
             self.qkey = 'q'
-            self.close_plot()
+            self.close_plot(img_id)
                 
         elif event.key == '0':
             sys.exit()
@@ -344,14 +365,14 @@ if __name__ == '__main__':
         # Start label tool per image object
         # '''
 
-    def main(imgname):    
+    def main(imgname, imgid):    
         img = mpimg.imread(imgname)
         # Create the canvas
         fig = plt.figure()
         ax = fig.add_subplot(111)
         # print type(img)
         ax.imshow(img)
-        a = Annotate(img,imgname)
+        a = Annotate(img, imgname, imgid)
 
         plt.show()
     
@@ -361,14 +382,15 @@ if __name__ == '__main__':
         cursor.execute("""select distinct(id), * from images where random() < 0.01 and labeled=false limit 1;
         """)
 
-        image = cursor.fetchall()
-        image = image[0]
-        img_name = str(image[-4]) + str(image[3])
-	img_id = image[0]
+        image_fields = cursor.fetchall()
+        image_fields = image[0]
+        imgname = str(image_fields[-4]) + str(image_fields[3])
+	imgid = image_fields[0]
+	# Closing db connections
         cursor.close()
         conn.close()
         
-        main(img_name, img_id)
+        main(imgname, imgid)
 
 
 
