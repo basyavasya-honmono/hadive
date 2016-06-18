@@ -345,15 +345,6 @@ if __name__ == '__main__':
         # '''
 
     def main(imgname):    
-         
-        conn = psycopg2.connect("dbname='dot_pub_cams'")
-        cursor = conn.cursor()  
-        cursor.execute("""select distinct(id), * from images where random() < 0.01 and labeled=false limit 1;
-        """)
-
-        image = cursor.fetchall()
-        image = image[0]
-        imgname = str(image[-4]) + str(image[3])
         img = mpimg.imread(imgname)
         # Create the canvas
         fig = plt.figure()
@@ -364,15 +355,20 @@ if __name__ == '__main__':
 
         plt.show()
     
-    def find_files(root):
-        for d, dirs, files in os.walk(root):
-            for f in files:
-                yield os.path.join(d, f) 
-                
+    while(1)    
+	conn = psycopg2.connect("dbname='dot_pub_cams'")
+        cursor = conn.cursor()
+        cursor.execute("""select distinct(id), * from images where random() < 0.01 and labeled=false limit 1;
+        """)
 
-    flist = list(find_files('trial')) 
-    flist = filter(lambda x: x.endswith('.jpg'),flist)
-    map(lambda imgname: main(imgname),flist)  
+        image = cursor.fetchall()
+        image = image[0]
+        img_name = str(image[-4]) + str(image[3])
+	img_id = image[0]
+        cursor.close()
+        conn.close()
+        
+        main(img_name, img_id)
 
 
 
