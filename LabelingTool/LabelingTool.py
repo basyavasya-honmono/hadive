@@ -383,7 +383,7 @@ if __name__ == '__main__':
         """)
 
         image_fields = cursor.fetchall()
-        image_fields = image[0]
+        image_fields = image_fields[0]
         imgname = str(image_fields[-4]) + str(image_fields[3])
 	imgid = image_fields[0]
 	# Closing db connections
