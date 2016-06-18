@@ -260,7 +260,7 @@ class Annotate(object):
         elif event.key == 'q': # quit plot, show up the next
             # save necessary labels and close the plot
             self.qkey = 'q'
-            self.close_plot(img_id)
+            self.close_plot()
                 
         elif event.key == '0':
             sys.exit()
