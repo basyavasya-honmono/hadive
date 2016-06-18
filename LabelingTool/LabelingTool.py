@@ -158,7 +158,7 @@ class Annotate(object):
             #Saving to database
             conn = psycopg2.connect("dbname='dot_pub_cams'")
             cursor = conn.cursor()
-            cursor.execute("""UPDATE images SET labeled=TRUE WHERE id=""" + self.imgid)
+            cursor.execute("""UPDATE images SET labeled=TRUE WHERE id=%s""" % (self.imgid))
             cursor.execute("""INSERT INTO labels 
             		      (image, topx, topy, botx, boty, 
             		       label, patch_path, type )
