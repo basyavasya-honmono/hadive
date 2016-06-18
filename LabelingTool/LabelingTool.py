@@ -149,12 +149,12 @@ class Annotate(object):
 
         #self.xy = filter(lambda x: 0 not in np.shape(x) , self.xy)
         blue_patches = filter(lambda x: x[4]=='b',self.xy)
-        for blue_patch_list in blue_patches:
+        for i, blue_patch_list in enumerate(blue_patches):
             topx = blue_patch_list[0]
             topy = blue_patch_list[1]
             botx = blue_patch_list[2]
             boty = blue_patch_list[3]
-            
+            patch_path = self.imgname + '_blue_' + str(i)  
             #Saving to database
             conn = psycopg2.connect("dbname='dot_pub_cams'")
             cursor = conn.cursor()
@@ -164,7 +164,7 @@ class Annotate(object):
             		       label, patch_path, type )
             		      VALUES
             		      (%s, %s, %s, %s, %s, %s, '%s', '%s') 
-            		      """ % (self.imgid, topx, topy, botx, boty, 1, self.imgname, "BLUE"))
+            		      """ % (self.imgid, topx, topy, botx, boty, 1, patch_path, "BLUE"))
             		      
             # Closing db connections
             conn.commit()
@@ -178,7 +178,7 @@ class Annotate(object):
                 print os.getcwd()
                 np.save(name, patch_array)
                 b = b+1
-                for item in xy[:5]:
+                for item in blue_patch_list[:5]:
                     
                     header.write("%s" % item+',')
                 header.write('\n')
