@@ -376,7 +376,7 @@ if __name__ == '__main__':
 
         plt.show()
     
-    while(1)    
+    while(1):  
 	conn = psycopg2.connect("dbname='dot_pub_cams'")
         cursor = conn.cursor()
         cursor.execute("""select distinct(id), * from images where random() < 0.01 and labeled=false limit 1;
