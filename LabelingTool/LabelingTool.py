@@ -138,12 +138,8 @@ class Annotate(object):
         '''
         saving numpy patches and co-ordinates of the patches 
         '''
-        b = 0
-        r = 0
-        print os.getcwd()
         print 'close'
         header = open('header.txt','a')
-        
         
         ##print self.xy
 
@@ -154,7 +150,8 @@ class Annotate(object):
             topy = blue_patch_list[1]
             botx = blue_patch_list[2]
             boty = blue_patch_list[3]
-            patch_path = self.imgname + '_blue_' + str(i)  
+            patch_path = self.imgname[:-4] + '_blue_' + str(i) + '.npy'  
+            
             #Saving to database
             conn = psycopg2.connect("dbname='dot_pub_cams'")
             cursor = conn.cursor()
@@ -171,30 +168,46 @@ class Annotate(object):
             cursor.close()
             conn.close()
             
-            name = str(self.imgname) + '_blue'+str(b)+'.npy'
             patch_array = self.img[topy:boty,topx:botx]
             if 0 not in np.shape(patch_array):
+                np.save(patch_path, patch_array)
+                
                 header.write("%s" % self.imgname+',')
-                print os.getcwd()
-                np.save(name, patch_array)
-                b = b+1
                 for item in blue_patch_list[:5]:
-                    
                     header.write("%s" % item+',')
                 header.write('\n')
 
 
         red_patches = filter(lambda x: x[4]=='r',self.xy)
-        for red_patch_list in red_patches:
-            xy = red_patch_list
-            name = self.imgname+'_red'+str(r)+'.npy'
-            patch_array = self.img[xy[1]:xy[3],xy[0]:xy[2]]
+        for i, red_patch_list in enumerate(red_patches):
+            topx = red_patch_list[0]
+            topy = red_patch_list[1]
+            botx = red_patch_list[2]
+            boty = red_patch_list[3]
+            patch_path = self.imgname[:-4] + '_red_' + str(i) + '.npy' 
+            
+            #Saving to database
+            conn = psycopg2.connect("dbname='dot_pub_cams'")
+            cursor = conn.cursor()
+            cursor.execute("""UPDATE images SET labeled=TRUE WHERE id=%s""" % (self.imgid))
+            cursor.execute("""INSERT INTO labels 
+            		      (image, topx, topy, botx, boty, 
+            		       label, patch_path, type )
+            		      VALUES
+            		      (%s, %s, %s, %s, %s, %s, '%s', '%s') 
+            		      """ % (self.imgid, topx, topy, botx, boty, 1, patch_path, "RED"))
+            		      
+            # Closing db connections
+            conn.commit()
+            cursor.close()
+            conn.close()
+            
+            patch_array = self.img[topy:boty,topx:botx]
             if 0 not in np.shape(patch_array):
+                np.save(patch_path, patch_array)
+                
                 header.write("%s" % self.imgname+',')
-                np.save(name, patch_array)
-                r = r+1
-                for item in xy[:5]:
-                    
+                for item in red_patch_list[:5]:
                     header.write("%s" % item+',')
                 header.write('\n')
         
