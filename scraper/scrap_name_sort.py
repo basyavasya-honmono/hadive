@@ -93,11 +93,10 @@ def newFileName(_dir, _dir_new):
         print "File: %d, old name: %s, new name: %s" % (i, im, os_path) 
 
 
-def main():
+def main(args_limit=720):
     # -- point to a text file with the webcam urls
     args_links='links.txt'
     # -- point to the number of minutes to run the scraper
-    args_limit=720
     now = datetime.datetime.now()
     timestamp = now.strftime("%Y-%m-%d")
     raw_dir = '%s_raw_images' % timestamp
@@ -125,7 +124,7 @@ def main():
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     # parser.add_argument('-links', dest='links', help='file with links')
-    # parser.add_argument('-limit', dest='limit', type=int, help='the pages to scrap')
+    parser.add_argument('-limit', dest='limit', type=int, help='the pages to scrap')
     # parser.add_argument('--feature', dest='feature', action='store_true')
     parser.add_argument('-f', dest='f', action='store_true', help='run a one off')
     args = parser.parse_args()
@@ -133,7 +132,7 @@ if __name__ == '__main__':
 
     print 'Starting'
     if args.f:
-        main()
+        main(args_limit=args.limit)
     else:
         # schedule.every(2).minutes.do(main)
         schedule.every().day.at("7:30").do(main)
