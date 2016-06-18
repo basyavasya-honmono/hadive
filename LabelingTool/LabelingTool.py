@@ -163,7 +163,7 @@ class Annotate(object):
             		      (image, topx, topy, botx, boty, 
             		       label, patch_path, type )
             		      VALUES
-            		      (%s, %s, %s, %s, %s, %s, %s, %) 
+            		      (%s, %s, %s, %s, %s, %s, '%s', '%s') 
             		      """ % (self.imgid, topx, topy, botx, boty, self.imgname, "BLUE"))
             		      
             # Closing db connections
