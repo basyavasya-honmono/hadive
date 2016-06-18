@@ -164,7 +164,7 @@ class Annotate(object):
             		       label, patch_path, type )
             		      VALUES
             		      (%s, %s, %s, %s, %s, %s, '%s', '%s') 
-            		      """ % (self.imgid, topx, topy, botx, boty, self.imgname, "BLUE"))
+            		      """ % (self.imgid, topx, topy, botx, boty, 1, self.imgname, "BLUE"))
             		      
             # Closing db connections
             conn.commit()
