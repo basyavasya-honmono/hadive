@@ -10,9 +10,10 @@ from tempfile import TemporaryFile
 import psycopg2
 
 class Annotate(object):
-    def __init__(self, image,name):
+    def __init__(self, image,name, imgid):
         self.img = image
         self.imgname = name
+        self.imgid = imgid
         self.i = 1
         self.col = 'b' # deafult color for true positive label
         self.ax = plt.gca()
@@ -137,43 +138,76 @@ class Annotate(object):
         '''
         saving numpy patches and co-ordinates of the patches 
         '''
-        b = 0
-        r = 0
-        print os.getcwd()
         print 'close'
         header = open('header.txt','a')
-        
         
         ##print self.xy
 
         #self.xy = filter(lambda x: 0 not in np.shape(x) , self.xy)
         blue_patches = filter(lambda x: x[4]=='b',self.xy)
-        for blue_patch_list in blue_patches:
-            xy = blue_patch_list
-            name = str('NumpyPatches\\')+str(self.imgname)+'_blue'+str(b)+'.npy'
-            patch_array = self.img[xy[1]:xy[3],xy[0]:xy[2]]
+        for i, blue_patch_list in enumerate(blue_patches):
+            topx = blue_patch_list[0]
+            topy = blue_patch_list[1]
+            botx = blue_patch_list[2]
+            boty = blue_patch_list[3]
+            patch_path = self.imgname[:-4] + '_blue_' + str(i) + '.npy'  
+            
+            #Saving to database
+            conn = psycopg2.connect("dbname='dot_pub_cams'")
+            cursor = conn.cursor()
+            cursor.execute("""UPDATE images SET labeled=TRUE WHERE id=%s""" % (self.imgid))
+            cursor.execute("""INSERT INTO labels 
+            		      (image, topx, topy, botx, boty, 
+            		       label, patch_path, type )
+            		      VALUES
+            		      (%s, %s, %s, %s, %s, %s, '%s', '%s') 
+            		      """ % (self.imgid, topx, topy, botx, boty, 1, patch_path, "BLUE"))
+            		      
+            # Closing db connections
+            conn.commit()
+            cursor.close()
+            conn.close()
+            
+            patch_array = self.img[topy:boty,topx:botx]
             if 0 not in np.shape(patch_array):
+                np.save(patch_path, patch_array)
+                
                 header.write("%s" % self.imgname+',')
-                print os.getcwd()
-                np.save(name, patch_array)
-                b = b+1
-                for item in xy[:5]:
-                    
+                for item in blue_patch_list[:5]:
                     header.write("%s" % item+',')
                 header.write('\n')
 
 
         red_patches = filter(lambda x: x[4]=='r',self.xy)
-        for red_patch_list in red_patches:
-            xy = red_patch_list
-            name = self.imgname+'_red'+str(r)+'.npy'
-            patch_array = self.img[xy[1]:xy[3],xy[0]:xy[2]]
+        for i, red_patch_list in enumerate(red_patches):
+            topx = red_patch_list[0]
+            topy = red_patch_list[1]
+            botx = red_patch_list[2]
+            boty = red_patch_list[3]
+            patch_path = self.imgname[:-4] + '_red_' + str(i) + '.npy' 
+            
+            #Saving to database
+            conn = psycopg2.connect("dbname='dot_pub_cams'")
+            cursor = conn.cursor()
+            cursor.execute("""UPDATE images SET labeled=TRUE WHERE id=%s""" % (self.imgid))
+            cursor.execute("""INSERT INTO labels 
+            		      (image, topx, topy, botx, boty, 
+            		       label, patch_path, type )
+            		      VALUES
+            		      (%s, %s, %s, %s, %s, %s, '%s', '%s') 
+            		      """ % (self.imgid, topx, topy, botx, boty, 1, patch_path, "RED"))
+            		      
+            # Closing db connections
+            conn.commit()
+            cursor.close()
+            conn.close()
+            
+            patch_array = self.img[topy:boty,topx:botx]
             if 0 not in np.shape(patch_array):
+                np.save(patch_path, patch_array)
+                
                 header.write("%s" % self.imgname+',')
-                np.save(name, patch_array)
-                r = r+1
-                for item in xy[:5]:
-                    
+                for item in red_patch_list[:5]:
                     header.write("%s" % item+',')
                 header.write('\n')
         
@@ -344,35 +378,32 @@ if __name__ == '__main__':
         # Start label tool per image object
         # '''
 
-    def main(imgname):    
-         
-        conn = psycopg2.connect("dbname='dot_pub_cams'")
-        cursor = conn.cursor()  
-        cursor.execute("""select distinct(id), * from images where random() < 0.01 and labeled=false limit 1;
-        """)
-
-        image = cursor.fetchall()
-        image = image[0]
-        imgname = str(image[-4]) + str(image[3])
+    def main(imgname, imgid):    
         img = mpimg.imread(imgname)
         # Create the canvas
         fig = plt.figure()
         ax = fig.add_subplot(111)
         # print type(img)
         ax.imshow(img)
-        a = Annotate(img,imgname)
+        a = Annotate(img, imgname, imgid)
 
         plt.show()
     
-    def find_files(root):
-        for d, dirs, files in os.walk(root):
-            for f in files:
-                yield os.path.join(d, f) 
-                
+    while(1):  
+	conn = psycopg2.connect("dbname='dot_pub_cams'")
+        cursor = conn.cursor()
+        cursor.execute("""select distinct(id), * from images where random() < 0.01 and labeled=false limit 1;
+        """)
 
-    flist = list(find_files('trial')) 
-    flist = filter(lambda x: x.endswith('.jpg'),flist)
-    map(lambda imgname: main(imgname),flist)  
+        image_fields = cursor.fetchall()
+        image_fields = image_fields[0]
+        imgname = str(image_fields[-4]) + str(image_fields[3])
+	imgid = image_fields[0]
+	# Closing db connections
+        cursor.close()
+        conn.close()
+        
+        main(imgname, imgid)
 
 
 

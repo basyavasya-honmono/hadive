@@ -29,7 +29,8 @@ imageTableSQL = '''CREATE TABLE IMAGES(
 	date_taken TIMESTAMP NOT NULL,
 	image_path VARCHAR(500) NOT NULL,
 	direction VARCHAR(5),
-	labeled boolean DEFAULT FALSE
+	labeled boolean DEFAULT FALSE,
+	set_type VARCHAR(10)
 );'''
 
 labelTableSQL =  '''CREATE TABLE LABELS(
@@ -40,7 +41,8 @@ labelTableSQL =  '''CREATE TABLE LABELS(
 	botx INT,
 	boty INT,
 	label INT,
-	patch_path VARCHAR(500)
+	patch_path VARCHAR(500),
+	type VARCHAR(10)
 );'''
 
 r = cursor.execute(cameraTableSQL)
