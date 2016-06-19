@@ -132,8 +132,10 @@ if __name__ == '__main__':
 
     print 'Starting'
     if args.f:
+        print 'Starting one off'
         main(args_limit=args.limit)
     else:
+        print 'Starting the daily thing'
         # schedule.every(2).minutes.do(main)
         schedule.every().day.at("7:30").do(main)
         while True:
