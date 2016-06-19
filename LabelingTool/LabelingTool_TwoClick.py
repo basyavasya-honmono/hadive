@@ -145,12 +145,18 @@ class Annotate(object):
         saving numpy patches and co-ordinates of the patches 
         '''
         print 'close'
-        header = open('header.txt','a')
+        header = open('log.txt','a')
+        header.write("Image id:%s" % (self.imgid))
+ 
+ 	#Blue Bounding Boxes
+        blue_patches = filter(lambda x: x[4]=='b',self.xy)
         
         ##print self.xy
-
-        #self.xy = filter(lambda x: 0 not in np.shape(x) , self.xy)
-        blue_patches = filter(lambda x: x[4]=='b',self.xy)
+        #Saving to database
+        conn = psycopg2.connect("dbname='dot_pub_cams'")
+        cursor = conn.cursor()
+        cursor.execute("""UPDATE images SET labeled=TRUE, ped_count=%s WHERE id=%s""" % (len(blue_patches), self.imgid))
+        
         for i, blue_patch_list in enumerate(blue_patches):
             topx = blue_patch_list[0]
             topy = blue_patch_list[1]
@@ -158,31 +164,21 @@ class Annotate(object):
             boty = blue_patch_list[3]
             patch_path = self.imgname[:-4] + '_blue_' + str(i) + '.npy'  
             
-            #Saving to database
-            conn = psycopg2.connect("dbname='dot_pub_cams'")
-            cursor = conn.cursor()
-            cursor.execute("""UPDATE images SET labeled=TRUE WHERE id=%s""" % (self.imgid))
-            cursor.execute("""INSERT INTO labels 
-            		      (image, topx, topy, botx, boty, 
-            		       label, patch_path, type )
-            		      VALUES
-            		      (%s, %s, %s, %s, %s, %s, '%s', '%s') 
-            		      """ % (self.imgid, topx, topy, botx, boty, 1, patch_path, "BLUE"))
-            		      
-            # Closing db connections
-            conn.commit()
-            cursor.close()
-            conn.close()
-            
             patch_array = self.img[topy:boty,topx:botx]
             if 0 not in np.shape(patch_array):
+                cursor.execute("""INSERT INTO labels 
+                              (image, topx, topy, botx, boty, 
+                               label, patch_path, type )
+                              VALUES
+                              (%s, %s, %s, %s, %s, %s, '%s', '%s') 
+                              """ % (self.imgid, topx, topy, botx, boty, 1, patch_path, "BLUE"))
+
                 np.save(patch_path, patch_array)
                 
                 header.write("%s" % self.imgname+',')
                 for item in blue_patch_list[:5]:
                     header.write("%s" % item+',')
                 header.write('\n')
-
 
         red_patches = filter(lambda x: x[4]=='r',self.xy)
         for i, red_patch_list in enumerate(red_patches):
@@ -192,24 +188,15 @@ class Annotate(object):
             boty = red_patch_list[3]
             patch_path = self.imgname[:-4] + '_red_' + str(i) + '.npy' 
             
-            #Saving to database
-            conn = psycopg2.connect("dbname='dot_pub_cams'")
-            cursor = conn.cursor()
-            cursor.execute("""UPDATE images SET labeled=TRUE WHERE id=%s""" % (self.imgid))
-            cursor.execute("""INSERT INTO labels 
-            		      (image, topx, topy, botx, boty, 
-            		       label, patch_path, type )
-            		      VALUES
-            		      (%s, %s, %s, %s, %s, %s, '%s', '%s') 
-            		      """ % (self.imgid, topx, topy, botx, boty, 1, patch_path, "RED"))
-            		      
-            # Closing db connections
-            conn.commit()
-            cursor.close()
-            conn.close()
-            
             patch_array = self.img[topy:boty,topx:botx]
             if 0 not in np.shape(patch_array):
+                cursor.execute("""INSERT INTO labels 
+                              (image, topx, topy, botx, boty, 
+                               label, patch_path, type )
+                              VALUES
+                              (%s, %s, %s, %s, %s, %s, '%s', '%s') 
+                              """ % (self.imgid, topx, topy, botx, boty, 1, patch_path, "RED"))
+
                 np.save(patch_path, patch_array)
                 
                 header.write("%s" % self.imgname+',')
@@ -217,11 +204,11 @@ class Annotate(object):
                     header.write("%s" % item+',')
                 header.write('\n')
         
-        # xy = self.xy[0]
-        # patch = img[xy[1]:xy[3],xy[0]:xy[2]]
-        
-        # imgplot = plt.imshow(patch)
-        # plt.show()
+
+        # Closing db connections
+        conn.commit()
+        cursor.close()
+        conn.close()
 
         plt.close()
 
@@ -283,12 +270,8 @@ class Annotate(object):
                 
         elif event.key == '0':
             sys.exit()
-            
-
     
-
-    
-   def on_click(self, event):
+    def on_click(self, event):
         '''
         Using two diagonally opposite clicks to draw a reactangle 
         '''
@@ -321,8 +304,8 @@ class Annotate(object):
         self.height = self.y1 - self.y0
         self.width = 3.0/4.0 * self.height
 
-        self.x0 = self.mx0 - width/2
-        self.x1 = self.mx1 + width/2
+        self.x0 = self.mx0 - self.width/2
+        self.x1 = self.mx1 + self.width/2
         print self.x0, self.x1
 
 
@@ -331,8 +314,8 @@ class Annotate(object):
         print self.xy
         
         # Set the width and height of the rectangle patch as these two alone can characterize the patch
-        self.rect.set_width(width)
-        self.rect.set_height(height)
+        self.rect.set_width(self.width)
+        self.rect.set_height(self.height)
         self.rect.set_xy((self.x0, self.y0))
         # Set the color of the reactangle - can be blue/red depending on postive/negative label respectively
         self.rect.set_color(self.col)
@@ -382,12 +365,6 @@ class Annotate(object):
 
 if __name__ == '__main__':
 
-    #for image_name in ('433.jpg','434.jpg'):
-    #def main(image_name):
-        # '''
-        # Start label tool per image object
-        # '''
-
     def main(imgname, imgid):    
         img = mpimg.imread(imgname)
         # Create the canvas
@@ -407,7 +384,7 @@ if __name__ == '__main__':
 
         image_fields = cursor.fetchall()
         image_fields = image_fields[0]
-        imgname = str(image_fields[-4]) + str(image_fields[3])
+        imgname = str(image_fields[-5]) + str(image_fields[3])
 	imgid = image_fields[0]
 	# Closing db connections
         cursor.close()
