@@ -1,8 +1,8 @@
 ## TOOL DESCRIPTION
 
 This is the Labeling tool for Hadive - 
-[FixedRectLabeling.py](https://github.com/gdobler/hadive/blob/master/LabelingTool/FixedRectLabeling.py) to draw patches around humans (positive) and non-human (negative) examples per image for training 
-our HOG based SVM and Convolution Neural Network. They are of fixed aspect ratio (3/4). 
+[LabelingTool_OneClick.py](https://github.com/gdobler/hadive/blob/master/LabelingTool/LabelingTool_OneClick.py) to draw patches around humans (positive) and non-human (negative) examples per image for training 
+our HOG based SVM and Convolutional Neural Network. They are of fixed aspect ratio (3/4). 
 
 ## WORKING 
 
