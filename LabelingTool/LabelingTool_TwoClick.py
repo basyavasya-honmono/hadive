@@ -155,7 +155,7 @@ class Annotate(object):
         cursor.execute("""UPDATE images SET labeled=TRUE WHERE id=%s""" % (self.imgid))
         
         blue_patches = filter(lambda x: x[4]=='b',self.xy)
-        print("bluepatches=%s"% (len(bluepatches)))
+        print("bluepatches=%s"% (len(blue_patches)))
         for i, blue_patch_list in enumerate(blue_patches):
             topx = blue_patch_list[0]
             topy = blue_patch_list[1]
