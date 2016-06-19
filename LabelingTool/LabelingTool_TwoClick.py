@@ -148,14 +148,15 @@ class Annotate(object):
         header = open('log.txt','a')
         header.write("Image id:%s" % (self.imgid))
  
+ 	#Blue Bounding Boxes
+        blue_patches = filter(lambda x: x[4]=='b',self.xy)
+        
         ##print self.xy
         #Saving to database
         conn = psycopg2.connect("dbname='dot_pub_cams'")
         cursor = conn.cursor()
-        cursor.execute("""UPDATE images SET labeled=TRUE WHERE id=%s""" % (self.imgid))
+        cursor.execute("""UPDATE images SET labeled=TRUE, ped_count=%s WHERE id=%s""" % (len(blue_patches), self.imgid))
         
-        blue_patches = filter(lambda x: x[4]=='b',self.xy)
-        print("bluepatches=%s"% (len(blue_patches)))
         for i, blue_patch_list in enumerate(blue_patches):
             topx = blue_patch_list[0]
             topy = blue_patch_list[1]
