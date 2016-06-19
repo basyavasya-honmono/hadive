@@ -30,7 +30,8 @@ imageTableSQL = '''CREATE TABLE IMAGES(
 	image_path VARCHAR(500) NOT NULL,
 	direction VARCHAR(5),
 	labeled boolean DEFAULT FALSE,
-	set_type VARCHAR(10)
+	set_type VARCHAR(10),
+	ped_count INT DEFAULT 0
 );'''
 
 labelTableSQL =  '''CREATE TABLE LABELS(
