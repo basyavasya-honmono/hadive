@@ -146,7 +146,7 @@ class Annotate(object):
         '''
         print 'close'
         header = open('log.txt','a')
-        header.write("Image id:%s" % (self.imgid)
+        header.write("Image id:%s" % (self.imgid))
  
         ##print self.xy
         #Saving to database
