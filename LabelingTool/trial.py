@@ -30,6 +30,7 @@ class Annotate(object):
         self.w = 30.0
         self.h = 40.0
         self.qkey = None
+        self.objList = []
 
         #self.centers
         # The list that will store value of those two co-ordinates of 
@@ -42,8 +43,8 @@ class Annotate(object):
         # We are using three events 
         # First event is button press event (on left key click)- 
         # on which on_click function is called
-        connect('button_press_event', self.on_click)
-        connect('close_event', self.handle_close)
+        self.ax.figure.canvas.mpl_connect('button_press_event', self.on_click)
+        self.ax.figure.canvas.mpl_connect('close_event', self.handle_close)
         
         
         # Second event to draw, in case a mistake in labelling is made, 
@@ -53,7 +54,7 @@ class Annotate(object):
         # Third event - key press event
         # To change color of the patches when you want to switch between 
         # true postive and false postive labels
-        connect('key_press_event',self.colorChange)
+        self.ax.figure.canvas.mpl_connect('key_press_event',self.colorChange)
  
 
 
@@ -210,7 +211,10 @@ class Annotate(object):
 
         elif event.key == 'd': # delete
             # When 'd' key is pressed, the latest patch drawn is deleted
-            self.deletePrevious()
+            #self.deletePrevious()
+            nr = self.objList[-1]
+            nr.set_visible(False)
+
 
         elif event.key == 'c': # clear 
             # When 'c' key is pressed, all the patches are cleared, only orignal background is present
@@ -286,15 +290,17 @@ class Annotate(object):
         # append to the list of patch co-ordinates
         self.xy.append([self.x0,self.y0,self.x1,self.y1,self.col,self.xc,self.yc])
         #print self.xy
-        
+        self.objList.append(self.rect)
         
         
         # Set the color of the reactangle - can be blue/red depending on postive/negative label respectively
         self.rect.set_color(self.col)
         self.ax.draw_artist(self.rect)
+        self.ax.figure.canvas.update()
+
         # Blit is used to successively retain and display patches on the screen 
         # Else Successively drawing one patch will remove the last drawn patch 
-        self.ax.figure.canvas.blit(self.ax.bbox)
+        #self.ax.figure.canvas.blit(self.ax.bbox)
 
 
     # The following three functions taken from 
@@ -321,7 +327,7 @@ class Annotate(object):
         # some others, requires us to update the _full_ canvas, instead.
         self.background = self.ax.figure.canvas.copy_from_bbox(self.ax.figure.bbox)
         self.rect.set_visible(True)
-        # self.blit()
+        self.blit()
 
     
 
@@ -344,28 +350,27 @@ if __name__ == '__main__':
         # Start label tool per image object
         # '''
 
-    
+    def main(imgname):    
          
 
-    img = mpimg.imread('433.jpg')
-    imgname = '433.jpg'
-    # Create the canvas
-    fig = plt.figure()
-    ax = fig.add_subplot(111)
-    # print type(img)
-    ax.imshow(img)
-    a = Annotate(img,imgname)
+        img = mpimg.imread(imgname)
+        # Create the canvas
+        fig = plt.figure()
+        ax = fig.add_subplot(111)
+        # print type(img)
+        ax.imshow(img)
+        a = Annotate(img,imgname)
 
-    plt.show()
-        
-    # def find_files(root):
-    #     for d, dirs, files in os.walk(root):
-    #         for f in files:
-    #             yield os.path.join(d, f) 
+        plt.show()
+    
+    def find_files(root):
+        for d, dirs, files in os.walk(root):
+            for f in files:
+                yield os.path.join(d, f) 
                 
 
-    # flist = list(find_files('trial')) 
-    # flist = filter(lambda x: x.endswith('.jpg'),flist)
-    # map(lambda imgname: main(imgname),flist)  
+    flist = list(find_files('trial')) 
+    flist = filter(lambda x: x.endswith('.jpg'),flist)
+    map(lambda imgname: main(imgname),flist)  
 
 
