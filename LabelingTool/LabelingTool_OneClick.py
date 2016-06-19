@@ -138,12 +138,18 @@ class Annotate(object):
         saving numpy patches and co-ordinates of the patches 
         '''
         print 'close'
-        header = open('header.txt','a')
+        header = open('log.txt','a')
+        header.write("Image id:%s" % (self.imgid))
+ 
+ 	#Blue Bounding Boxes
+        blue_patches = filter(lambda x: x[4]=='b',self.xy)
         
         ##print self.xy
-
-        #self.xy = filter(lambda x: 0 not in np.shape(x) , self.xy)
-        blue_patches = filter(lambda x: x[4]=='b',self.xy)
+        #Saving to database
+        conn = psycopg2.connect("dbname='dot_pub_cams'")
+        cursor = conn.cursor()
+        cursor.execute("""UPDATE images SET labeled=TRUE, ped_count=%s WHERE id=%s""" % (len(blue_patches), self.imgid))
+        
         for i, blue_patch_list in enumerate(blue_patches):
             topx = blue_patch_list[0]
             topy = blue_patch_list[1]
@@ -151,31 +157,21 @@ class Annotate(object):
             boty = blue_patch_list[3]
             patch_path = self.imgname[:-4] + '_blue_' + str(i) + '.npy'  
             
-            #Saving to database
-            conn = psycopg2.connect("dbname='dot_pub_cams'")
-            cursor = conn.cursor()
-            cursor.execute("""UPDATE images SET labeled=TRUE WHERE id=%s""" % (self.imgid))
-            cursor.execute("""INSERT INTO labels 
-            		      (image, topx, topy, botx, boty, 
-            		       label, patch_path, type )
-            		      VALUES
-            		      (%s, %s, %s, %s, %s, %s, '%s', '%s') 
-            		      """ % (self.imgid, topx, topy, botx, boty, 1, patch_path, "BLUE"))
-            		      
-            # Closing db connections
-            conn.commit()
-            cursor.close()
-            conn.close()
-            
             patch_array = self.img[topy:boty,topx:botx]
             if 0 not in np.shape(patch_array):
+                cursor.execute("""INSERT INTO labels 
+                              (image, topx, topy, botx, boty, 
+                               label, patch_path, type )
+                              VALUES
+                              (%s, %s, %s, %s, %s, %s, '%s', '%s') 
+                              """ % (self.imgid, topx, topy, botx, boty, 1, patch_path, "BLUE"))
+
                 np.save(patch_path, patch_array)
                 
                 header.write("%s" % self.imgname+',')
                 for item in blue_patch_list[:5]:
                     header.write("%s" % item+',')
                 header.write('\n')
-
 
         red_patches = filter(lambda x: x[4]=='r',self.xy)
         for i, red_patch_list in enumerate(red_patches):
@@ -185,24 +181,15 @@ class Annotate(object):
             boty = red_patch_list[3]
             patch_path = self.imgname[:-4] + '_red_' + str(i) + '.npy' 
             
-            #Saving to database
-            conn = psycopg2.connect("dbname='dot_pub_cams'")
-            cursor = conn.cursor()
-            cursor.execute("""UPDATE images SET labeled=TRUE WHERE id=%s""" % (self.imgid))
-            cursor.execute("""INSERT INTO labels 
-            		      (image, topx, topy, botx, boty, 
-            		       label, patch_path, type )
-            		      VALUES
-            		      (%s, %s, %s, %s, %s, %s, '%s', '%s') 
-            		      """ % (self.imgid, topx, topy, botx, boty, 1, patch_path, "RED"))
-            		      
-            # Closing db connections
-            conn.commit()
-            cursor.close()
-            conn.close()
-            
             patch_array = self.img[topy:boty,topx:botx]
             if 0 not in np.shape(patch_array):
+                cursor.execute("""INSERT INTO labels 
+                              (image, topx, topy, botx, boty, 
+                               label, patch_path, type )
+                              VALUES
+                              (%s, %s, %s, %s, %s, %s, '%s', '%s') 
+                              """ % (self.imgid, topx, topy, botx, boty, 1, patch_path, "RED"))
+
                 np.save(patch_path, patch_array)
                 
                 header.write("%s" % self.imgname+',')
@@ -210,16 +197,14 @@ class Annotate(object):
                     header.write("%s" % item+',')
                 header.write('\n')
         
-        # xy = self.xy[0]
-        # patch = img[xy[1]:xy[3],xy[0]:xy[2]]
-        
-        # imgplot = plt.imshow(patch)
-        # plt.show()
+
+        # Closing db connections
+        conn.commit()
+        cursor.close()
+        conn.close()
 
         plt.close()
 
-
-        
     def colorChange(self,event):
         '''
         To change color to take  false positves into consideration - the default is color blue for true postive
