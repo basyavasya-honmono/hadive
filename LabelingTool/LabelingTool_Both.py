@@ -255,15 +255,15 @@ class Annotate(object):
 
         elif event.key == 'control':
             # use control key to decrease the aspect ratio of the patch
-            self.resize(0.95)
+            self.resize(0.85)
 
         elif event.key == '2':
             # use control key to decrease the aspect ratio of the patch
-            self.resize(0.85)
+            self.resize(0.70)
 
         elif event.key == '3':
             # use control key to decrease the aspect ratio of the patch
-            self.resize(0.50)  
+            self.resize(0.40)  
 
         
         elif event.key == 'q': # quit plot, show up the next
@@ -275,26 +275,37 @@ class Annotate(object):
             sys.exit()
     
     def on_click(self, event):
+        
         '''
         Using two diagonally opposite clicks to draw a reactangle 
         '''
+        if self.switchMode == 1:
+            self.i = self.i + 1
+            
+            if self.i%2 == 0:
+                # The first click to mark one point of the rectangle and save the coordinates 
+                print 'click1'
+                self.mx0 = event.xdata
+                self.my0 = self.y0 = event.ydata
+
+            if self.i%2 == 1:    
+                # on second click - the rectangle should show up
+       
+                print 'click2'
+                self.mx1 = event.xdata
+                self.my1 = self.y1 = event.ydata
+                self.drawRect()
        
        
-        self.i = self.i + 1
-        if self.i%2 == 0:
-            # The first click to mark one point of the rectangle and save the coordinates 
+            
+        else:
             print 'click1'
-            self.mx0 = event.xdata
-            self.my0 = self.y0 = event.ydata
-
-        if self.i%2 == 1:    
-            # on second click - the rectangle should show up
-   
-            print 'click2'
-            self.mx1 = event.xdata
-            self.my1 = self.y1 = event.ydata
+            self.xc = event.xdata
+            self.yc = event.ydata
+            # Chosing Aspect Ratio of 3/4
+            self.w = 30.0
+            self.h = 40.0
             self.drawRect()
-
 
        
 
@@ -327,7 +338,7 @@ class Annotate(object):
             # Else Successively drawing one patch will remove the last drawn patch 
             self.ax.figure.canvas.blit(self.ax.bbox)
 
-        if self.switchMode == -1:
+        else:
             self.x0 = self.xc-self.w/2
             self.y0 = self.yc-self.h/2
             self.x1 = self.xc+self.w/2
@@ -350,7 +361,8 @@ class Annotate(object):
             self.ax.draw_artist(self.rect)
             # Blit is used to successively retain and display patches on the screen 
             # Else Successively drawing one patch will remove the last drawn patch 
-            self.ax.figure.canvas.blit(self.ax.bbox)
+            self.ax.figure.canvas.blit(self.ax.bbox)    
+
     
 
     # The following three functions taken from 
