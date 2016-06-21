@@ -33,6 +33,9 @@ class Annotate(object):
         self.mx1 = None
         self.my1 = None
         self.sizeModifier = 1
+        # this is the mode to switch between two modes of using the Labeling Tool
+        # Two-click exists by default
+        # When you enter 'm' key - you move to one-click mode of the tool where resizing,using keys '2', '3' is possible
         self.switchMode = 0
         
         self.w = 30.0
@@ -235,6 +238,7 @@ class Annotate(object):
         # elif event.key == ' ':
         #     self.on_click(event)  
         elif event.key == 'm':
+            # Switch mode
             self.switchMode = self.switchMode*-1
             
 
@@ -280,6 +284,8 @@ class Annotate(object):
         Using two diagonally opposite clicks to draw a reactangle 
         '''
         if self.switchMode == 1:
+            # Two clicks are needed to draw the patch
+
             self.i = self.i + 1
             
             if self.i%2 == 0:
@@ -299,6 +305,7 @@ class Annotate(object):
        
             
         else:
+            # Mode 2 : One click works to draw the patch
             print 'click1'
             self.xc = event.xdata
             self.yc = event.ydata
@@ -312,9 +319,11 @@ class Annotate(object):
     def drawRect(self):
             
         
-        # Set the two diagonally opposite co-ordinates of the patch  by width and height
+        
        
         if self.switchMode == 1:
+            # Two click mode
+            # Set the two top middle point and lower middle point co-ordinates of the patch  by width and height
             self.height = self.y1 - self.y0
             self.width = 3.0/4.0 * self.height
 
@@ -339,6 +348,7 @@ class Annotate(object):
             self.ax.figure.canvas.blit(self.ax.bbox)
 
         else:
+            # One click mode
             self.x0 = self.xc-self.w/2
             self.y0 = self.yc-self.h/2
             self.x1 = self.xc+self.w/2
