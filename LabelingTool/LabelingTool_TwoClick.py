@@ -155,17 +155,17 @@ class Annotate(object):
         #Saving to database
         conn = psycopg2.connect("dbname='dot_pub_cams'")
         cursor = conn.cursor()
-        cursor.execute("""UPDATE images SET labeled=TRUE, ped_count=%s WHERE id=%s""" % (len(blue_patches), self.imgid))
-        
-        for i, blue_patch_list in enumerate(blue_patches):
-            topx = blue_patch_list[0]
-            topy = blue_patch_list[1]
-            botx = blue_patch_list[2]
-            boty = blue_patch_list[3]
-            patch_path = self.imgname[:-4] + '_blue_' + str(i) + '.npy'  
-            
+        blueCount = 0
+        for blue_patch_list in enumerate(blue_patches):
+			topx = blue_patch_list[0]
+	    	topy = blue_patch_list[1]
+	    	botx = blue_patch_list[2]
+	    	boty = blue_patch_list[3]
+	    	
             patch_array = self.img[topy:boty,topx:botx]
             if 0 not in np.shape(patch_array):
+            	patch_path = self.imgname[:-4] + '_blue_' + str(blueCount) + '.npy'  
+                blueCount+=1
                 cursor.execute("""INSERT INTO labels 
                               (image, topx, topy, botx, boty, 
                                label, patch_path, type )
@@ -179,17 +179,22 @@ class Annotate(object):
                 for item in blue_patch_list[:5]:
                     header.write("%s" % item+',')
                 header.write('\n')
-
+	
+        cursor.execute("""UPDATE images SET labeled=TRUE, ped_count=%s WHERE id=%s""" % (blueCount), self.imgid))
+        
         red_patches = filter(lambda x: x[4]=='r',self.xy)
         for i, red_patch_list in enumerate(red_patches):
             topx = red_patch_list[0]
             topy = red_patch_list[1]
             botx = red_patch_list[2]
             boty = red_patch_list[3]
-            patch_path = self.imgname[:-4] + '_red_' + str(i) + '.npy' 
             
             patch_array = self.img[topy:boty,topx:botx]
+            if 0 in np.shape(patch_array):
+            	i-=1
             if 0 not in np.shape(patch_array):
+            	patch_path = self.imgname[:-4] + '_red_' + str(i) + '.npy' 
+            	
                 cursor.execute("""INSERT INTO labels 
                               (image, topx, topy, botx, boty, 
                                label, patch_path, type )
