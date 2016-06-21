@@ -32,7 +32,11 @@ class Annotate(object):
         self.my0 = None
         self.mx1 = None
         self.my1 = None
-        self.sizeModifier = 2
+        self.sizeModifier = 1
+        # this is the mode to switch between two modes of using the Labeling Tool
+        # Two-click exists by default
+        # When you enter 'm' key - you move to one-click mode of the tool where resizing,using keys '2', '3' is possible
+        self.switchMode = 1
         
         self.w = 30.0
         self.h = 40.0
@@ -139,20 +143,7 @@ class Annotate(object):
         '''
         if self.qkey != 'q':
             self.close_plot()
-    def skipCrowd(self):
-	'''Function to skip crowded scene, label them as crowd in the db'''
-
-        conn = psycopg2.connect("dbname='dot_pub_cams'")
-        cursor = conn.cursor()
-        cursor.execute("""UPDATE images SET labeled=TRUE, set_type='crowd' WHERE id=%s""" % (self.imgid))
-
-        # Closing db connections
-        conn.commit()
-        cursor.close()
-        conn.close()
-
-        plt.close()
-        
+    
     def close_plot(self):
         '''
         saving numpy patches and co-ordinates of the patches 
@@ -168,25 +159,23 @@ class Annotate(object):
         #Saving to database
         conn = psycopg2.connect("dbname='dot_pub_cams'")
         cursor = conn.cursor()
-        blueCount = 0
-        for blue_patch_list in enumerate(blue_patches):
-            if len(blue_patch_list) <4:
-	        continue	
-	    topx = blue_patch_list[0]
-	    topy = blue_patch_list[1]
-	    botx = blue_patch_list[2]
-	    boty = blue_patch_list[3]
-	    	
+        cursor.execute("""UPDATE images SET labeled=TRUE, ped_count=%s WHERE id=%s""" % (len(blue_patches), self.imgid))
+        
+        for i, blue_patch_list in enumerate(blue_patches):
+            topx = blue_patch_list[0]
+            topy = blue_patch_list[1]
+            botx = blue_patch_list[2]
+            boty = blue_patch_list[3]
+            patch_path = self.imgname[:-4] + '_blue_' + str(i) + '.npy'  
+            
             patch_array = self.img[topy:boty,topx:botx]
             if 0 not in np.shape(patch_array):
-            	patch_path = self.imgname[:-4] + '_positive_' + str(blueCount) + '.npy'  
-                blueCount+=1
                 cursor.execute("""INSERT INTO labels 
                               (image, topx, topy, botx, boty, 
                                label, patch_path, type )
                               VALUES
                               (%s, %s, %s, %s, %s, %s, '%s', '%s') 
-                              """ % (self.imgid, topx, topy, botx, boty, 1, patch_path, "pos"))
+                              """ % (self.imgid, topx, topy, botx, boty, 1, patch_path, "BLUE"))
 
                 np.save(patch_path, patch_array)
                 
@@ -194,30 +183,23 @@ class Annotate(object):
                 for item in blue_patch_list[:5]:
                     header.write("%s" % item+',')
                 header.write('\n')
-	
-        cursor.execute("""UPDATE images SET labeled=TRUE, ped_count=%s WHERE id=%s""" % (blueCount, self.imgid))
-        
+
         red_patches = filter(lambda x: x[4]=='r',self.xy)
         for i, red_patch_list in enumerate(red_patches):
-            if len(red_patch_list) <4:
-                continue
             topx = red_patch_list[0]
             topy = red_patch_list[1]
             botx = red_patch_list[2]
             boty = red_patch_list[3]
+            patch_path = self.imgname[:-4] + '_red_' + str(i) + '.npy' 
             
             patch_array = self.img[topy:boty,topx:botx]
-            if 0 in np.shape(patch_array):
-            	i-=1
             if 0 not in np.shape(patch_array):
-            	patch_path = self.imgname[:-4] + '_negative_' + str(i) + '.npy' 
-            	
                 cursor.execute("""INSERT INTO labels 
                               (image, topx, topy, botx, boty, 
                                label, patch_path, type )
                               VALUES
                               (%s, %s, %s, %s, %s, %s, '%s', '%s') 
-                              """ % (self.imgid, topx, topy, botx, boty, 1, patch_path, "neg"))
+                              """ % (self.imgid, topx, topy, botx, boty, 1, patch_path, "RED"))
 
                 np.save(patch_path, patch_array)
                 
@@ -254,11 +236,11 @@ class Annotate(object):
 
         # Optional setting for drawing patched using spacebar
         # elif event.key == ' ':
-        #     self.on_click(event)    
+        #     self.on_click(event)  
+        elif event.key == 'm':
+            # Switch mode
+            self.switchMode = self.switchMode*-1
             
-        elif event.key == 'e': # delete
-            # When 'e' key is pressed, escape the image label it as crowd
-            self.skipCrowd()
 
         elif event.key == 'd': # delete
             # When 'd' key is pressed, the latest patch drawn is deleted
@@ -277,15 +259,15 @@ class Annotate(object):
 
         elif event.key == 'control':
             # use control key to decrease the aspect ratio of the patch
-            self.resize(0.95)
+            self.resize(0.85)
 
         elif event.key == '2':
             # use control key to decrease the aspect ratio of the patch
-            self.resize(0.85)
+            self.resize(0.70)
 
         elif event.key == '3':
             # use control key to decrease the aspect ratio of the patch
-            self.resize(0.50)  
+            self.resize(0.40)  
 
         
         elif event.key == 'q': # quit plot, show up the next
@@ -297,57 +279,101 @@ class Annotate(object):
             sys.exit()
     
     def on_click(self, event):
+        
         '''
         Using two diagonally opposite clicks to draw a reactangle 
         '''
+        if self.switchMode == 1:
+            # Two clicks are needed to draw the patch
+
+            self.i = self.i + 1
+            
+            if self.i%2 == 0:
+                # The first click to mark one point of the rectangle and save the coordinates 
+                print 'click1'
+                self.mx0 = event.xdata
+                self.my0 = self.y0 = event.ydata
+
+            if self.i%2 == 1:    
+                # on second click - the rectangle should show up
+       
+                print 'click2'
+                self.mx1 = event.xdata
+                self.my1 = self.y1 = event.ydata
+                self.drawRect()
        
        
-        self.i = self.i + 1
-        if self.i%2 == 0:
-            # The first click to mark one point of the rectangle and save the coordinates 
+            
+        else:
+            # Mode 2 : One click works to draw the patch
             print 'click1'
-            self.mx0 = event.xdata
-            self.my0 = self.y0 = event.ydata
-
-        if self.i%2 == 1:    
-            # on second click - the rectangle should show up
-   
-            print 'click2'
-            self.mx1 = event.xdata
-            self.my1 = self.y1 = event.ydata
+            self.xc = event.xdata
+            self.yc = event.ydata
+            # Chosing Aspect Ratio of 3/4
+            self.w = 30.0
+            self.h = 40.0
             self.drawRect()
-
 
        
 
     def drawRect(self):
             
         
-        # Set the two diagonally opposite co-ordinates of the patch  by width and height
+        
        
+        if self.switchMode == 1:
+            # Two click mode
+            # Set the two top middle point and lower middle point co-ordinates of the patch  by width and height
+            self.height = self.y1 - self.y0
+            self.width = 3.0/4.0 * self.height
+
+            self.x0 = self.mx0 - self.width/2
+            self.x1 = self.mx0 + self.width/2
+            print self.x0, self.x1
+
+
+            
+            self.xy.append([self.x0,self.y0,self.x1,self.y1,self.col])
+            print self.xy
+            
+            # Set the width and height of the rectangle patch as these two alone can characterize the patch
+            self.rect.set_width(self.width)
+            self.rect.set_height(self.height)
+            self.rect.set_xy((self.x0, self.y0))
+            # Set the color of the reactangle - can be blue/red depending on postive/negative label respectively
+            self.rect.set_color(self.col)
+            self.ax.draw_artist(self.rect)
+            # Blit is used to successively retain and display patches on the screen 
+            # Else Successively drawing one patch will remove the last drawn patch 
+            self.ax.figure.canvas.blit(self.ax.bbox)
+
+        else:
+            # One click mode
+            self.x0 = self.xc-self.w/2
+            self.y0 = self.yc-self.h/2
+            self.x1 = self.xc+self.w/2
+            self.y1 = self.yc+self.h/2
+            # set the stated width
+            self.rect.set_width(self.w)
+            # set the stated height 
+            self.rect.set_height(self.h)
+            # set the top left corner
+            self.rect.set_xy((self.x0, self.y0 )) 
+
+            # append to the list of patch co-ordinates
+            self.xy.append([self.x0,self.y0,self.x1,self.y1,self.col,self.xc,self.yc])
+            #print self.xy
+            
+            
+            
+            # Set the color of the reactangle - can be blue/red depending on postive/negative label respectively
+            self.rect.set_color(self.col)
+            self.ax.draw_artist(self.rect)
+            # Blit is used to successively retain and display patches on the screen 
+            # Else Successively drawing one patch will remove the last drawn patch 
+            self.ax.figure.canvas.blit(self.ax.bbox)    
+
     
-        self.height = self.y1 - self.y0
-        self.width = 3.0/4.0 * self.height
-
-        self.x0 = self.mx0 - self.width/2
-        self.x1 = self.mx0 + self.width/2
-        print self.x0, self.x1
-
-
-        
-        self.xy.append([self.x0,self.y0,self.x1,self.y1,self.col])
-        print self.xy
-        
-        # Set the width and height of the rectangle patch as these two alone can characterize the patch
-        self.rect.set_width(self.width)
-        self.rect.set_height(self.height)
-        self.rect.set_xy((self.x0, self.y0))
-        # Set the color of the reactangle - can be blue/red depending on postive/negative label respectively
-        self.rect.set_color(self.col)
-        self.ax.draw_artist(self.rect)
-        # Blit is used to successively retain and display patches on the screen 
-        # Else Successively drawing one patch will remove the last drawn patch 
-        self.ax.figure.canvas.blit(self.ax.bbox)
 
     # The following three functions taken from 
     # http://stackoverflow.com/questions/29277080/efficient-matplotlib-redrawing
