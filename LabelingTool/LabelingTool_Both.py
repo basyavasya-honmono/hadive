@@ -36,7 +36,7 @@ class Annotate(object):
         # this is the mode to switch between two modes of using the Labeling Tool
         # Two-click exists by default
         # When you enter 'm' key - you move to one-click mode of the tool where resizing,using keys '2', '3' is possible
-        self.switchMode = 0
+        self.switchMode = 1
         
         self.w = 30.0
         self.h = 40.0
