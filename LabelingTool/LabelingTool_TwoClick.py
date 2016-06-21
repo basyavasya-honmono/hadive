@@ -139,7 +139,20 @@ class Annotate(object):
         '''
         if self.qkey != 'q':
             self.close_plot()
-    
+    def skipCrowd(self):
+	'''Function to skip crowded scene, label them as crowd in the db'''
+
+        conn = psycopg2.connect("dbname='dot_pub_cams'")
+        cursor = conn.cursor()
+        cursor.execute("""UPDATE images SET labeled=TRUE, set_type='crowd' WHERE id=%s""" % (self.imgid))
+
+        # Closing db connections
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+        plt.close()
+        
     def close_plot(self):
         '''
         saving numpy patches and co-ordinates of the patches 
@@ -157,6 +170,8 @@ class Annotate(object):
         cursor = conn.cursor()
         blueCount = 0
         for blue_patch_list in enumerate(blue_patches):
+            if len(blue_patch_list) <4:
+	        continue	
 	    topx = blue_patch_list[0]
 	    topy = blue_patch_list[1]
 	    botx = blue_patch_list[2]
@@ -164,14 +179,14 @@ class Annotate(object):
 	    	
             patch_array = self.img[topy:boty,topx:botx]
             if 0 not in np.shape(patch_array):
-            	patch_path = self.imgname[:-4] + '_blue_' + str(blueCount) + '.npy'  
+            	patch_path = self.imgname[:-4] + '_positive_' + str(blueCount) + '.npy'  
                 blueCount+=1
                 cursor.execute("""INSERT INTO labels 
                               (image, topx, topy, botx, boty, 
                                label, patch_path, type )
                               VALUES
                               (%s, %s, %s, %s, %s, %s, '%s', '%s') 
-                              """ % (self.imgid, topx, topy, botx, boty, 1, patch_path, "BLUE"))
+                              """ % (self.imgid, topx, topy, botx, boty, 1, patch_path, "pos"))
 
                 np.save(patch_path, patch_array)
                 
@@ -184,6 +199,8 @@ class Annotate(object):
         
         red_patches = filter(lambda x: x[4]=='r',self.xy)
         for i, red_patch_list in enumerate(red_patches):
+            if len(red_patch_list) <4:
+                continue
             topx = red_patch_list[0]
             topy = red_patch_list[1]
             botx = red_patch_list[2]
@@ -193,14 +210,14 @@ class Annotate(object):
             if 0 in np.shape(patch_array):
             	i-=1
             if 0 not in np.shape(patch_array):
-            	patch_path = self.imgname[:-4] + '_red_' + str(i) + '.npy' 
+            	patch_path = self.imgname[:-4] + '_negative_' + str(i) + '.npy' 
             	
                 cursor.execute("""INSERT INTO labels 
                               (image, topx, topy, botx, boty, 
                                label, patch_path, type )
                               VALUES
                               (%s, %s, %s, %s, %s, %s, '%s', '%s') 
-                              """ % (self.imgid, topx, topy, botx, boty, 1, patch_path, "RED"))
+                              """ % (self.imgid, topx, topy, botx, boty, 1, patch_path, "neg"))
 
                 np.save(patch_path, patch_array)
                 
@@ -239,6 +256,9 @@ class Annotate(object):
         # elif event.key == ' ':
         #     self.on_click(event)    
             
+        elif event.key == 'e': # delete
+            # When 'e' key is pressed, escape the image label it as crowd
+            self.skipCrowd()
 
         elif event.key == 'd': # delete
             # When 'd' key is pressed, the latest patch drawn is deleted
