@@ -157,10 +157,10 @@ class Annotate(object):
         cursor = conn.cursor()
         blueCount = 0
         for blue_patch_list in enumerate(blue_patches):
-			topx = blue_patch_list[0]
-	    	topy = blue_patch_list[1]
-	    	botx = blue_patch_list[2]
-	    	boty = blue_patch_list[3]
+	    topx = blue_patch_list[0]
+	    topy = blue_patch_list[1]
+	    botx = blue_patch_list[2]
+	    boty = blue_patch_list[3]
 	    	
             patch_array = self.img[topy:boty,topx:botx]
             if 0 not in np.shape(patch_array):
@@ -180,7 +180,7 @@ class Annotate(object):
                     header.write("%s" % item+',')
                 header.write('\n')
 	
-        cursor.execute("""UPDATE images SET labeled=TRUE, ped_count=%s WHERE id=%s""" % (blueCount), self.imgid))
+        cursor.execute("""UPDATE images SET labeled=TRUE, ped_count=%s WHERE id=%s""" % (blueCount, self.imgid))
         
         red_patches = filter(lambda x: x[4]=='r',self.xy)
         for i, red_patch_list in enumerate(red_patches):
