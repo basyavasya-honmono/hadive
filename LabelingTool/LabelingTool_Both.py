@@ -328,7 +328,7 @@ class Annotate(object):
             self.width = 3.0/4.0 * self.height
 
             self.x0 = self.mx0 - self.width/2
-            self.x1 = self.mx1 + self.width/2
+            self.x1 = self.mx0 + self.width/2
             print self.x0, self.x1
 
 
