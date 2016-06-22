@@ -91,7 +91,7 @@ def rename_and_move(root, image_name, outpath):
     
     print("old path %s"%(image_full_path))
     print("new path %s"%(new_path + image_name))
-    shutil.move(image_full_path, new_path + image_name)
+    shutil.copyfile(image_full_path, new_path + image_name)
     os.chmod(new_path + image_name, 777)
 
 # RENAMING AND INSERTING TO DB
