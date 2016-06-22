@@ -190,7 +190,7 @@ class Annotate(object):
                               """ % (self.imgid, topx, topy, botx, boty, 1, patch_path, "pos"))
 
                 np.save(patch_path, patch_array)
-                os.chmod(patch_path, 777)
+                os.chmod(patch_path, 0777)
                 header.write("%s" % self.imgname+',')
                 for item in blue_patch_list[:5]:
                     header.write("%s" % item+',')
@@ -221,7 +221,7 @@ class Annotate(object):
                               """ % (self.imgid, topx, topy, botx, boty, 1, patch_path, "neg"))
 
                 np.save(patch_path, patch_array)
-                os.chmod(patch_path, 777)
+                os.chmod(patch_path, 0777)
                 header.write("%s" % self.imgname+',')
                 for item in red_patch_list[:5]:
                     header.write("%s" % item+',')
