@@ -48,7 +48,7 @@ def insert_db(camera_name, image_name, time_fields, new_path):
         direction =   time_fields[7] 
     
     # INSERTING IMAGE TO IMAGES TABLE
-    cursor.execute("""INSERT INTO IMAGES(camera, name, year, 
+    cursor.execute("""INSERT INTO tempimage(camera, name, year, 
                       month, day, hour, minute, second, 
                       date_taken, image_path, direction) 
                       VALUES (%s,'%s',%s,%s,%s,%s,%s, %s,
