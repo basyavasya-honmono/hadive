@@ -48,7 +48,7 @@ def insert_db(camera_name, image_name, time_fields, new_path):
         direction =   time_fields[7] 
     
     # INSERTING IMAGE TO IMAGES TABLE
-    cursor.execute("""INSERT INTO IMAGE(camera, name, year, 
+    cursor.execute("""INSERT INTO IMAGES(camera, name, year, 
                       month, day, hour, minute, second, 
                       date_taken, image_path, direction) 
                       VALUES (%s,'%s',%s,%s,%s,%s,%s, %s,
@@ -70,24 +70,25 @@ def rename_and_move(root, image_name, outpath):
     
     #Extracting time fields from an image
     time_fields = get_time(image_full_path)
-    camera_name = image_name[image_name.find('_'):image_name.find('.jpg')]
+
+    camera_name = image_name[ image_name.find('_')+1 : image_name.find('.jpg') ]
     
     #Checking if time fields were present in the image
     if isinstance(time_fields, basestring):
         image_name_split = image_name.split('_')
         time_fields = image_name_split[0].split('-')
 
-    new_path = outpath + '/' + camera_name + '/' + get_path(time_fields)
-    print 'new_path' + new_path
+    new_path = outpath + camera_name + '/' + get_path(time_fields)
+    print new_path
     
     #INSERTING TO DB
-    #insert_db(camera_name, image_name, time_fields, new_path)
+    insert_db(camera_name, image_name, time_fields, new_path)
 
     #Moving to new directory structure
     if not os.path.exists(new_path):
         os.makedirs(new_path)
     
-    #shutil.move(image_full_path, new_path + image_name)
+    shutil.move(image_full_path, new_path + image_name)
 
 # RENAMING AND INSERTING TO DB
 def rename_and_dbinsert(path_file):
