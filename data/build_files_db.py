@@ -89,6 +89,8 @@ def rename_and_move(root, image_name, outpath):
         os.makedirs(new_path)
         os.chmod(new_path, 777)
     
+    print("old path %s"%(image_full_path))
+    print("new path %s"%(new_path + image_name))
     shutil.move(image_full_path, new_path + image_name)
     os.chmod(new_path + image_name, 777)
 
