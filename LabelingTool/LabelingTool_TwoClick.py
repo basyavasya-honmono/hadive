@@ -257,10 +257,14 @@ class Annotate(object):
         # elif event.key == ' ':
         #     self.on_click(event)    
             
-        elif event.key == 'e': # delete
+        elif event.key == 'e': # escape
             # When 'e' key is pressed, escape the image label it as crowd
             self.skipCrowd()
-
+            
+        elif event.key == 's': # skip
+            # When 'e' key is pressed, escape the image label it as crowd
+            plt.close()
+            
         elif event.key == 'd': # delete
             # When 'd' key is pressed, the latest patch drawn is deleted
             self.deletePrevious()
