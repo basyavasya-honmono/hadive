@@ -180,7 +180,7 @@ class Annotate(object):
 	    	
             patch_array = self.img[topy:boty,topx:botx]
             if 0 not in np.shape(patch_array):
-            	patch_path = self.imgname[:-4] + '_positive_' + str(blueCount) + '.npy'  
+            	patch_path = self.imgname[:-4] + '_pos_' + str(blueCount) + '.npy'  
                 blueCount+=1
                 cursor.execute("""INSERT INTO labels 
                               (image, topx, topy, botx, boty, 
@@ -211,7 +211,7 @@ class Annotate(object):
             if 0 in np.shape(patch_array):
             	i-=1
             if 0 not in np.shape(patch_array):
-            	patch_path = self.imgname[:-4] + '_negative_' + str(i) + '.npy' 
+            	patch_path = self.imgname[:-4] + '_neg_' + str(i) + '.npy' 
             	
                 cursor.execute("""INSERT INTO labels 
                               (image, topx, topy, botx, boty, 
