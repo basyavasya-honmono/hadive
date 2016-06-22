@@ -48,7 +48,7 @@ def insert_db(camera_name, image_name, time_fields, new_path):
         direction =   time_fields[7] 
     
     # INSERTING IMAGE TO IMAGES TABLE
-    cursor.execute("""INSERT INTO IMAGE(camera, name, year, 
+    cursor.execute("""INSERT INTO tempimage(camera, name, year, 
                       month, day, hour, minute, second, 
                       date_taken, image_path, direction) 
                       VALUES (%s,'%s',%s,%s,%s,%s,%s, %s,
@@ -65,21 +65,22 @@ def get_path(time_fields):
     return path + '/'
 
 # RENAMING AND MOVING
-def rename_and_move(root, image_name):
+def rename_and_move(root, image_name, outpath):
     image_full_path = os.path.join(root, image_name)
     
     #Extracting time fields from an image
     time_fields = get_time(image_full_path)
+
+    camera_name = image_name[ image_name.find('_')+1 : image_name.find('.jpg') ]
     
     #Checking if time fields were present in the image
     if isinstance(time_fields, basestring):
         image_name_split = image_name.split('_')
         time_fields = image_name_split[0].split('-')
 
-    camera_name = root[root.rfind('/')+1:]
-
-    new_path = root + '/' + get_path(time_fields)
-
+    new_path = outpath + camera_name + '/' + get_path(time_fields)
+    print new_path
+    
     #INSERTING TO DB
     insert_db(camera_name, image_name, time_fields, new_path)
 
@@ -91,19 +92,23 @@ def rename_and_move(root, image_name):
 
 # RENAMING AND INSERTING TO DB
 def rename_and_dbinsert(path_file):
-    path = ''
+    inpath = ''
+    outpath = ''
     with open(path_file) as f:
-        path = f.readlines()[0].rstrip()
-    print path
-    if path!='':
-        for root, dirs, files in os.walk(path):
+        inpath = f.readline().strip()
+        outpath = f.readline().strip()
+    print inpath
+    print outpath
+    if inpath!='':
+        for root, dirs, files in os.walk(inpath):
             #Skipping already processed directories
             for d in dirs:
                 if "2016" in d or len(d)<3:
                     dirs.remove(d)
+            print "started moving"
             for file in files:
                 if file.endswith('.jpg'):
-                    rename_and_move(root, file)
+                    rename_and_move(root, file, outpath)
                     
     else:
         raise AssertionError('Path file is empty!')
