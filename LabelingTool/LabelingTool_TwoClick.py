@@ -139,6 +139,7 @@ class Annotate(object):
         '''
         if self.qkey != 'q':
             self.close_plot()
+    
     def skipCrowd(self):
 	'''Function to skip crowded scene, label them as crowd in the db'''
 
@@ -169,7 +170,7 @@ class Annotate(object):
         conn = psycopg2.connect("dbname='dot_pub_cams'")
         cursor = conn.cursor()
         blueCount = 0
-        for blue_patch_list in enumerate(blue_patches):
+        for blue_patch_list in blue_patches:
             if len(blue_patch_list) <4:
 	        continue	
 	    topx = blue_patch_list[0]
