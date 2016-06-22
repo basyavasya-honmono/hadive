@@ -261,7 +261,7 @@ class Annotate(object):
             # When 'e' key is pressed, escape the image label it as crowd
             self.skipCrowd()
             
-        elif event.key == 's': # skip
+        elif event.key == 't': # skip
             # When 'e' key is pressed, escape the image label it as crowd
             plt.close()
             
