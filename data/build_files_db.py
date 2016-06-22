@@ -105,6 +105,7 @@ def rename_and_dbinsert(path_file):
             for d in dirs:
                 if "2016" in d or len(d)<3:
                     dirs.remove(d)
+            print "started moving"
             for file in files:
                 if file.endswith('.jpg'):
                     rename_and_move(root, file, outpath)
