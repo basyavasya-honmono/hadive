@@ -87,8 +87,12 @@ def rename_and_move(root, image_name, outpath):
     #Moving to new directory structure
     if not os.path.exists(new_path):
         os.makedirs(new_path)
+        os.chmod(new_path, 0777)
     
-    shutil.move(image_full_path, new_path + image_name)
+    print("old path %s"%(image_full_path))
+    print("new path %s"%(new_path + image_name))
+    shutil.copyfile(image_full_path, new_path + image_name)
+    os.chmod(new_path + image_name, 0777)
 
 # RENAMING AND INSERTING TO DB
 def rename_and_dbinsert(path_file):

@@ -180,7 +180,7 @@ class Annotate(object):
 	    	
             patch_array = self.img[topy:boty,topx:botx]
             if 0 not in np.shape(patch_array):
-            	patch_path = self.imgname[:-4] + '_positive_' + str(blueCount) + '.npy'  
+            	patch_path = self.imgname[:-4] + '_pos_' + str(blueCount) + '.npy'  
                 blueCount+=1
                 cursor.execute("""INSERT INTO labels 
                               (image, topx, topy, botx, boty, 
@@ -190,7 +190,7 @@ class Annotate(object):
                               """ % (self.imgid, topx, topy, botx, boty, 1, patch_path, "pos"))
 
                 np.save(patch_path, patch_array)
-                
+                os.chmod(patch_path, 0777)
                 header.write("%s" % self.imgname+',')
                 for item in blue_patch_list[:5]:
                     header.write("%s" % item+',')
@@ -211,7 +211,7 @@ class Annotate(object):
             if 0 in np.shape(patch_array):
             	i-=1
             if 0 not in np.shape(patch_array):
-            	patch_path = self.imgname[:-4] + '_negative_' + str(i) + '.npy' 
+            	patch_path = self.imgname[:-4] + '_neg_' + str(i) + '.npy' 
             	
                 cursor.execute("""INSERT INTO labels 
                               (image, topx, topy, botx, boty, 
@@ -221,7 +221,7 @@ class Annotate(object):
                               """ % (self.imgid, topx, topy, botx, boty, 1, patch_path, "neg"))
 
                 np.save(patch_path, patch_array)
-                
+                os.chmod(patch_path, 0777)
                 header.write("%s" % self.imgname+',')
                 for item in red_patch_list[:5]:
                     header.write("%s" % item+',')
@@ -257,10 +257,14 @@ class Annotate(object):
         # elif event.key == ' ':
         #     self.on_click(event)    
             
-        elif event.key == 'e': # delete
+        elif event.key == 'e': # escape
             # When 'e' key is pressed, escape the image label it as crowd
             self.skipCrowd()
-
+            
+        elif event.key == 't': # skip
+            # When 'e' key is pressed, escape the image label it as crowd
+            plt.close()
+            
         elif event.key == 'd': # delete
             # When 'd' key is pressed, the latest patch drawn is deleted
             self.deletePrevious()
