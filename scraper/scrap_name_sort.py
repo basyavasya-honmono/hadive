@@ -107,7 +107,7 @@ def main(args_limit=720):
         clean_dir = '%s_%s' % (clean_dir, uniq)
     print 'Making New Directories: %s, %s' % (raw_dir, clean_dir)
     os.makedirs(raw_dir)
-    os.makedirs(clean_dir)
+    #os.makedirs(clean_dir)
     args_s = raw_dir+'/'
     args_new_dir = clean_dir+'/'
     print 'Parsing Links'
