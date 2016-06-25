@@ -312,21 +312,23 @@ class Annotate(object):
             # The first click to mark one point of the rectangle and save the coordinates 
             print 'click1'
             self.mx0 = event.xdata
-            self.my0 = self.y0 = event.ydata
+            self.my0 =  event.ydata
 
         if self.i%2 == 1:    
             # on second click - the rectangle should show up
    
             print 'click2'
             self.mx1 = event.xdata
-            self.my1 = self.y1 = event.ydata
+            self.my1 = event.ydata
             self.drawRect()
 
 
        
 
     def drawRect(self):
-            
+        
+        self.mx0, self.y0 = (self.mx0, self.my0) if (self.my1>self.my0) else (self.mx1,self.my1)
+        self.mx1, self.y1 = (self.mx0, self.my0) if (self.my1<self.my0) else (self.mx1,self.my1)
         
         # Set the two diagonally opposite co-ordinates of the patch  by width and height
        
