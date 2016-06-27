@@ -414,7 +414,7 @@ if __name__ == '__main__':
         cursor.execute("""select * from images where labeled=false and id=%s limit 1;"""%(np.random.randint(68250, 177561, 1)[0]))
 
         image_fields = cursor.fetchall()
-        image_fields = image_fields[0]
+        image_fields = image_fields[2]
         imgname = str(image_fields[-5]) + str(image_fields[2])
 	imgid = image_fields[0]
 	# Closing db connections
