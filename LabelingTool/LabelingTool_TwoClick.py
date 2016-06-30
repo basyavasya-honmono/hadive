@@ -50,7 +50,7 @@ class Annotate(object):
         # First event is button press event (on left key click)- 
         # on which on_click function is called
         connect('button_press_event', self.on_click)
-        connect('close_event', self.handle_close)
+        #connect('close_event', self.handle_close)
         
         
         # Second event to draw, in case a mistake in labelling is made, 
@@ -133,12 +133,12 @@ class Annotate(object):
         
         self.drawRect()
 
-    def handle_close(self,event):
-        '''
-        if you ended up closing the plot using the plot's X button instead of 'q' key
-        '''
-        if self.qkey != 'q':
-            self.close_plot()
+    #def handle_close(self,event):
+    #    '''
+    #    if you ended up closing the plot using the plot's X button instead of 'q' key
+    #    '''
+    #    if self.qkey != 'q':
+    #        self.close_plot()
     
     def skipCrowd(self):
 	'''Function to skip crowded scene, label them as crowd in the db'''
