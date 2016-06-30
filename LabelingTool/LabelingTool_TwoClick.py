@@ -188,7 +188,7 @@ class Annotate(object):
                               VALUES
                               (%s, %s, %s, %s, %s, %s, '%s', '%s') 
                               """ % (self.imgid, topx, topy, botx, boty, 1, patch_path, "pos"))
-
+		conn.commit()
                 np.save(patch_path, patch_array)
                 os.chmod(patch_path, 0777)
                 header.write("%s" % self.imgname+',')
@@ -197,7 +197,7 @@ class Annotate(object):
                 header.write('\n')
 	
         cursor.execute("""UPDATE images SET labeled=TRUE, ped_count=%s WHERE id=%s""" % (blueCount, self.imgid))
-        
+        conn.commit()
         red_patches = filter(lambda x: x[4]=='r',self.xy)
         for i, red_patch_list in enumerate(red_patches):
             if len(red_patch_list) <4:
@@ -219,7 +219,7 @@ class Annotate(object):
                               VALUES
                               (%s, %s, %s, %s, %s, %s, '%s', '%s') 
                               """ % (self.imgid, topx, topy, botx, boty, 1, patch_path, "neg"))
-
+		conn.commit()
                 np.save(patch_path, patch_array)
                 os.chmod(patch_path, 0777)
                 header.write("%s" % self.imgname+',')
