@@ -8,9 +8,10 @@ require 'xlua'
 require 'optim'
 print(c.yellow 'starting...')
 local args = lapp [[
-    --save               (default "output/")                     directory to save the model output
-    --model              (default "models/model_baseline.lua")    location of saving the model, full lua filename
-    --batch_size         (default 2)                            minibatch size
+    --save               (default "model_default.net"            save model name)
+    --output_dir         (default "output/")                     directory to save the model output
+    --model              (default "models/model_baseline.lua")   location of saving the model, full lua filename
+    --batch_size         (default 2)                             minibatch size
     --dropout            (default 0.0) 
     --init_weight        (default 0.1)                           random weight initialization limits
     --lr                 (default .001)                          learning rate
@@ -59,18 +60,18 @@ end
 -- load data
 print(c.blue '===>'..' loading data')
 dimage = npy4th.loadnpy(args.train_images):double()
-dlabel = npy4th.loadnpy(args.train_labels):double()
+dlabel = npy4th.loadnpy(args.train_labels):double() + 1
 test_image = npy4th.loadnpy(args.test_images):double()
 test_label = npy4th.loadnpy(args.test_labels):double() + 1
+if args.gpu then dimage = dimage:cuda() end
 if args.gpu then test_image = test_image:cuda() end
 trainset = {}
 function trainset:size() return dimage:size()[1] end
 -- new training methods
 print(c.blue '===>'..' training')
 for e=1, args.epochs do
-    -- classes
+    -- confusion matrix for training
     classes = {'1','2'}
-    -- This matrix records the current confusion across classes
     confusion = optim.ConfusionMatrix(classes)
     rand = torch.randperm(trainset:size()) -- randomize indexes
     for step=1, trainset:size(), args.batch_size do
@@ -79,48 +80,43 @@ for e=1, args.epochs do
         local labels = {}
         local images = {}
         for i=step, math.min(step+args.batch_size, trainset:size()) do
-            -- load a temp table
-            if args.gpu then
-                label = dlabel[rand[i]]
-                image = dimage[rand[i]]:cuda()
-                table.insert(labels, label)
-                table.insert(images, image)
-            else
-                table.insert(labels, dlabel[rand[i]])
-                table.insert(images, dimage[rand[i]])
-            end
-            -- mini-batch evaluation
-            local feval = function(x)
-                    -- new parameters
-                    if x ~= parameters then
-                        parameters:copy(x)
-                    end
-                    -- reset gradients
-                    gradParameters:zero()
-                    -- mean of all the criterions
-                    f = 0
-                    -- evalute for the entire mini-batch
-                    for j=1, #images do
-                        D = images[j]
-                        glabel = labels[j] + 1
-                        -- estimate f (for the entire mini-batch)
-                        local output = model:forward(D)
-                        local err = criterion:forward(output, glabel)
-                        f = f + err
-                        -- compute the derivative and update the model
-                        local df = criterion:backward(output, glabel)
-                        model:backward(D, df)
-                        -- update confusion
-                        confusion:add(output, glabel)
-
-                    end
-                    -- normalize the gradients
-                    gradParameters:div(#images)
-                    f = f/#images
-                    return f, gradParameters
-            end
-            _new_x, _fx , _average = optimMethod(feval, parameters, optimState)     
+            label = dlabel[rand[i]]
+            image = dimage[rand[i]]
+            table.insert(labels, label)
+            table.insert(images, image)
         end
+        -- mini-batch evaluation
+        local feval = function(x)
+            -- new parameters
+            if x ~= parameters then
+                parameters:copy(x)
+            end
+            -- reset gradients
+            gradParameters:zero()
+            -- mean of all the criterions
+            f = 0
+            -- evalute for the entire mini-batch
+            for j=1, #images do
+                D = images[j]
+                glabel = labels[j]
+                -- estimate f (for the entire mini-batch)
+                local output = model:forward(D)
+                local err = criterion:forward(output, glabel)
+                f = f + err
+                -- compute the derivative and update the model
+                local df = criterion:backward(output, glabel)
+                model:backward(D, df)
+                -- update confusion
+                confusion:add(output, glabel)
+
+            end
+            -- normalize the gradients
+            gradParameters:div(#images)
+            f = f/#images
+            return f, gradParameters
+        end
+        _new_x, _fx , _average = optimMethod(feval, parameters, optimState)     
+
     end
     print(c.yellow 'Completed epoch: '..e)
     print(confusion)
@@ -130,7 +126,6 @@ for e=1, args.epochs do
         _confusion = optim.ConfusionMatrix(classes)
         model:evaluate()
         for _t = 1, test_image:size()[1] do
-            -- disp progress
             xlua.progress(_t, test_image:size()[1])
             _input = test_image[_t]
             _target = test_label[_t]
@@ -138,6 +133,8 @@ for e=1, args.epochs do
             _confusion:add(_pred, _target)
         end
         print(_confusion)
+        print('==> Saving model to '..args.output_dir..args.save)
+        torch.save(args.output_dir..args.save, model)
     end
 end
 
