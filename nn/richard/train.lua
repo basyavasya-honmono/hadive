@@ -20,6 +20,8 @@ local args = lapp [[
     --momentum           (default 0)                             SGD only
     --train_images       (default '/home/rnam/Documents/ped/data/20160626_snapshot/tensors/X_dev.npy') training images
     --train_labels       (default '/home/rnam/Documents/ped/data/20160626_snapshot/tensors/y_dev.npy') training labels
+    --test_images        (default '/home/rnam/Documents/ped/data/20160626_snapshot/tensors/X_val.npy') test images
+    --test_labels        (default '/home/rnam/Documents/ped/data/20160626_snapshot/tensors/y_val.npy') test labels
     ]]
 
 print(args)
@@ -37,10 +39,6 @@ optimState = {
     momentum = args.momentum,
     learningRateDecay = 1e-7}
 optimMethod = optim.asgd
--- classes
-classes = {'1','2'}
--- This matrix records the current confusion across classes
-confusion = optim.ConfusionMatrix(classes)
 -- import model
 print(c.blue '===>'..' configuring model')
 if args.gpu then
@@ -62,11 +60,18 @@ end
 print(c.blue '===>'..' loading data')
 dimage = npy4th.loadnpy(args.train_images):double()
 dlabel = npy4th.loadnpy(args.train_labels):double()
+test_image = npy4th.loadnpy(args.test_images):double()
+test_label = npy4th.loadnpy(args.test_labels):double() + 1
+if args.gpu then test_image = test_image:cuda() end
 trainset = {}
 function trainset:size() return dimage:size()[1] end
 -- new training methods
 print(c.blue '===>'..' training')
 for e=1, args.epochs do
+    -- classes
+    classes = {'1','2'}
+    -- This matrix records the current confusion across classes
+    confusion = optim.ConfusionMatrix(classes)
     rand = torch.randperm(trainset:size()) -- randomize indexes
     for step=1, trainset:size(), args.batch_size do
         -- disp progress
@@ -117,8 +122,23 @@ for e=1, args.epochs do
             _new_x, _fx , _average = optimMethod(feval, parameters, optimState)     
         end
     end
-    print(c.red 'Completed epoch: '..e)
+    print(c.yellow 'Completed epoch: '..e)
     print(confusion)
+    -- evaluate the model after N number of epochs
+    if e % 5 == 0 then
+        print(c.red '===>'..' Evaluate at epoch: '..e)
+        _confusion = optim.ConfusionMatrix(classes)
+        model:evaluate()
+        for _t = 1, test_image:size()[1] do
+            -- disp progress
+            xlua.progress(_t, test_image:size()[1])
+            _input = test_image[_t]
+            _target = test_label[_t]
+            local _pred = model:forward(_input)
+            _confusion:add(_pred, _target)
+        end
+        print(_confusion)
+    end
 end
 
 timer = torch.Timer()
