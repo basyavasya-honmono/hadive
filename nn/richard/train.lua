@@ -7,21 +7,25 @@ require 'math'
 require 'xlua'
 require 'optim'
 require 'image'
+--require 'textutils'
+require 'scripts.metrics'
 
 timer = torch.Timer()
 print(c.yellow 'Starting...')
 local args = lapp [[
-    --save               (default "model_default")               save model name
+    --save               (default "dev_m1")                          save model name
     --output_dir         (default "output/")                     directory to save the model output
-    --model              (default "models/model_baseline.lua")   location of saving the model, full lua filename
-    --batch_size         (default 2)                             minibatch size
-    --dropout            (default 0.0) 
-    --init_weight        (default 0.1)                           random weight initialization limits
-    --lr                 (default .001)                          learning rate
+    --model              (default "models/m1.lua")               location of saving the model, full lua filename
+    --batch_size         (default 4)                             minibatch size
     --epochs             (default 4)                             total epochs
     --gpu                                                        train the gru network
-    --weigtDecay         (default 0)                             sgd only
+    --dropout            (default 0.0) 
+    --init_weight        (default 0.1)                           random weight initialization limits
+    --lr                 (default 0.0001)                        learning rate
+    --lrd                (default 0.0)                           learning rate decay
+    --weightDecay        (default 0)                             sgd only
     --momentum           (default 0)                             sgd only
+    --nesterov                                                   enables Nesterov momentum
     --evaluate           (default 5)                             number of epochs before evaluating
     --gkernel            (default 3)                             gaussian kernel for normalization
     --yuv                                                        flag for converting to YUV color 
@@ -32,6 +36,7 @@ local args = lapp [[
     ]]
 
 print(args)
+-- convert to cuda
 if args.gpu then
     print(c.red 'Training on the gpu')
     require 'cunn'
@@ -50,15 +55,21 @@ else
     criterion = nn.ClassNLLCriterion()
     print(model)
 end
-
 -- define optimzation criterion
+print(c.blue '===>'..' Configuring model')
 optimState = {
     learningRate = args.lr,
+    learnRatDecay = args.lrd,
     weightDecay = args.weightDecay,
+    nesterov = args.nesterov,
     momentum = args.momentum,
     learningRateDecay = 1e-7}
-optimMethod = optim.asgd
-print(c.blue '===>'..' Configuring model')
+optimMethod = optim.sgd
+trainlogger = optim.Logger(args.output_dir..args.save..'_train.log')
+testlogger = optim.Logger(args.output_dir..args.save..'_validation.log')
+trainlogger:setNames{'epoch', 'global_acc'}
+testlogger:setNames{'epoch', 'global_acc'}
+
 if model then
    parameters,gradParameters = model:getParameters()
 end
@@ -71,6 +82,8 @@ test_image = npy4th.loadnpy(args.test_images):double()
 test_label = npy4th.loadnpy(args.test_labels):double() + 1
 if args.gpu then dimage = dimage:cuda() end
 if args.gpu then test_image = test_image:cuda() end
+-- store predictions
+test_predictions = torch.zeros(test_label:size()[1])
 
 -- preprocess the data # -- okay
 -- convert to color space
@@ -103,6 +116,7 @@ for i,channel in ipairs(_channels) do
    test_image[{ {},i,{},{} }]:add(-_mean[i])
    test_image[{ {},i,{},{} }]:div(_std[i])
 end
+
 -- normalize training set locally
 kernel = image.gaussian1D(args.gkernel)
 normalization = nn.SpatialContrastiveNormalization(1, kernel):double()
@@ -135,6 +149,8 @@ end
 
 -- new training methods
 print(c.blue '===>'..' Training')
+previous_score = 0.0
+model_best = nil
 for e=1, args.epochs do
     -- confusion matrix for training
     classes = {'1','2'}
@@ -180,11 +196,13 @@ for e=1, args.epochs do
             f = f/#images
             return f, gradParameters
         end
-        _new_x, _fx , _average = optimMethod(feval, parameters, optimState)     
+        --_new_x, _fx , _average = optimMethod(feval, parameters, optimState)  
+        optimMethod(feval, parameters, optimState)  
 
     end
     print(c.yellow 'Completed epoch: '..e)
     print(confusion)
+    trainlogger:add{e, confusion.totalValid * 100}
     -- evaluate the model after N number of epochs
     if e % args.evaluate == 0 then
         print(c.red '===>'..' Evaluate at epoch: '..e)
@@ -196,14 +214,31 @@ for e=1, args.epochs do
             _target = test_label[_t]
             local _pred = model:forward(_input)
             _confusion:add(_pred, _target)
+            maxs, indices = torch.max(_pred:exp():double(), 1)
+            test_predictions[_t] = indices
         end
         print(_confusion)
-        print(c.red '===>'..' Saving model to '..args.output_dir..args.save..'.net')
+        valid_score = _confusion.totalValid * 100
+        testlogger:add{e, valid_score}
+        ftr, ptr, rtr = fpr(test_label, test_predictions)
+        print(c.red'f1: '..ftr..c.red', precision: '..ptr..c.red', recall: '..rtr)
+        print(c.red'===>'..' Saving model to '..args.output_dir..args.save..'.net')
+        -- update best model
+        if model_best==nil then
+            model_best=model:clone()
+        end
+        if previous_score < valid_score then
+            previous_score = valid_score
+            model_best = model:clone()
+            print(c.red'===>'..' Updating best model')
+        end
         dump = {
             model=model,
             mean=_mean,
-            mean=_std,
-            channels=_channels
+            std=_std,
+            channels=_channels,
+            parameters=args,
+            model_best=model_best
             }
         torch.save(args.output_dir..args.save..'.net', dump)
     end
