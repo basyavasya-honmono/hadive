@@ -19,6 +19,7 @@ local args = lapp [[
     --batch_size         (default 4)                             minibatch size
     --epochs             (default 4)                             total epochs
     --gpu                                                        train the gru network
+    --table              (default FALSE)                           table with processed data
     --dropout            (default 0.0) 
     --init_weight        (default 0.1)                           random weight initialization limits
     --lr                 (default 0.0001)                        learning rate
@@ -76,10 +77,21 @@ end
 
 -- load data
 print(c.blue '===>'..' Loading data')
-dimage = npy4th.loadnpy(args.train_images):double()
-dlabel = npy4th.loadnpy(args.train_labels):double() + 1
-test_image = npy4th.loadnpy(args.test_images):double()
-test_label = npy4th.loadnpy(args.test_labels):double() + 1
+if args.table ~= 'FALSE' then
+    print(c.blue '===>'..' Loading from table')
+    counter = torch.load(args.table)
+    print(counter)
+    dimage = counter.data:double()
+    dlabel = counter.labels:double() + 1
+    test_image = npy4th.loadnpy(args.test_images):double()
+    test_label = npy4th.loadnpy(args.test_labels):double() + 1
+else
+    print(c.blue '===>'..' Loading from source')
+    dimage = npy4th.loadnpy(args.train_images):double()
+    dlabel = npy4th.loadnpy(args.train_labels):double() + 1
+    test_image = npy4th.loadnpy(args.test_images):double()
+    test_label = npy4th.loadnpy(args.test_labels):double() + 1
+end
 if args.gpu then dimage = dimage:cuda() end
 if args.gpu then test_image = test_image:cuda() end
 -- store predictions
