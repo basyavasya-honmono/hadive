@@ -22,7 +22,7 @@ local args = lapp [[
     --table              (default FALSE)                           table with processed data
     --dropout            (default 0.0) 
     --init_weight        (default 0.1)                           random weight initialization limits
-    --lr                 (default 0.0001)                        learning rate
+    --lr                 (default 1e-3)                        learning rate
     --lrd                (default 0.0)                           learning rate decay
     --weightDecay        (default 0)                             sgd only
     --momentum           (default 0)                             sgd only
@@ -41,6 +41,7 @@ print(args)
 if args.gpu then
     print(c.red 'Training on the gpu')
     require 'cunn'
+    require 'nn'
     -- import model
     local model = nn.Sequential()
     model:add(dofile(args.model))
