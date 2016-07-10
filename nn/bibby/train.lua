@@ -16,7 +16,7 @@ local args = lapp [[
     --save               (default "dev_m1")                          save model name
     --output_dir         (default "output/")                     directory to save the model output
     --model              (default "models/m1.lua")               location of saving the model, full lua filename
-    --batch_size         (default 4)                             minibatch size
+    --batch_size         (default 100)                             minibatch size
     --epochs             (default 100)                             total epochs
     --gpu                                                        train the gru network
     --table              (default FALSE)                           table with processed data
@@ -45,7 +45,7 @@ if args.gpu then
     local model = nn.Sequential()
     model:add(dofile(args.model))
     model = model:cuda()
-    criterion = nn.ClassNLLCriterion():cuda()
+    criterion = nn.SoftMarginCriterion():cuda()
     print(model)
 else
     print(c.red 'Not training on the gpu')
@@ -53,7 +53,7 @@ else
     -- import model
     local model = nn.Sequential()
     model:add(dofile(args.model))
-    criterion = nn.ClassNLLCriterion()
+    criterion = nn.SoftMarginCriterion()
     print(model)
 end
 -- define optimzation criterion
