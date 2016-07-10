@@ -31,7 +31,7 @@ classifer = nn.Sequential()
 classifer:add(nn.Linear(64*5*3, 600))
 classifer:add(nn.ReLU())
 classifer:add(nn.Linear(600,2))
-classifer:add(nn.LogSoftMax())
+-- classifer:add(nn.LogSoftMax())
 -- -- add the classifier to the model
 model:add(classifer)
 

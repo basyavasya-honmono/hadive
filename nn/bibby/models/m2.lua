@@ -29,7 +29,7 @@ classifer = nn.Sequential()
 classifer:add(nn.Linear(dim, 900))
 classifer:add(nn.ReLU())
 classifer:add(nn.Linear(900,2))
-classifer:add(nn.LogSoftMax())
+-- classifer:add(nn.LogSoftMax())
 
 -- add the classifier to the model
 model:add(classifer)
