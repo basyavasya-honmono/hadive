@@ -70,8 +70,19 @@ if __name__ == '__main__':
         #image = image.astype(np.uint8)
         #image = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
 	
+	winSize = (32,24)
+	blockSize = (16,12)
+	blockStride = (8,6)
+	cellSize = (8,6)
+	nbins = 9
+	derivAperture = 1
+	winSigma = 4.
+	histogramNormType = 0
+	L2HysThreshold = 2.0000000000000001e-01
+	gammaCorrection = 0
+	nlevels = 64
 	x = map(lambda x: cv2.cvtColor((np.load(x)).astype(np.uint8),cv2.COLOR_RGB2GRAY),data)
-	x = map(lambda x: hog.compute(cv2.resize(x,(24,32)),blockSize=(24,32),winSize= (24,32),cellSize=(6,8)),x)
+	x = map(lambda x: hog.compute(cv2.resize(x,(24,32)),blockSize,winSize,cellSize),x)
 	# Set the testing and training data apart
 	X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.6, random_state=0)
 	x_train = map(lambda x: x[0],X_train)

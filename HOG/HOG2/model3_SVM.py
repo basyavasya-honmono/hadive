@@ -27,8 +27,8 @@ if __name__ == '__main__':
                 data = pickle.load(file)
                 data = list(data['path'])
                 
-	pos_path = filter(lambda x: '_pos_' in x, data)[:3000]
-	neg_path = filter(lambda x: '_neg_' in x, data)[:3000]
+	pos_path = filter(lambda x: '_pos_' in x, data)[:]
+	neg_path = filter(lambda x: '_neg_' in x, data)[:len(pos_path)]
 	
 	#files = map(lambda x: pos_path+x, os.listdir(pos_path))[:len(pos_path)] # Create complete imagenames with path
 	#files1 = map(lambda x: neg_path+x, os.listdir(neg_path))[:len(pos_path)]
