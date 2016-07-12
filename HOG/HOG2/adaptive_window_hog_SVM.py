@@ -8,15 +8,22 @@ from matplotlib.axes import Axes
 from matplotlib.lines import Line2D
 from matplotlib.backends.backend_agg import FigureCanvasAgg
 from sklearn.svm import SVC
+from hog_signed_patch import hog_signed_patch
 from hog_signed import hog_signed
 import cv2
 import time
+import random
 from numpy import arange
 from sklearn.cross_validation import train_test_split
 from matplotlib.patches import Rectangle
+from sklearn.cross_validation import train_test_split
+from sklearn.grid_search import GridSearchCV
+from sklearn.metrics import classification_report
+from sklearn.cross_validation import KFold
+
 
 class Annotate(object):
-	def __init__(self, image,name):
+	def __init__(self, image,name,clf):
 		self.img = image
 		self.imgname = name
 		self.i = 1
@@ -90,25 +97,26 @@ class Annotate(object):
 			sys.exit()
 
 	def move_through_image(self,event):
-		print np.shape(img)
+		i = 0
+		print np.shape(self.img)
 		
 		ht = 1
 		hsize = 8
-		hd = 8
 		
-		for ht in range(1,128, 5):
+		#hsize = sorted([8, hd, 52])[1]
+		for ht in range(0,128, 8):
 			
 			
 			
-			if ht+hsize>180:
+			if ht+hsize>200:
 				break
 				
-			for vt in range(1,352,3):
+			for vt in range(0,352,6):
 				self.rect = Rectangle((0,0), 1, 1, alpha = 1,ls = 'solid',fill = False, clip_on = True,color = 'r')
 				self.ax.add_patch(self.rect)
 				
 				
-				if ht in range(1,20):
+				if ht in range(0,20):
 					hsize = 10
 					vsize = int(np.ceil(hsize*3.0/4))
 				elif ht in range(20,50):
@@ -127,13 +135,26 @@ class Annotate(object):
 				if vt+vsize>352:
 					break
 
-				patch_tested = img[ht:hsize,vt:vt+vsize]
-				
-				result = clf.predict()
+				patch_tested = self.img[ht:hsize,vt:vt+vsize]
+				print np.shape(patch_tested)
+				if patch_tested!=[]:
+					hog_features = hog_signed_patch(patch_tested, n_bins = 36, n_x_cell_pixels = 6, n_y_cell_pixels = 8, signed=True,regularize=False)
+					print hog_features
+					results = clf.predict([hog_features])
+					if results[0]==1:
+						self.col = 'b'
+					else:
+						self.col = 'r'
+
+				# print 'number',i
+				# i = i+1
+
+
 				self.rect.set_visible(True)
 				self.rect.set_width(vsize)
 				self.rect.set_height(hsize)
 				self.rect.set_xy((vt,ht))
+				self.rect.set_color(self.col)
 				self.ax.draw_artist(self.rect)
 				time.sleep(0.01)
 				
@@ -196,13 +217,72 @@ class Annotate(object):
 
 
 if __name__ == '__main__':
-	img = mpimg.imread('433.jpg')[60:,:]
-	imgname = '433.jpg'
-	# Create the canvas
-	fig = plt.figure()
-	ax = fig.add_subplot(111)
-	# print type(img)
-	ax.imshow(img)
-	a = Annotate(img,imgname)
 
-	plt.show()
+
+
+	C = 100000000.0
+	gamma = 0.1
+
+	with open('/gws/projects/project-computer_vision_capstone_2016/workspace/share/patch2.pkl') as file:
+                data = pickle.load(file)
+                data = list(data['path'])
+                
+	pos_path = filter(lambda x: '_pos_' in x, data)[:10]
+	neg_path = filter(lambda x: '_neg_' in x, data)[:len(pos_path)]
+	
+	#files = map(lambda x: pos_path+x, os.listdir(pos_path))[:len(pos_path)] # Create complete imagenames with path
+	#files1 = map(lambda x: neg_path+x, os.listdir(neg_path))[:len(pos_path)]
+	allfiles = pos_path + neg_path
+	# randomly shuffle the list
+	allfiles = random.sample(allfiles, len(allfiles))
+	#print allfiles[:10]
+	# set the length of data
+	#print len(allfiles)
+	total = len(pos_path)*2
+	accuracy = []
+	false_neg = []
+	false_pos = []
+	true_pos = []
+	true_neg = []
+
+	false_neg_img = []
+	false_pos_img = []
+	true_pos_img = []
+	true_neg_img = []
+	
+	
+	C_range = np.logspace(-2, 10, 13)
+	gamma_range = np.logspace(-9, 3, 13)
+	data = allfiles[:total]
+	
+	# Create labels for patches
+
+	y = map(lambda x: 1 if '_pos_' in x else 0, data)
+	
+	x = map(lambda x: hog_signed(x, n_bins = 36, n_x_cell_pixels = 6, n_y_cell_pixels = 8, signed=True,regularize=False), data)
+	# Set the testing and training data apart
+	X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.6, random_state=0)
+	x_train = map(lambda x: x[0],X_train)
+	data_train = map(lambda x: x[1],X_train)
+	#print data_train
+	x_test = map(lambda x: x[0],X_test)
+	data_test = map(lambda x:x[1],X_test)
+	
+	classifiers = []
+	print 'supervised'
+	clf = SVC(kernel='rbf',	C = C, gamma = gamma)
+	clf.fit(x_train, y_train)
+	print 'Trained'
+	print 'Enters Test'
+	for imgname in ['433.jpg']:
+
+		img =cv2.imread(imgname,0)[60:,:]
+		
+		# Create the canvas
+		fig = plt.figure()
+		ax = fig.add_subplot(111)
+		# print type(img)
+		ax.imshow(img,cmap="Greys_r")
+		a = Annotate(img,imgname,clf)
+
+		plt.show()
