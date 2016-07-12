@@ -37,7 +37,12 @@ def hog_signed(path,n_bins = 18, n_x_cell_pixels = 6, n_y_cell_pixels = 8, signe
 		hist_angle = 180.0
 
 
-	image = cv2.imread(path,0)
+	image = np.load(path)
+	#print np.shape(image), type(image)
+	#image = np.mean(image, axis=2)
+	image = image.astype(np.uint8)
+	image = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
+	#print np.shape(image),type(image)
 	img = cv2.fastNlMeansDenoising(image)
 	img = cv2.resize(image, (24, 32))
 

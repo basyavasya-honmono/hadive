@@ -23,17 +23,22 @@ from sklearn.metrics import classification_report
 from sklearn.cross_validation import KFold
 
 if __name__ == '__main__':
-	pos_path = "C:\Users\priya\OneDrive\Documents\ComputerVision\HOG/20160626_snapshot_patches.tar/20160626_snapshot_patches/pos/"
-	neg_path = "C:\Users\priya\OneDrive\Documents\ComputerVision\HOG/20160626_snapshot_patches.tar/20160626_snapshot_patches/neg/"
-	files = map(lambda x: pos_path+x, os.listdir(pos_path))[:1000] # Create complete imagenames with path
-	files1 = map(lambda x: neg_path+x, os.listdir(neg_path))[:1000]
-	allfiles = files + files1
+	with open('/gws/projects/project-computer_vision_capstone_2016/workspace/share/patch2.pkl') as file:
+                data = pickle.load(file)
+                data = list(data['path'])
+                
+	pos_path = filter(lambda x: '_pos_' in x, data)[:3000]
+	neg_path = filter(lambda x: '_neg_' in x, data)[:3000]
+	
+	#files = map(lambda x: pos_path+x, os.listdir(pos_path))[:len(pos_path)] # Create complete imagenames with path
+	#files1 = map(lambda x: neg_path+x, os.listdir(neg_path))[:len(pos_path)]
+	allfiles = pos_path + neg_path
 	# randomly shuffle the list
 	allfiles = random.sample(allfiles, len(allfiles))
 	#print allfiles[:10]
 	# set the length of data
 	#print len(allfiles)
-	total = 2000
+	total = len(pos_path)*2
 	accuracy = []
 	false_neg = []
 	false_pos = []
@@ -50,14 +55,14 @@ if __name__ == '__main__':
 	gamma_range = np.logspace(-9, 3, 13)
 	data = allfiles[:total]
 	# 80-20 for test and train
-	n_train = int(0.8*total)
-	n_test = total - n_train
+	#n_train = int(0.8*total)
+	#n_test = total - n_train
 	#tuned_parameters = [{'C': [0.01, 0.03, 0.1, 0.3, 1, 3, 10, 30, 50, 70, 80, 90, 100], 'kernel': ['linear']},{'C': [0.01, 0.03, 0.1, 0.3, 1, 3, 10, 30, 50, 70, 80, 90, 100], 'gamma': [0.001, 0.0001], 'kernel': ['rbf']},]
 
 	
 	# Create label for patches
 
-	y = map(lambda x: 1 if '/pos/' in x else 0, data)
+	y = map(lambda x: 1 if '_pos_' in x else 0, data)
 	
 	x = map(lambda x: hog_signed(x, n_bins = 36, n_x_cell_pixels = 6, n_y_cell_pixels = 8, signed=True,regularize=False), data)
 	# Set the testing and training data apart
@@ -180,7 +185,4 @@ if __name__ == '__main__':
 	
 	
 
-
-
-
-
+	
