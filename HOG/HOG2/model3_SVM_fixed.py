@@ -35,6 +35,8 @@ if __name__ == '__main__':
 	allfiles = pos_path + neg_path
 	# randomly shuffle the list
 	allfiles = random.sample(allfiles, len(allfiles))
+	C = 100.0
+	gamma = 0.1
 	#print allfiles[:10]
 	# set the length of data
 	#print len(allfiles)
@@ -88,7 +90,7 @@ if __name__ == '__main__':
 	false_pos_img = []
 	true_pos_img = []
 	true_neg_img = []
-	clf = SVC(kernel='rbf',	C = 100, gamma = 0.1)
+	clf = SVC(kernel='rbf',	C = C, gamma = gamma)
 	clf.fit(x_train, y_train)
 	print 'The parameters are:'
 	print 'C: ',C,'gamma: ',gamma
