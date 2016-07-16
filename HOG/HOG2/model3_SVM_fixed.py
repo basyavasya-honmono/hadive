@@ -158,20 +158,20 @@ if __name__ == '__main__':
 
 	
 	if sum(accuracy)*100.0/len(y_test)>80.0:
-		with open('accuracy_svm.txt','a') as thefile:
+		with open('accuracy_svm_fixed.txt','a') as thefile:
 			thefile.write("C %s gamma %s" % (C,gamma))
 			thefile.write("\n")
 			for item in accuracy_img:
 				
 				thefile.write("%s\n" % item)
 		
-		with open('false_neg_svm.txt','a') as thefile:
+		with open('false_neg_svm_fixed.txt','a') as thefile:
 			thefile.write("C %s gamma %s" % (C,gamma))
 			thefile.write("\n")
 			for item in false_neg_img:
 				thefile.write("%s\n" % item)
 
-		with open('false_pos_svm.txt','a') as thefile:
+		with open('false_pos_svm_fixed.txt','a') as thefile:
 			thefile.write("C %s gamma %s" % (C,gamma))
 			thefile.write("\n")
 			for item in false_pos_img:
