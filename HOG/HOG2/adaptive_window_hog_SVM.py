@@ -12,6 +12,7 @@ from hog_signed_patch import hog_signed_patch
 from hog_signed import hog_signed
 import cv2
 import time
+import pickle
 import random
 from numpy import arange
 from sklearn.cross_validation import train_test_split
@@ -23,8 +24,9 @@ from sklearn.cross_validation import KFold
 
 
 class Annotate(object):
-	def __init__(self, image,name,clf):
+	def __init__(self, image,img_org,name,clf):
 		self.img = image
+		self.img_org = img_org
 		self.imgname = name
 		self.i = 1
 		self.col = 'b' # deafult color for true positive label
@@ -135,14 +137,17 @@ class Annotate(object):
 				if vt+vsize>352:
 					break
 
-				patch_tested = self.img[ht:hsize,vt:vt+vsize]
-				print np.shape(patch_tested)
+				patch_tested = self.img[ht:ht+hsize,vt:vt+vsize]
+				patch_saved = self.img_org[ht:ht+hsize, vt:vt+vsize]
+				#print np.shape(patch_tested)
 				if patch_tested!=[]:
 					hog_features = hog_signed_patch(patch_tested, n_bins = 36, n_x_cell_pixels = 6, n_y_cell_pixels = 8, signed=True,regularize=False)
-					print hog_features
+					#print hog_features
 					results = clf.predict([hog_features])
 					if results[0]==1:
 						self.col = 'b'
+						i = i + 1
+						np.save(str(i)+'.npy',patch_saved)
 					else:
 						self.col = 'r'
 
@@ -156,10 +161,10 @@ class Annotate(object):
 				self.rect.set_xy((vt,ht))
 				self.rect.set_color(self.col)
 				self.ax.draw_artist(self.rect)
-				time.sleep(0.01)
+				time.sleep(0.1)
 				
 				#self.grab_background()
-				self.rect.set_visible(False)
+				#self.rect.set_visible(False)
 				self.ax.figure.canvas.blit(self.ax.bbox)
 
 				self.ax.figure.canvas.restore_region(self.background)
@@ -220,15 +225,15 @@ if __name__ == '__main__':
 
 
 
-	C = 100000000.0
+	C = 1000.0
 	gamma = 0.1
 
 	with open('/gws/projects/project-computer_vision_capstone_2016/workspace/share/patch2.pkl') as file:
                 data = pickle.load(file)
                 data = list(data['path'])
                 
-	pos_path = filter(lambda x: '_pos_' in x, data)[:10]
-	neg_path = filter(lambda x: '_neg_' in x, data)[:len(pos_path)]
+	pos_path = filter(lambda x: '_pos_' in x, data)[:200]
+	neg_path = filter(lambda x: '_neg_' in x, data)[:200]
 	
 	#files = map(lambda x: pos_path+x, os.listdir(pos_path))[:len(pos_path)] # Create complete imagenames with path
 	#files1 = map(lambda x: neg_path+x, os.listdir(neg_path))[:len(pos_path)]
@@ -238,7 +243,8 @@ if __name__ == '__main__':
 	#print allfiles[:10]
 	# set the length of data
 	#print len(allfiles)
-	total = len(pos_path)*2
+	acc = 0
+	total = len(pos_path) + len(neg_path)
 	accuracy = []
 	false_neg = []
 	false_pos = []
@@ -270,19 +276,51 @@ if __name__ == '__main__':
 	
 	classifiers = []
 	print 'supervised'
-	clf = SVC(kernel='rbf',	C = C, gamma = gamma)
-	clf.fit(x_train, y_train)
+    
+        accuracy = []
+        false_neg = []
+        false_pos = []
+        true_pos = []
+	true_neg = []
+
+        false_neg_img = []
+        false_pos_img = []
+        true_pos_img = []
+        true_neg_img = []
+
+
+        clf = SVC(kernel='rbf',C = C, gamma = gamma)
+        clf.fit(x_train, y_train)
+
+	   
+		
+
+
+	# 		#print 'hi'
+	# #print len(y_test)
+	# #print sum(yes)
+	
+
+
+
+
+
+	#		print 'The accuracy is: ',sum(accuracy)*100.0/len(y_test)
+
+
 	print 'Trained'
 	print 'Enters Test'
+	clf = SVC(kernel="rbf",C = C,gamma = gamma)
+	clf.fit(x_test+x_train, y_test+y_train)
 	for imgname in ['433.jpg']:
-
-		img =cv2.imread(imgname,0)[60:,:]
+		img_org = cv2.imread(imgname,1)[60:,:]
+		img = cv2.imread(imgname,0)[60:,:]
 		
 		# Create the canvas
 		fig = plt.figure()
 		ax = fig.add_subplot(111)
 		# print type(img)
 		ax.imshow(img,cmap="Greys_r")
-		a = Annotate(img,imgname,clf)
+		a = Annotate(img,img_org,imgname,clf)
 
 		plt.show()

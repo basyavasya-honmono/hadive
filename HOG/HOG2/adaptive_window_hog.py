@@ -127,9 +127,9 @@ class Annotate(object):
 				if vt+vsize>352:
 					break
 
-				patch_tested = img[ht:hsize,vt:vt+vsize]
+				#patch_tested = img[ht:hsize,vt:vt+vsize]
 				
-				result = clf.predict()
+				#result = clf.predict()
 				self.rect.set_visible(True)
 				self.rect.set_width(vsize)
 				self.rect.set_height(hsize)

@@ -1,3 +1,0 @@
-  File "model3_SVM.py", line 189
-    break	
-SyntaxError: 'break' outside loop

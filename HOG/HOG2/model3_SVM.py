@@ -27,7 +27,7 @@ if __name__ == '__main__':
                 data = pickle.load(file)
                 data = list(data['path'])
                 
-	pos_path = filter(lambda x: '_pos_' in x, data)[:]
+	pos_path = filter(lambda x: '_pos_' in x, data)
 	neg_path = filter(lambda x: '_neg_' in x, data)[:len(pos_path)]
 	
 	#files = map(lambda x: pos_path+x, os.listdir(pos_path))[:len(pos_path)] # Create complete imagenames with path
@@ -149,16 +149,19 @@ if __name__ == '__main__':
 
 
 
-
-			print 'The accuracy is: ',sum(accuracy)*100.0/len(y_test)
-			print 'The false pos is: ',sum(false_pos)*100.0/len(y_test)
-			print 'The false neg is: ', sum(false_neg)*100.0/len(y_test)
-			print 'Precision: ', precision
-			print 'Recall: ',recall
-			print 'Miss rate:', sum(false_neg)*100.0/sum(y_test)
-			print 'Fall-out:', sum(false_pos)*100.0/(len(y_test)-sum(y_test))
-			print 'Specificity: ',sum(false_neg)*100.0/(len(y_test)-sum(y_test))
-			print '\n'
+			with open('results_svm.txt','a') as file:
+				file.write('\n')
+				file.write('C %s gamma %s'%(C,gamma))
+				file.write('\n')
+				file.write('The accuracy is:%s '% str(sum(accuracy)*100.0/len(y_test)))
+				file.write('The false pos is: %s' % str(sum(false_pos)*100.0/len(y_test)))
+				file.write('The false neg is:%s '% str(sum(false_neg)*100.0/len(y_test)))
+				file.write('Precision:%s '% str(precision))
+				file.write('Recall: %s'% str(recall))
+				file.write('Miss rate:%s'% str(sum(false_neg)*100.0/sum(y_test)))
+				file.write('Fall-out:%s'% str(sum(false_pos)*100.0/(len(y_test)-sum(y_test))))
+				file.write('Specificity:%s '% str(sum(false_neg)*100.0/(len(y_test)-sum(y_test))))
+				file.write('\n')
 
 			
 			if sum(accuracy)*100.0/len(y_test)>80.0:
