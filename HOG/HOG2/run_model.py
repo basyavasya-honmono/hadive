@@ -80,21 +80,21 @@ if __name__ == '__main__':
 	
 	classifiers = []
 	print 'supervised'
-    
-        accuracy = []
-        false_neg = []
-        false_pos = []
-        true_pos = []
+
+	accuracy = []
+	false_neg = []
+	false_pos = []
+	true_pos = []
 	true_neg = []
 
-        false_neg_img = []
-        false_pos_img = []
-        true_pos_img = []
-        true_neg_img = []
+	false_neg_img = []
+	false_pos_img = []
+	true_pos_img = []
+	true_neg_img = []
 
 
-        clf = SVC(kernel='rbf',C = C, gamma = gamma)
-        clf.fit(x_train+x_test, y_train+y_test)
+	clf = SVC(kernel='rbf',C = C, gamma = gamma)
+	clf.fit(x_train+x_test, y_train+y_test)
 	import pickle
 	from sklearn.externals import joblib
 	joblib.dump(clf, 'clf.pkl') 
