@@ -56,8 +56,8 @@ else
     criterion = nn.CrossEntropyCriterion()
     print(model)
 end
--- define optimzation criterion
-print(c.blue '===>'..' Configuring model')
+-- define optimzation criterion and parameters
+print(c.blue '===>'..' Configuring training method')
 optimState = {
     learningRate = args.lr,
     learnRatDecay = args.lrd,
@@ -163,55 +163,32 @@ end
 print(c.blue '===>'..' Training')
 previous_score = 0.0
 model_best = nil
+classes = {'1','2'}
 for e=1, args.epochs do
-    -- confusion matrix for training
-    classes = {'1','2'}
     confusion = optim.ConfusionMatrix(classes)
-    rand = torch.randperm(dimage:size()[1]) -- randomize indexes
-    for step=1, dimage:size()[1], args.batch_size do
-        -- disp progress
-        xlua.progress(step, dimage:size()[1])
-        local labels = {}
-        local images = {}
-        for i=step, math.min(step+args.batch_size-1, dimage:size()[1]) do
-            label = dlabel[rand[i]]
-            image = dimage[rand[i]]
-            table.insert(labels, label)
-            table.insert(images, image)
-        end
-        -- mini-batch evaluation
+    local targets = torch.CudaTensor(args.batch_size)
+    --local targets = torch.Tensor(args.batch_size)
+    local indices = torch.randperm(dimage:size(1)):long():split(args.batch_size)
+    -- remove last element so that all the batches have equal size
+    indices[#indices] = nil
+    local tic = torch.tic()
+    for t,v in ipairs(indices) do
+        xlua.progress(t, #indices)
+        local inputs = dimage:index(1,v)
+        targets:copy(dlabel:index(1,v))
         local feval = function(x)
-            -- new parameters
-            if x ~= parameters then
-                parameters:copy(x)
-            end
-            -- reset gradients
-            gradParameters:zero()
-            -- mean of all the criterions
-            f = 0
-            -- evalute for the entire mini-batch
-            for j=1, #images do
-                D = images[j]
-                glabel = labels[j]
-                -- estimate f (for the entire mini-batch)
-                local output = model:forward(D)
-                local err = criterion:forward(output, glabel)
-                f = f + err
-                -- compute the derivative and update the model
-                local df = criterion:backward(output, glabel)
-                model:backward(D, df)
-                -- update confusion
-                confusion:add(output, glabel)
-            end
-            -- normalize the gradients
-            gradParameters:div(#images)
-            f = f/#images
-            return f, gradParameters
+          if x ~= parameters then parameters:copy(x) end
+          gradParameters:zero()
+          local outputs = model:forward(inputs)
+          local f = criterion:forward(outputs, targets)
+          local df_do = criterion:backward(outputs, targets)
+          model:backward(inputs, df_do)
+          confusion:batchAdd(outputs, targets)
+          return f,gradParameters
         end
-        --_new_x, _fx , _average = optimMethod(feval, parameters, optimState)  
-        optimMethod(feval, parameters, optimState)  
-
+        optim.sgd(feval, parameters, optimState)
     end
+    confusion:updateValids()
     print(c.yellow 'Completed epoch: '..e)
     print(confusion)
     trainlogger:add{e, confusion.totalValid * 100}
@@ -220,15 +197,12 @@ for e=1, args.epochs do
     if e % args.evaluate == 0 then
         print(c.red '===>'..' Evaluate at epoch: '..e)
         _confusion = optim.ConfusionMatrix(classes)
-        local model:evaluate()
-        for _t = 1, test_image:size()[1] do
-            xlua.progress(_t, test_image:size()[1])
-            _input = test_image[_t]
-            _target = test_label[_t]
-            local _pred = model:forward(_input)
-            _confusion:add(_pred, _target)
-            maxs, indices = torch.max(_pred:exp():double(), 1)
-            test_predictions[_t] = indices
+        model:evaluate()
+        for i=1,test_image:size()[1],args.batch_size do
+            _upper = math.min(test_image:size()[1]-i, args.batch_size)
+            local outputs = model:forward(test_image:narrow(1,i,_upper))
+            _confusion:batchAdd(outputs, test_label:narrow(1,i,_upper))
+            xlua.progress(i, test_image:size()[1])
         end
         print(_confusion)
         valid_score = _confusion.totalValid * 100
@@ -236,6 +210,7 @@ for e=1, args.epochs do
         testlogger:add{e, valid_score, ftr, ptr, rtr}
         print(c.red'f1: '..ftr..c.red', precision: '..ptr..c.red', recall: '..rtr)
         print(c.red'===>'..' Saving model to '..args.output_dir..args.save..'.net')
+        confusion:zero()
         -- update best model
         if model_best==nil then
             model_best=model:clone()
@@ -254,11 +229,10 @@ for e=1, args.epochs do
             channels=_channels,
             parameters=args,
             model_best=model_best,
-            model_best_epoch=model_best_epoch,
-            kernel=args.gkernel
+            model_best_epoch=model_best_epoch
             }
         torch.save(args.output_dir..args.save..'.net', dump)
-        _confusion:zero()
+        model:training()
     end
 end
 
