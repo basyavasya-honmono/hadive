@@ -52,7 +52,7 @@ if __name__ == '__main__':
 	
 	
 	C_range = np.logspace(1, 3, 30)
-	gamma_range = np.logspace(3, 5, 50)
+	gamma_range = np.logspace(-3, 3, 50)
 	data = allfiles[:total]
 	# 80-20 for test and train
 	#n_train = int(0.8*total)
