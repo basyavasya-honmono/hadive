@@ -66,7 +66,7 @@ boxes[3].height=29-1
 
 print('CREATING CUDA MODEL')
 -- import the model table
-model_table = torch.load('/home/rnam/Documents/ped/run/output/20160710_full_aug_balanced_m7.net')
+model_table = torch.load('/home/{USER}/model.net')
 --model_table = torch.load('/home/rnam/Documents/ped/run/output/20160712_full_aug_balanced_m8.net')
 -- pull the best model and convert to a double, pull the mean and std and channels
 model = model_table.model_best:double()
@@ -78,7 +78,7 @@ model_cuda = model:cuda()
 
 
 -- images
-root = '/home/rnam/Documents/ped/data/images/'
+root = '/home/{USER}/images/'
 images = scandir(root)
 
 

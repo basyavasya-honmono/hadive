@@ -30,10 +30,10 @@ local args = lapp [[
     --evaluate           (default 5)                             number of epochs before evaluating
     --gkernel            (default 3)                             gaussian kernel for normalization
     --yuv                                                        flag for converting to YUV color 
-    --train_images       (default '/home/rnam/Documents/ped/data/20160626_snapshot/tensors/X_dev.npy') training images
-    --train_labels       (default '/home/rnam/Documents/ped/data/20160626_snapshot/tensors/y_dev.npy') training labels
-    --test_images        (default '/home/rnam/Documents/ped/data/20160708_snapshot/tensors/X_val.npy') test images
-    --test_labels        (default '/home/rnam/Documents/ped/data/20160708_snapshot/tensors/y_val.npy') test labels
+    --train_images       (default '/home/{USER}/X_dev.npy') training images
+    --train_labels       (default '/home/{USER}/y_dev.npy') training labels
+    --test_images        (default '/home/{USER}/X_val.npy') test images
+    --test_labels        (default '/home/{USER}/y_val.npy') test labels
     ]]
 
 print(args)
