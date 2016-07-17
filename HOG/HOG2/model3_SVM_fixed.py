@@ -66,7 +66,7 @@ if __name__ == '__main__':
 
 	y = map(lambda x: 1 if '_pos_' in x else 0, data)
 	
-	x = map(lambda x: hog_signed(x, n_bins = 36, n_x_cell_pixels = 6, n_y_cell_pixels = 8, signed=True,regularize=False), data)
+	x = map(lambda x: hog_signed(x, n_bins = 18, n_x_cell_pixels = 3, n_y_cell_pixels = 4, signed=True,regularize=False), data)
 	# Set the testing and training data apart
 	X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.6, random_state=0)
 	x_train = map(lambda x: x[0],X_train)
@@ -160,13 +160,21 @@ if __name__ == '__main__':
 
 	
 	if sum(accuracy)*100.0/len(y_test)>80.0:
-		with open('accuracy_svm_fixed.txt','a') as thefile:
+		with open('true_pos_svm_fixed.txt','a') as thefile:
 			thefile.write("C %s gamma %s" % (C,gamma))
 			thefile.write("\n")
-			for item in accuracy_img:
+			for item in true_pos_img:
 				
 				thefile.write("%s\n" % item)
 		
+
+		with open('true_neg_svm_fixed.txt','a') as thefile:
+			thefile.write("C %s gamma %s"%(C,gamma))
+			thefile.write("\n")
+			for item in true_neg_img:
+				thefile.write("%s\n"%item)
+
+
 		with open('false_neg_svm_fixed.txt','a') as thefile:
 			thefile.write("C %s gamma %s" % (C,gamma))
 			thefile.write("\n")

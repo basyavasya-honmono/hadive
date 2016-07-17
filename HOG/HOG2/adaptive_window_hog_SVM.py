@@ -232,8 +232,9 @@ if __name__ == '__main__':
                 data = pickle.load(file)
                 data = list(data['path'])
                 
-	pos_path = filter(lambda x: '_pos_' in x, data)[:200]
-	neg_path = filter(lambda x: '_neg_' in x, data)[:200]
+	pos_path = filter(lambda x: '_pos_' in x, data)[:]
+	neg_path = filter(lambda x: '_neg_' in x, data)[:len(pos_path)]
+
 	
 	#files = map(lambda x: pos_path+x, os.listdir(pos_path))[:len(pos_path)] # Create complete imagenames with path
 	#files1 = map(lambda x: neg_path+x, os.listdir(neg_path))[:len(pos_path)]
@@ -291,7 +292,10 @@ if __name__ == '__main__':
 
         clf = SVC(kernel='rbf',C = C, gamma = gamma)
         clf.fit(x_train, y_train)
-
+	import pickle
+	from sklearn.externals import joblib
+	joblib.dump(clf, 'clf.pkl') 
+#	s = pickle.dumps(clf)
 	   
 		
 

@@ -51,8 +51,8 @@ if __name__ == '__main__':
 	true_neg_img = []
 	
 	
-	C_range = np.logspace(-2, 10, 13)
-	gamma_range = np.logspace(-9, 3, 13)
+	C_range = np.logspace(1, 3, 30)
+	gamma_range = np.logspace(3, 5, 50)
 	data = allfiles[:total]
 	# 80-20 for test and train
 	#n_train = int(0.8*total)
@@ -64,7 +64,7 @@ if __name__ == '__main__':
 
 	y = map(lambda x: 1 if '_pos_' in x else 0, data)
 	
-	x = map(lambda x: hog_signed(x, n_bins = 36, n_x_cell_pixels = 6, n_y_cell_pixels = 8, signed=True,regularize=False), data)
+	x = map(lambda x: hog_signed(x, n_bins = 18, n_x_cell_pixels = 3, n_y_cell_pixels = 4, signed=True,regularize=False), data)
 	# Set the testing and training data apart
 	X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.6, random_state=0)
 	x_train = map(lambda x: x[0],X_train)
