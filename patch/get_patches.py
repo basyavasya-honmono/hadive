@@ -8,12 +8,16 @@ def get_patches():
   width = 352
 	height = 240
 	# Due to the fixed ration of 3:4 width to hight fixing the maximal width that could be used for a patch
-	maxwidth = int(height*0.75)
+	# Original limitation 
+	# maxwidth = int(height*0.75)
+	# Limiatation from the patch distribution
+	maxwidth = 40
+	minwidth = 10
 	# patches will be added here
 	patches = []
 	
 	# Going over the sizes of the patches
-	for size in range (10, maxwidth):
+	for size in range (minwidth, maxwidth):
 		# going over the x coordinate
 		for w in range (0, width - size):
 			y = int(size*1.33)
