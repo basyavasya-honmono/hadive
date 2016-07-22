@@ -236,7 +236,7 @@ if __name__ == '__main__':
 		fig = plt.figure()
 		ax = fig.add_subplot(111)
 		# print type(img)
-		ax.imshow(img,cmap="Greys_r")
+		ax.imshow(img,cmap="Greys_r",interpolation="nearest")
 		a = Annotate(img,img_org,imgname,model)
 
 		plt.show()
