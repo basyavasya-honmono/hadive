@@ -100,36 +100,27 @@ def main(args_limit=720):
     now = datetime.datetime.now()
     timestamp = now.strftime("%Y-%m-%d")
     raw_dir = '%s_raw_images' % timestamp
-    clean_dir = '%s_clean_images' % timestamp
     if os.path.exists(raw_dir):
         uniq = str(uuid.uuid4())
         raw_dir = '%s_%s' % (raw_dir, uniq)
-        clean_dir = '%s_%s' % (clean_dir, uniq)
     print 'Making New Directory: %s' % (raw_dir)
     os.makedirs(raw_dir)
-    #os.makedirs(clean_dir)
     args_s = raw_dir+'/'
-    args_new_dir = clean_dir+'/'
     print 'Parsing Links'
     links = Links(args_links)
     print 'Creating Data Structure'
     graph = UrlLocation(links)
     print 'Scraping Data'
     callImage(graph, args_s, args_limit)
-    # print 'Updating File Names'
-    # newFileName(args_s, args_new_dir)
     print 'Done!!!'
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    # parser.add_argument('-links', dest='links', help='file with links')
     parser.add_argument('-limit', dest='limit', type=int, help='the pages to scrap')
-    # parser.add_argument('--feature', dest='feature', action='store_true')
     parser.add_argument('-f', dest='f', action='store_true', help='run a one off')
     args = parser.parse_args()
-    # main(args.links, args.limit)
-
+    
     print 'Starting'
     if args.f:
         print 'Starting one off'
