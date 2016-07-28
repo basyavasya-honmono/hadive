@@ -17,9 +17,10 @@ def quit(event):
 		sys.exit()
 
 if __name__ == '__main__':
-	with open('true_neg_svm_fixed.txt') as file:
+	with open('false_pos_svm_fixed.txt') as file:
 		img_list = file.readlines()
 		img_list = filter(lambda x: x[:2]!='C ',img_list)
+		print len(img_list)
 		for img in img_list:
 			fig, ax = plt.subplots()
 			fig.canvas.mpl_connect('key_press_event', quit)

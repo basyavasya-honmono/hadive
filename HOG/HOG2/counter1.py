@@ -13,6 +13,7 @@ from hog_signed import hog_signed
 import cv2
 import time
 import pickle
+from sklearn.externals import joblib
 import random
 from numpy import arange
 from sklearn.cross_validation import train_test_split
@@ -26,6 +27,8 @@ from sklearn.cross_validation import KFold
 class Annotate(object):
 	def __init__(self, image,img_org,name,clf):
 		self.img = image
+		self.clf = clf
+		self.count = 0
 		self.img_org = img_org
 		self.imgname = name
 		self.i = 1
@@ -143,7 +146,7 @@ class Annotate(object):
 				if patch_tested!=[]:
 					hog_features = hog_signed_patch(patch_tested, n_bins = 36, n_x_cell_pixels = 6, n_y_cell_pixels = 8, signed=True,regularize=False)
 					#print hog_features
-					results = clf.predict([hog_features])
+					results = self.clf.predict([hog_features])
 					if results[0]==1:
 						self.col = 'b'
 						i = i + 1
@@ -223,96 +226,9 @@ class Annotate(object):
 
 if __name__ == '__main__':
 
+	model = joblib.load('clf.pkl')
 
-
-	C = 1000.0
-	gamma = 0.1
-
-	with open('/gws/projects/project-computer_vision_capstone_2016/workspace/share/patch2.pkl') as file:
-                data = pickle.load(file)
-                data = list(data['path'])
-                
-	pos_path = filter(lambda x: '_pos_' in x, data)[:200]
-	neg_path = filter(lambda x: '_neg_' in x, data)[:200]
-	
-	#files = map(lambda x: pos_path+x, os.listdir(pos_path))[:len(pos_path)] # Create complete imagenames with path
-	#files1 = map(lambda x: neg_path+x, os.listdir(neg_path))[:len(pos_path)]
-	allfiles = pos_path + neg_path
-	# randomly shuffle the list
-	allfiles = random.sample(allfiles, len(allfiles))
-	#print allfiles[:10]
-	# set the length of data
-	#print len(allfiles)
-	acc = 0
-	total = len(pos_path) + len(neg_path)
-	accuracy = []
-	false_neg = []
-	false_pos = []
-	true_pos = []
-	true_neg = []
-
-	false_neg_img = []
-	false_pos_img = []
-	true_pos_img = []
-	true_neg_img = []
-	
-	
-	C_range = np.logspace(-2, 10, 13)
-	gamma_range = np.logspace(-9, 3, 13)
-	data = allfiles[:total]
-	
-	# Create labels for patches
-
-	y = map(lambda x: 1 if '_pos_' in x else 0, data)
-	
-	x = map(lambda x: hog_signed(x, n_bins = 36, n_x_cell_pixels = 6, n_y_cell_pixels = 8, signed=True,regularize=False), data)
-	# Set the testing and training data apart
-	X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.6, random_state=0)
-	x_train = map(lambda x: x[0],X_train)
-	data_train = map(lambda x: x[1],X_train)
-	#print data_train
-	x_test = map(lambda x: x[0],X_test)
-	data_test = map(lambda x:x[1],X_test)
-	
-	classifiers = []
-	print 'supervised'
-    
-        accuracy = []
-        false_neg = []
-        false_pos = []
-        true_pos = []
-	true_neg = []
-
-        false_neg_img = []
-        false_pos_img = []
-        true_pos_img = []
-        true_neg_img = []
-
-
-        clf = SVC(kernel='rbf',C = C, gamma = gamma)
-        clf.fit(x_train, y_train)
-
-	   
-		
-
-
-	# 		#print 'hi'
-	# #print len(y_test)
-	# #print sum(yes)
-	
-
-
-
-
-
-	#		print 'The accuracy is: ',sum(accuracy)*100.0/len(y_test)
-
-
-	print 'Trained'
-	print 'Enters Test'
-	clf = SVC(kernel="rbf",C = C,gamma = gamma)
-	clf.fit(x_test+x_train, y_test+y_train)
-	for imgname in ['433.jpg']:
+	for imgname in os.listdir('images/'):
 		img_org = cv2.imread(imgname,1)[60:,:]
 		img = cv2.imread(imgname,0)[60:,:]
 		
@@ -320,7 +236,8 @@ if __name__ == '__main__':
 		fig = plt.figure()
 		ax = fig.add_subplot(111)
 		# print type(img)
-		ax.imshow(img,cmap="Greys_r")
-		a = Annotate(img,img_org,imgname,clf)
+		ax.imshow(img,cmap="Greys_r",interpolation="nearest")
+		a = Annotate(img,img_org,imgname,model)
 
 		plt.show()
+	
