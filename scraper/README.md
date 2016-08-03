@@ -12,7 +12,7 @@ This will run the scraper in the starting at 7:30 am. To run the scraper for a f
 python runScrape.py -f -limit 60
 ```
 
-Inline here the `-f` flag runs the scraper instantly after executing the command. The `-limit` flag assigns the number of minutes to run the scraper. In the example above, the scraper will be run for 60 mins. 
+Here the `-f` flag runs the scraper instantly after executing the command. The `-limit` flag assigns the number of minutes to run the scraper. In the example above, the scraper will be run for 60 mins. 
 
 
 
