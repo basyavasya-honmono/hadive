@@ -6,7 +6,7 @@ To run this web scraper two things are needed. First a **links.txt** file that h
 python runScrape.py
 ```
 
-This will run the scraper in the starting at 7:30 am. To run the scraper for a fixed amount of time and with a instant start time, run this command in terminal
+This will run the scraper in the starting at 7:30 am for 720 mins (12 hours). To run the scraper for a fixed amount of time and with a instant start time, run this command in terminal
 
 ```
 python runScrape.py -f -limit 60
