@@ -6,4 +6,6 @@
 + **batchtrain.lua:** Network training with Batch Normalization and SGD
 + **imageParamid.lua:** Pedestrian dectection with exhaustive search
 
-
+### Dependencies
+1. Torch7
+..*npy4th
