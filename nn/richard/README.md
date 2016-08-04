@@ -1,5 +1,8 @@
 # Convolutional Neural Network for Pedestrian Classification
 
+![alt text][logo] 
+[logo]: https://github.com/gdobler/hadive/blob/master/nn/richard/test/1839jh.gif
+
 ### Script definitions
 + **data.lua** Data augmentation and train set class balancing
 + **train.lua** Network training via Stocastic Gradient Descent (SGD)
