@@ -30,10 +30,10 @@ local args = lapp [[
     --evaluate           (default 5)                             number of epochs before evaluating
     --gkernel            (default 3)                             gaussian kernel for normalization
     --yuv                                                        flag for converting to YUV color 
-    --train_images       (default '/home/{USER}/X_dev.npy') training images
-    --train_labels       (default '/home/{USER}/y_dev.npy') training labels
-    --test_images        (default '/home/{USER}/X_val.npy') test images
-    --test_labels        (default '/home/{USER}/y_val.npy') test labels
+    --train_images       (default '/home/rnam/Documents/ped/data/20160626_snapshot/tensors/X_dev.npy') training images
+    --train_labels       (default '/home/rnam/Documents/ped/data/20160626_snapshot/tensors/y_dev.npy') training labels
+    --test_images        (default '/home/rnam/Documents/ped/data/20160708_snapshot/tensors/X_val.npy') test images
+    --test_labels        (default '/home/rnam/Documents/ped/data/20160708_snapshot/tensors/y_val.npy') test labels
     ]]
 
 print(args)
@@ -64,7 +64,8 @@ optimState = {
     weightDecay = args.weightDecay,
     nesterov = args.nesterov,
     momentum = args.momentum,
-    learningRateDecay = 1e-7}
+    learningRateDecay = 1e-7
+}
 optimMethod = optim.sgd
 trainlogger = optim.Logger(args.output_dir..args.save..'_train.log')
 testlogger = optim.Logger(args.output_dir..args.save..'_validation.log')
@@ -209,8 +210,7 @@ for e=1, args.epochs do
             return f, gradParameters
         end
         --_new_x, _fx , _average = optimMethod(feval, parameters, optimState)  
-        optimMethod(feval, parameters, optimState)  
-
+        optimMethod(feval, parameters, optimState)
     end
     print(c.yellow 'Completed epoch: '..e)
     print(confusion)
@@ -220,7 +220,7 @@ for e=1, args.epochs do
     if e % args.evaluate == 0 then
         print(c.red '===>'..' Evaluate at epoch: '..e)
         _confusion = optim.ConfusionMatrix(classes)
-        local model:evaluate()
+        model:evaluate()
         for _t = 1, test_image:size()[1] do
             xlua.progress(_t, test_image:size()[1])
             _input = test_image[_t]
@@ -236,6 +236,7 @@ for e=1, args.epochs do
         testlogger:add{e, valid_score, ftr, ptr, rtr}
         print(c.red'f1: '..ftr..c.red', precision: '..ptr..c.red', recall: '..rtr)
         print(c.red'===>'..' Saving model to '..args.output_dir..args.save..'.net')
+        
         -- update best model
         if model_best==nil then
             model_best=model:clone()
