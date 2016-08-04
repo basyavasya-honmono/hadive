@@ -8,4 +8,15 @@
 
 ### Dependencies
 1. Torch7
-..*npy4th
+   * npy4th
+   * penlight
+   * math
+   * xlua
+   * optim
+   * image
+   * nn / cunn
+
+2. `metrics.lua` within the `scripts/` directory
+
+
+
