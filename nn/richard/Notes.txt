@@ -1,1 +1,0 @@
-model001_dropout.lua, added dropout to the model, dropout starts at 0.4
