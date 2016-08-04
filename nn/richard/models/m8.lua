@@ -1,4 +1,4 @@
--- model 3, added two more layers of Convo, with bigger kernel
+-- model 7, added two more layers of Convo, with bigger kernel, harser dropout
 -- then the last pool step as a stride equal to kernel width/height
 npy4th = require 'npy4th'
 require 'image'
@@ -11,19 +11,19 @@ model = nn.Sequential()
 --nn.SpatialConvolution(nInputPlane, nOutputPlane, kW, kH, [dW], [dH], [padW], [padW])
 model:add(nn.SpatialConvolution(3,32, 3,3, 1,1, 0,0))
 model:add(nn.ReLU())
-model:add(nn.SpatialConvolution(32,64, 3,3, 1,1, 0,0))
+model:add(nn.SpatialConvolution(32,64, 3,3, 1,1, 0,0)):add(nn.Dropout(0.5))
 model:add(nn.ReLU())
 model:add(nn.SpatialMaxPooling(2,2,1,1))
 
 model:add(nn.SpatialConvolution(64,128, 3,3, 1,1, 0,0))
 model:add(nn.ReLU())
-model:add(nn.SpatialConvolution(128,128, 3,3, 1,1, 0,0))
+model:add(nn.SpatialConvolution(128,128, 3,3, 1,1, 0,0)):add(nn.Dropout(0.5))
 model:add(nn.ReLU())
 model:add(nn.SpatialMaxPooling(2,2,1,1))
 
 model:add(nn.SpatialConvolution(128,128, 5,5, 1,1, 0,0))
 model:add(nn.ReLU())
-model:add(nn.SpatialConvolution(128,128, 5,5, 1,1, 0,0))
+model:add(nn.SpatialConvolution(128,128, 5,5, 1,1, 0,0)):add(nn.Dropout(0.5))
 model:add(nn.ReLU())
 model:add(nn.SpatialMaxPooling(2,2,2,2))
 dim = 128*7*3
@@ -33,7 +33,7 @@ model:add(nn.View(dim))
 
 -- build a classifier
 classifer = nn.Sequential()
-classifer:add(nn.Linear(dim, 256))
+classifer:add(nn.Linear(dim, 256)):add(nn.Dropout(0.25))
 classifer:add(nn.Sigmoid())
 classifer:add(nn.Linear(256,2))
 

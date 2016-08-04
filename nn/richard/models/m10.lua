@@ -1,4 +1,5 @@
--- more planes, and no dropout
+-- model 10, based off model 7 with no dropout, really to test if model:evaluate is causing
+-- the weird scores in the prediction phase
 npy4th = require 'npy4th'
 require 'image'
 require 'nn'
@@ -19,16 +20,22 @@ model:add(nn.ReLU())
 model:add(nn.SpatialConvolution(128,128, 3,3, 1,1, 0,0))
 model:add(nn.ReLU())
 model:add(nn.SpatialMaxPooling(2,2,1,1))
-dim = 128*22*14
+
+model:add(nn.SpatialConvolution(128,128, 5,5, 1,1, 0,0))
+model:add(nn.ReLU())
+model:add(nn.SpatialConvolution(128,128, 5,5, 1,1, 0,0))
+model:add(nn.ReLU())
+model:add(nn.SpatialMaxPooling(2,2,2,2))
+dim = 128*7*3
 
 -- flatten the matrix, find the compenents by taking the size of the matrices after the last pooling
-model:add(nn.View(dim))
+model:add(nn.View(dim)) 
 
 -- build a classifier
 classifer = nn.Sequential()
-classifer:add(nn.Linear(dim, 900))
-classifer:add(nn.ReLU())
-classifer:add(nn.Linear(900,2))
+classifer:add(nn.Linear(dim, 256))
+classifer:add(nn.Sigmoid())
+classifer:add(nn.Linear(256,2))
 
 -- add the classifier to the model
 model:add(classifer)
