@@ -32,4 +32,24 @@
 
 ### Training the model from start to finish
 Training the model requires extracting the label patches and converting them to torch tensors `createPatches.py`. Then training the network with either a mini-batch SGD strategy `train.lua` or a mini-batch SGD strategy with Batch Normalization `batchTrain.lua`. Optionally, if there is an imbalanced between the two classes the `data.lua` script will balance the data via data augmentation. This last script can be run after extracting the patches. 
+1. Extract the patches
+```
+python createPatches.py
+```
+2. Balance the data (optional)
+```
+th data.lua
+```
+3. Train the model
+```
+th train.lua -table data/dev_data.table
+```
+If the data is not balance the model will train with the source tensors. To train without the balanced set remove the argument `-table data/dev_data.table` from the above.
 
+
+
+
+
+
+
+```
