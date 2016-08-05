@@ -17,7 +17,7 @@ local args = lapp [[
     --output_dir         (default "output/")                     directory to save the model output
     --model              (default "models/m1.lua")               location of saving the model, full lua filename
     --batch_size         (default 4)                             minibatch size
-    --epochs             (default 4)                             total epochs
+    --epochs             (default 5)                             total epochs
     --gpu                                                        train the gru network
     --table              (default FALSE)                         table with processed data
     --dropout            (default 0.0) 
