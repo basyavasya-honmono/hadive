@@ -25,9 +25,11 @@
    * xlua
    * optim
    * image
+   * lfs
    * nn / cunn
 
 3. `metrics.lua` within the `scripts/` directory
 
-
+### Training the model from start to finish
+Training the model requires extracting the label patches and converting them to torch tensors `createPatches.py`. Then training the network with either a mini-batch SGD strategy `train.lua` or a mini-batch SGD strategy with Batch Normalization `batchtrain.lua`. Optionally, if there is an imbalanced between the two classes the `data.lua` script will balance the data via data augmentation. This last script can be run after extracting the patches. 
 
