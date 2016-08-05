@@ -64,4 +64,6 @@ if __name__ == '__main__':
 
     print 'start'
     main(args.pickle, args.minheight, args.outdir, args.datadir)
+    print 'saving patch tensors to: %s' % args.datadir
     print 'end'
+
