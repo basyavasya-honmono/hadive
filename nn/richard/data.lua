@@ -15,8 +15,8 @@ print(c.yellow 'Starting...')
 local args = lapp [[
     --save               (default "data/dev_data.table")             save table to
     --max_class          (default 2)                                 gaussian kernel for normalization
-    --images             (default 'tensors/X_dev.npy')               training images
-    --labels             (default 'tensors/y_dev.npy')               training labels
+    --images             (default 'tensors/X_train.npy')               training images
+    --labels             (default 'tensors/y_train.npy')               training labels
     ]]
 
 print(args)
