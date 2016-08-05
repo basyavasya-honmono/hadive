@@ -3,17 +3,18 @@
 c = require 'trepl.colorize'
 npy4th = require 'npy4th'
 lapp = require 'pl.lapp'
+path = require 'pl.path'
 require 'math'
 require 'xlua'
 require 'optim'
 require 'image'
---require 'textutils'
+require "lfs"
 require 'scripts.metrics'
 
 timer = torch.Timer()
 print(c.yellow 'Starting...')
 local args = lapp [[
-    --save               (default "dev_m1")                      save model name
+    --save               (default "m1")                          save model name
     --output_dir         (default "output/")                     directory to save the model output
     --model              (default "models/m1.lua")               location of saving the model, full lua filename
     --batch_size         (default 4)                             minibatch size
@@ -30,13 +31,18 @@ local args = lapp [[
     --evaluate           (default 5)                             number of epochs before evaluating
     --gkernel            (default 3)                             gaussian kernel for normalization
     --yuv                                                        flag for converting to YUV color 
-    --train_images       (default '/home/rnam/Documents/ped/data/20160626_snapshot/tensors/X_dev.npy') training images
-    --train_labels       (default '/home/rnam/Documents/ped/data/20160626_snapshot/tensors/y_dev.npy') training labels
-    --test_images        (default '/home/rnam/Documents/ped/data/20160708_snapshot/tensors/X_val.npy') test images
-    --test_labels        (default '/home/rnam/Documents/ped/data/20160708_snapshot/tensors/y_val.npy') test labels
+    --train_images       (default 'tensors/X_train.npy')           training images
+    --train_labels       (default 'tensors/y_train.npy')           training labels
+    --test_images        (default 'tensors/X_val.npy')           test images
+    --test_labels        (default 'tensors/y_val.npy')           test labels
     ]]
 
 print(args)
+-- check and create args.output_dir path
+if path.isdir(args.output_dir) == false then
+    lfs.mkdir(args.output_dir)
+end
+
 -- convert to cuda
 if args.gpu then
     print(c.red 'Training on the gpu')
