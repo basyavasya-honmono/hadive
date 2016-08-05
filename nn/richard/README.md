@@ -44,7 +44,7 @@ th data.lua
 ```
 th train.lua -table data/dev_data.table
 ```
-If the data is not balance the model will train with the source tensors. To train without the balanced set remove the argument `-table data/dev_data.table` from the above.
+If the data is not balanced the model will train with the source tensors. To train without the balanced set remove the argument `-table data/dev_data.table` from the above.
 
 
 
@@ -52,4 +52,3 @@ If the data is not balance the model will train with the source tensors. To trai
 
 
 
-```
