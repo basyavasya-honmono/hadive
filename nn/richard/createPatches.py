@@ -48,10 +48,10 @@ def main(patchpickle, minheight, outdir, datadir):
         os.makedirs(outdir)
     if outdir[-1] != '/':
         outdir+='/'
-    np.save('%sX_train_full.npy' % outdir, X_train)
-    np.save('%sX_val_full.npy' % outdir, X_val)
-    np.save('%sy_train_full.npy' % outdir, y_train)
-    np.save('%sy_val_full.npy' % outdir, y_val)
+    np.save('%sX_train.npy' % outdir, X_train)
+    np.save('%sX_val.npy' % outdir, X_val)
+    np.save('%sy_train.npy' % outdir, y_train)
+    np.save('%sy_val.npy' % outdir, y_val)
 
 
 if __name__ == '__main__':
