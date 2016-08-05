@@ -65,14 +65,7 @@ class Annotate(object):
 		# connect('close_event', self.handle_close)
 
 
-		# Second event to draw, in case a mistake in labelling is made, 
-		# deleting the patch requires redrawing the original canvas
-		# self.draw_cid = connect('draw_event', self.grab_background)
-
-		# # Third event - key press event
-		# # To change color of the patches when you want to switch between 
-		# # true postive and false postive labels
-		# connect('key_press_event',self.colorChange)
+		
 
 
 	def objCreation(self):
