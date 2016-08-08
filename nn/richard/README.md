@@ -1,7 +1,9 @@
 # Convolutional Neural Network for Pedestrian Classification
-
+<div style="text-align:center" markdown="1">
 ![alt text][logo] 
 [logo]: https://github.com/gdobler/hadive/blob/master/nn/richard/test/1839jh.gif
+</div>
+
 
 ### Script definitions
 + **createPatches.py** Creates patches for input into CNN
