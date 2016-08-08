@@ -1,6 +1,6 @@
 # Convolutional Neural Network for Pedestrian Classification
 <div style="text-align:center" markdown="1">
-![alt text](test/1839jh.gif)
+![Alt Text](test/1839jh.gif)
 </div>
 
 
