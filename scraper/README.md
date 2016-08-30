@@ -20,7 +20,7 @@ By default the scraper will create a directory with the current date as the dire
 ### links.txt file content
 Inside the **links.txt** resource file each row is a unique camera link. For example, http://dotsignals.org/google_popup.php?cid=717. To find the relevant or new camera urls visit http://dotsignals.org/, click on the camera icon of interest and search the html of the camera webpage to find the direct link to the traffic camera. 
 
-N.B. : The above scraper scripts run using Python 3.0. If you are using an older version (< 3.0, say Python 2.7), you might need
+###### N.B. The above scraper scripts run using Python 3.0. If you are using an older version (< 3.0, say Python 2.7), you might need
 Phantom JS. Please see [here](https://github.com/priyakhokher/General/blob/master/WebScraping/JavascriptEnabledScraping/fastscraping.py)
 
 
