@@ -1,4 +1,5 @@
 import os
+import random
 import lxml.etree as etree
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
@@ -37,13 +38,42 @@ class resize_training_data(object):
                     
         self.boxes = boxes
         return self.boxes
+
+    def person_size(self, DOT_height, boxes=None):
+        '''Calculate best int to resize img
+        DOT_height - DOT cam person height to scale to.
+        boxes - xml bounding boxes'''
+            
+        if boxes != None:
+            self.boxes = boxes
+                
+        personboxes = filter(lambda x: x[0] == 'person', self.boxes)
+                    
+        if len(personboxes) > 0:
+            bndboxes = map(lambda x: x[1], personboxes)
+            height = map(lambda x: x[3] - x[1], bndboxes)
+            height_avg = sum(height) / float(len(height))
+                                    
+            best_size = (0, 9999) # Placeholder.
+            for i in range(1, 10):
+                diff = abs(height_avg - DOT_height * i)
+                if best_size[1] > diff:
+                    best_size = (i, diff)
+            self.by = best_size[0]
+                                                            
+        else:
+            self.by = random.choice([1, 2, 3, 4, 5, 6])
+                                                                    
+        return self.by
     
-    def resize(self, by, to_path):
+    def resize(self, to_path, by=1):
     	'''Resizes .jpeg & .xml bounding boxes by factor 'by' and exports files to to_path
     	Parameter:
     	by - factor to resize .jpeg & .xml
     	to_path - path where .jpeg & .xml will be output (in VOC folder structure)'''
-        self.by = by
+
+        if by != 1:
+            self.by = by
         self.to_path = to_path
         
         im = Image.open(self.img_path)
@@ -85,7 +115,7 @@ class resize_training_data(object):
                                   (box[1] / self.by - box[3] /self.by),
                                   fill=False, edgecolor='red'))
 
-def main(training, output):
+def main(training, output, DOT_height):
     '''Resize all .jpeg & .xml in VOC training data.
     Parameters:
     training - path to training data (dir with both JPEGImages & Annotations)
@@ -106,8 +136,10 @@ def main(training, output):
         
         r_obj = resize_training_data(xml_path, img_path)
         r_obj.get_boxes()
-        r_obj.resize(3, output)
+        r_obj.person_size(DOT_height)
+        r_obj.resize(output)
 
 if __name__ == '__main__':
 	main('/Users/JordanVani/Documents/NYU/GRA/R-CNNs/PASCAL VOC 2007/VOCdevkit/VOC2007/',
-		 '/Users/JordanVani/Documents/NYU/GRA/R-CNNs/PASCAL VOC 2007/VOCdevkit/Resampling')                    
+		 '/Users/JordanVani/Documents/NYU/GRA/R-CNNs/PASCAL VOC 2007/VOCdevkit/Resampling',
+         32.4)
