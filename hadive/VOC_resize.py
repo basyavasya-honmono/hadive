@@ -93,6 +93,12 @@ class resize_training_data(object):
                 for coord_num, coord in enumerate(box):
                     coord.text = str(self.boxes[obj_num][1][coord_num] / self.by)
         
+        width_obj = tree.findall('size/width')
+        height_obj = tree.findall('size/height')
+
+        width_obj[0].text = str(int(width_obj[0].text) / self.by)
+        height_obj[0].text = str(int(height_obj[0].text) / self.by)
+        
         tree.write(self.to_path + '/Annotations/' + os.path.basename(self.xml_path))
         
     def visualize(self):
