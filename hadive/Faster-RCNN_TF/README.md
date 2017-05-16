@@ -32,7 +32,7 @@
 
 ### Training Resized Dataset
 1. Create an output directory for resized .jpeg and .xml files.
-2. Edit [VOC_resize](https://github.com/gdobler/hadive/blob/master/hadive/VOC_resize.sh), to include proper paths:
+2. Edit [VOC_resize](https://github.com/gdobler/hadive/blob/master/hadive/VOC_resize.sh), to include proper paths, and run:
 ```
 if __name__ == '__main__':
 	main('$USER/VOCdevkit/VOC2007/', '$USER/VOCdevkit/Resampling', 32.4)
