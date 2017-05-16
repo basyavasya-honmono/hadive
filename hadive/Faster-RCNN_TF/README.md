@@ -27,13 +27,14 @@
     ```
 
 ### Training Original Dataset
-1. Submit job using [train_VOC.sh]('https://github.com/gdobler/hadive/blob/master/hadive/train_VOC.sh')
+1. Submit job using [[train_VOC.sh]](https://github.com/gdobler/hadive/blob/master/hadive/train_VOC.sh)
 ```SBATCH train_VOC.sh```
 
 ### Training Resized Dataset
 1. Create an output directory for resized .jpeg and .xml files.
-2. Edit [VOC_resize]('https://github.com/gdobler/hadive/blob/master/hadive/VOC_resize.sh'):
-```if __name__ == '__main__':
+2. Edit [[VOC_resize]](https://github.com/gdobler/hadive/blob/master/hadive/VOC_resize.sh):
+```
+if __name__ == '__main__':
 	main('$USER/VOCdevkit/VOC2007/', '$USER/VOCdevkit/Resampling', 32.4)
 ```
 3. Copy VOCdevkit2007 (i.e., VOCdevkit2007_resized) and replace JPEGImages & Annotations with resampled files.
@@ -61,15 +62,15 @@
 ### Organization
 ```
 Faster-RCNN_TF
-    ├── tools              		<- .py scripts from Faster-RCNN_TF Repo
-    ├── output			   		<- Directory to store tensorflow .ckpt files #When is this created?
-    ├── lib         	   		<- Faster RCNN code
+    ├── tools      <- .py scripts from Faster-RCNN_TF Repo
+    ├── output     <- Directory to store tensorflow .ckpt files #When is this created?
+    ├── lib        <- Faster RCNN code
     ├── experiments
-    │   └── cfgs 	       		<- Configuration .yml for training
+    │   └── cfgs      <- Configuration .yml for training
     └── data
         ├── cache
         ├── demo
-        ├── pretrain_model 		<- Includes VGG_imagenet.npy
-   	    ├── VOCdevkit2007_orig  <- Original VOC training data.             
-		└── VOCdevkit2007_resized	<- Resized VOC training data.
+        ├── pretrain_model         <- Includes VGG_imagenet.npy
+   	    ├── VOCdevkit2007_orig     <- Original VOC training data.             
+		└── VOCdevkit2007_resized  <- Resized VOC training data.
 ```
