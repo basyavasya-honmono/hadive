@@ -71,7 +71,6 @@ Faster-RCNN_TF
         ├── cache
         ├── demo
         ├── pretrain_model         <- Includes VGG_imagenet.npy
-        ├── VOCdevkit2007_orig     <- Original VOC training data.            
-		└── VOCdevkit2007_resized  <- Resized VOC training data.
-
+        ├── VOCdevkit2007_orig     <- Original VOC training data.
+        └── VOCdevkit2007_resized  <- Resized VOC training data           
 ```
