@@ -62,11 +62,11 @@ if __name__ == '__main__':
 ### Organization
 ```
 Faster-RCNN_TF
-    ├── tools      				   <- .py scripts from Faster-RCNN_TF Repo
-    ├── output    				   <- Directory to store tensorflow .ckpt files #When is this created?
-    ├── lib        				   <- Faster RCNN code
+    ├── tools                      <- .py scripts from Faster-RCNN_TF Repo
+    ├── output                     <- Directory to store tensorflow .ckpt files #When is this created?
+    ├── lib                        <- Faster RCNN code
     ├── experiments
-    │   └── cfgs      			   <- Configuration .yml for training
+    │   └── cfgs                   <- Configuration .yml for training
     └── data
         ├── cache
         ├── demo
