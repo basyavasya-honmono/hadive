@@ -146,6 +146,4 @@ def main(training, output, DOT_height):
         r_obj.resize(output)
 
 if __name__ == '__main__':
-	main('/Users/JordanVani/Documents/NYU/GRA/R-CNNs/PASCAL VOC 2007/VOCdevkit/VOC2007/',
-		 '/Users/JordanVani/Documents/NYU/GRA/R-CNNs/PASCAL VOC 2007/VOCdevkit/Resampling',
-         32.4)
+	main('$USER/VOCdevkit/VOC2007/', '$USER/VOCdevkit/Resampling', 32.4)
