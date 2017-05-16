@@ -27,12 +27,12 @@
     ```
 
 ### Training Original Dataset
-1. Submit job using [[train_VOC.sh]](https://github.com/gdobler/hadive/blob/master/hadive/train_VOC.sh)
+1. Submit job using [train_VOC.sh](https://github.com/gdobler/hadive/blob/master/hadive/train_VOC.sh)
 ```SBATCH train_VOC.sh```
 
 ### Training Resized Dataset
 1. Create an output directory for resized .jpeg and .xml files.
-2. Edit [[VOC_resize]](https://github.com/gdobler/hadive/blob/master/hadive/VOC_resize.sh):
+2. Edit [VOC_resize](https://github.com/gdobler/hadive/blob/master/hadive/VOC_resize.sh), to include proper paths:
 ```
 if __name__ == '__main__':
 	main('$USER/VOCdevkit/VOC2007/', '$USER/VOCdevkit/Resampling', 32.4)
