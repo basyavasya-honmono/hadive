@@ -61,6 +61,6 @@ class compare_img(object):
 
 if __name__ == '__main__':
     test = compare_img('/Users/JordanVani/Documents/NYU/GRA/R-CNNs/VOC_Data/VOCdevkit2007/VOC2007/',
-                   '/Users/JordanVani/Desktop', '000001')
+                   '/Users/JordanVani/Desktop', '000013')
     test.get_boxes()
     test.visualize()
