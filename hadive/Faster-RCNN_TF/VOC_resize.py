@@ -1,8 +1,6 @@
 import os
 import random
 import lxml.etree as etree
-import matplotlib.pyplot as plt
-import matplotlib.patches as patches
 from PIL import Image
 
 class resize_training_data(object):
@@ -11,14 +9,12 @@ class resize_training_data(object):
     	Parameters:
     	xml_path - location of .xml file.
     	img_path - location of .jpeg file.'''
-    
+        
         self.xml_path = xml_path
         self.img_path = img_path
         self.boxes = None
         self.by = 1
         self.to_path = 'PATH'
-        self.im_orig = None
-        self.im = None
         
     def get_boxes(self):
     	'''Takes resize_training_data and extracts bounding boxes from xml'''
@@ -34,10 +30,8 @@ class resize_training_data(object):
                 if ele.tag == 'bndbox':
                     for coor in ele:
                         box.append(int(coor.text))
-                    boxes.append((label, box))  
-                    
+                    boxes.append((label, box))
         self.boxes = boxes
-        return self.boxes
 
     def person_size(self, DOT_height, boxes=None):
         '''Calculate best int to resize img
@@ -60,11 +54,8 @@ class resize_training_data(object):
                 if best_size[1] > diff:
                     best_size = (i, diff)
             self.by = best_size[0]
-                                                            
         else:
             self.by = random.choice([1, 2, 3, 4, 5, 6])
-                                                                    
-        return self.by
     
     def resize(self, to_path, by=1):
     	'''Resizes .jpeg & .xml bounding boxes by factor 'by' and exports files to to_path
@@ -78,9 +69,6 @@ class resize_training_data(object):
         
         im = Image.open(self.img_path)
         im_resize = im.resize(tuple(map(lambda x: x / self.by, im.size)), Image.BILINEAR)
-        
-        self.im_orig = im
-        self.im = im_resize
         
         im_resize.save(self.to_path + '/JPEGImages/' + os.path.basename(self.img_path))
         
@@ -100,26 +88,6 @@ class resize_training_data(object):
         height_obj[0].text = str(int(height_obj[0].text) / self.by)
         
         tree.write(self.to_path + '/Annotations/' + os.path.basename(self.xml_path))
-        
-    def visualize(self):
-    	'''Visualize image & boxes before and after resizing'''
-        fig, ([ax1, ax2]) = plt.subplots(nrows=1, ncols=2, figsize=(18, 6))
-        
-        ax1.imshow(self.im_orig)
-        for box in map(lambda x: x[1], self.boxes):
-            ax1.add_patch(
-                patches.Rectangle((box[0], box[3]),
-                                  (box[2] - box[0]),
-                                  (box[1] - box[3]),
-                                  fill=False, edgecolor='red'))
-        
-        ax2.imshow(self.im)
-        for box in map(lambda x: x[1], self.boxes):
-            ax2.add_patch(
-                patches.Rectangle((box[0] / self.by, box[3] / self.by),
-                                  (box[2] / self.by - box[0] / self.by),
-                                  (box[1] / self.by - box[3] /self.by),
-                                  fill=False, edgecolor='red'))
 
 def main(training, output, DOT_height):
     '''Resize all .jpeg & .xml in VOC training data.
@@ -135,7 +103,7 @@ def main(training, output, DOT_height):
         os.mkdir(output + '/Annotations/')
     except:
         pass
-    
+
     for img, xml in zip(in_img, in_xml):
         img_path = training + '/JPEGImages/' + img
         xml_path = training + '/Annotations/' + xml
@@ -146,4 +114,4 @@ def main(training, output, DOT_height):
         r_obj.resize(output)
 
 if __name__ == '__main__':
-	main('$USER/VOCdevkit/VOC2007/', '$USER/VOCdevkit/Resampling', 32.4)
+	main('/Users/JordanVani/Documents/NYU/GRA/R-CNNs/VOC_Data/VOCdevkit2007/VOC2007', '/Users/JordanVani/Desktop', 32.4)
