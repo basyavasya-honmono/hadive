@@ -1,18 +1,32 @@
 import os
+import glob
 import time
+import argparse
 
-p = 'Faster-RCNN_TF/output/faster_rcnn_end2end/voc_2007_trainval'
-iters = '70000'
-running = True
+def parse_args():
+    """Parse input arguments"""
+    parser = argparse.ArgumentParser(
+        description='Remove extra .ckpt file when training Faster R-CNN')
+    parser.add_argument('--path', dest='path', help='Output path of ckpts')
+    parser.add_argument('--iters', dest='iters', help='Num of training iters')
+    args = parser.parse_args()
+    return args
 
-while running == True:
-    f_list = sorted(os.listdir(p))
-    if len(f_list) > 4:
-        for f in f_list[0:3]:
-            os.remove(os.path.join(p, f))
+if __name__ == '__main__':
+    args = parse_args()
+    running = True
 
-    for f in f_list:
-        if iters in f:
-            running = False
+    while running == True:
+        f = filter(lambda x: '.ckpt' in x, os.listdir(args.path))
+        num = str(sorted(map(lambda x: int(filter(str.isdigit, x)), f))[0]) + '.'
+        
+        if len(f) > 4:
+            for ckpt in f:
+                if num in ckpt:
+                    os.remove(os.path.join(args.path, ckpt))
 
-    time.sleep(60)
+        for ckpt in f:
+            if args.iters in f:
+                running = False
+
+        time.sleep(60)

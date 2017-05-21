@@ -1,14 +1,28 @@
 import os
 import random
+import argparse
 import lxml.etree as etree
 from PIL import Image
 
+def parse_args():
+    """Parse input arguments"""
+    
+    parser = argparse.ArgumentParser(description='Resize VOC dataset')
+    parser.add_argument('--input_path', dest='input_path',
+                        help='Location to VOC data')
+    parser.add_argument('--output_path', dest='output_path',
+                        help='Location to output resized data')
+    parser.add_argument('--by', dest='by', help='Resize human images to x pixels')
+    
+    args = parser.parse_args()
+    return args
+
 class resize_training_data(object):
     def __init__(self, xml_path, img_path):
-    	'''Create resize_training_data object
-    	Parameters:
-    	xml_path - location of .xml file.
-    	img_path - location of .jpeg file.'''
+        '''Create resize_training_data object
+        Parameters:
+        xml_path - location of .xml file.
+        img_path - location of .jpeg file.'''
         
         self.xml_path = xml_path
         self.img_path = img_path
@@ -17,7 +31,7 @@ class resize_training_data(object):
         self.to_path = 'PATH'
         
     def get_boxes(self):
-    	'''Takes resize_training_data and extracts bounding boxes from xml'''
+        '''Takes resize_training_data and extracts bounding boxes from xml'''
         
         tree = etree.parse(self.xml_path)
         obj_elems = tree.findall('object')
@@ -58,10 +72,10 @@ class resize_training_data(object):
             self.by = random.choice([1, 2, 3, 4, 5, 6])
     
     def resize(self, to_path, by=1):
-    	'''Resizes .jpeg & .xml bounding boxes by factor 'by' and exports files to to_path
-    	Parameter:
-    	by - factor to resize .jpeg & .xml
-    	to_path - path where .jpeg & .xml will be output (in VOC folder structure)'''
+        '''Resizes .jpeg & .xml bounding boxes by factor 'by' and exports files to to_path
+        Parameter:
+        by - factor to resize .jpeg & .xml
+        to_path - path where .jpeg & .xml will be output (in VOC folder structure)'''
 
         if by != 1:
             self.by = by
@@ -114,4 +128,7 @@ def main(training, output, DOT_height):
         r_obj.resize(output)
 
 if __name__ == '__main__':
-	main('/Users/JordanVani/Documents/NYU/GRA/R-CNNs/VOC_Data/VOCdevkit2007/VOC2007', '/Users/JordanVani/Desktop', 32.4)
+    args = parse_args()
+    print 'Called with args:\n{}'.format(args)
+    
+    main(args.input_path, args.output_path, float(args.by))

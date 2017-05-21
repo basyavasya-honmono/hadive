@@ -1,13 +1,37 @@
 import os
+import pylab
 import random
+import argparse
 import lxml.etree as etree
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
-from matplotlib.image import imread
 from PIL import Image
-import pylab
+from matplotlib.image import imread
+
+def parse_args():
+    """Parse input arguments"""
+    
+    parser = argparse.ArgumentParser(description='Compare two VOC images')
+    parser.add_argument('--orig_path', dest='orig_path',
+                        help='Location to original VOC data')
+    parser.add_argument('--resized_path', dest='resized_path',
+                        help='Location of resized VOC data')
+    parser.add_argument('--img_num', dest='img_num',
+                        help='VOC image number to compare')
+    
+    args = parser.parse_args()
+    return args
 
 def parse_xml(path):
+    """Parse VOC .xml files and returns all bounding boxes.
+    
+    Args:
+        path (str): path to .xml file.
+    
+    Returns:
+        List of lists representing each bounding box (e.g., [[xmin, ymin, xmax, ymax]]
+    """
+    
     tree = etree.parse(path)
     obj_elems = tree.findall('object')
     boxes = []
@@ -23,19 +47,35 @@ def parse_xml(path):
     return boxes
     
 class compare_img(object):
+    """Compare two VOC images side-by-side (original and resized).
+    
+    Attributes:
+        orig_path (str): path to original VOC dataset including JPEGImages and Annotations folders.
+        resized_path (str): path to resized VOC dataset including JPEGImages and Annotations folders.
+        img_num (str): VOC img to be compared (e.g., 000001).
+        orig_boxes: bounding boxes of original image.
+        resized_boxes: bounding boxes of resized image.
+    """
+    
     def __init__(self, orig_path, resized_path, img_num):
         self.orig_path = orig_path
         self.resized_path = resized_path
         self.img_num = img_num
-        self.boxes = None
+        self.orig_boxes = None
+        self.resized_boxes = None
 
     def get_boxes(self):
+        """Parse .xml files for original and resized images."""
+        
         orig_xml = os.path.join(self.orig_path, 'Annotations', str(self.img_num) + '.xml')
         resized_xml = os.path.join(self.resized_path, 'Annotations', str(self.img_num) + '.xml')
+        
         self.orig_boxes = parse_xml(orig_xml)
         self.resized_boxes = parse_xml(resized_xml)
     
     def visualize(self):
+        """Plot original and resized images with bounding boxes side-by-side."""
+        
         orig_img = os.path.join(self.orig_path, 'JPEGImages', str(self.img_num) + '.jpg')
         resized_img = os.path.join(self.resized_path, 'JPEGImages', str(self.img_num) + '.jpg')
         orig = imread(orig_img)
@@ -60,7 +100,9 @@ class compare_img(object):
         pylab.show()
 
 if __name__ == '__main__':
-    test = compare_img('/Users/JordanVani/Documents/NYU/GRA/R-CNNs/VOC_Data/VOCdevkit2007/VOC2007/',
-                   '/Users/JordanVani/Desktop', '000001')
+    args = parse_args()
+    print 'Called with args:\n{}'.format(args)
+    
+    test = compare_img(args.orig_path, args.resized_path, args.img_num)
     test.get_boxes()
     test.visualize()
