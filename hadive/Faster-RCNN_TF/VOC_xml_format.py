@@ -1,6 +1,16 @@
+import psycopg2
+import argparse
 import pandas as pd
 from StringIO import StringIO
 from lxml.etree import Element, SubElement, tostring, ElementTree
+
+def parse_args():
+    """Parse input arguments"""
+    parser = argparse.ArgumentParser(
+        description='Create VOC formatted .xml files from dot_pub_cams database.')
+    parser.add_argument('--path', dest='path', help='Output path for .xml files')
+    args = parser.parse_args()
+    return args
 
 class VOC_xml_format(object):
     """Create and write .xml file in VOC format.
@@ -74,3 +84,33 @@ class VOC_xml_format(object):
         """Print formatted xml to console."""
         
         print tostring(self.xml, pretty_print=True)
+
+if __name__ == '__main__':
+    args = parse_args()
+    
+    try:
+        conn = psycopg2.connect("dbname='dot_pub_cams'")
+    except:
+        print 'Failure to connect to dot_pub_cams.'
+        
+    cursor = conn.cursor()
+    
+    img_sql='''
+    SELECT id, name
+    FROM images
+    WHERE labeled=True'''
+    
+    cursor.execute(img_sql)
+    data = cursor.fetchall()
+    
+    for idx, name in data:
+        label_sql = '''
+        SELECT topx, topy, botx, boty, type
+        FROM labels
+        WHERE image={}'''.format(idx)
+        
+        cursor.execute(label_sql)
+        VOC_xml = VOC_xml_format(cursor.fetchall(), name)
+        VOC_xml.create_xml()
+        VOC_xml.write_xml(args.path + name[:-4] + '.xml')
+        
