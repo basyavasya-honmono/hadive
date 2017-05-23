@@ -17,11 +17,13 @@ class VOC_xml_format(object):
     
     Attributes:
         data: pandas dataframe including all bounding boxes.
+        img: image name to include in the xml file.
         xml: VOC formatted xml file (default is None).
     """
     
-    def __init__(self, data):
+    def __init__(self, data, img):
         self.data = data
+        self.img = img
         self.xml = None
 
     def create_xml(self):
@@ -33,22 +35,22 @@ class VOC_xml_format(object):
         folder = SubElement(top, 'folder')
         folder.text = 'NA'
         filename = SubElement(top, 'filename')
-        filename.text = self.data.img.unique()[0] # .img placeholder
+        filename.text = self.img
         size = SubElement(top, 'size')
         width = SubElement(size, 'width')
-        width.text = str(self.data.width.unique()[0]) # .width placeholder
+        width.text = '352'
         height = SubElement(size, 'height')
-        height.text = str(self.data.height.unique()[0]) # .height placeholder
+        height.text = '240'
         depth = SubElement(size, 'depth')
         depth.text = '0'
         seg = SubElement(top, 'segmented')
         seg.text = '0'
         
         # Add objects to xml.
-        for idx, row in self.data.iterrows():
+        for row in self.data:
             obj = SubElement(top, 'object')
             name = SubElement(obj, 'name')
-            name.text = row.label # .label placeholder
+            name.text = row[4]
             pose = SubElement(obj, 'pose')
             pose.text = 'NA'
             truncated = SubElement(obj, 'truncated')
@@ -57,13 +59,13 @@ class VOC_xml_format(object):
             difficult.text = '0'
             bndbox = SubElement(obj, 'bndbox')
             xmin = SubElement(bndbox, 'xmin')
-            xmin.text = str(row.xmin) # .xmin placeholder
+            xmin.text = str(min(row[0], row[2]))
             ymin = SubElement(bndbox, 'ymin')
-            ymin.text = str(row.ymin) # .ymin placeholder
+            ymin.text = str(min(row[1], row[3]))
             xmax = SubElement(bndbox, 'xmax')
-            xmax.text = str(row.xmax) # .xmax placeholder
+            xmax.text = str(max(row[0], row[2]))
             ymax = SubElement(bndbox, 'ymax')
-            ymax.text = str(row.ymax) # .ymax placeholder
+            ymax.text = str(max(row[1], row[3]))
             
         self.xml = top
     
