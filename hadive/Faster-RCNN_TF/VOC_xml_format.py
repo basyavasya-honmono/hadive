@@ -1,14 +1,16 @@
+import os
 import psycopg2
 import argparse
 import pandas as pd
+from shutil import copyfile
 from StringIO import StringIO
 from lxml.etree import Element, SubElement, tostring, ElementTree
 
 def parse_args():
     """Parse input arguments"""
     parser = argparse.ArgumentParser(
-        description='Create VOC formatted .xml files from dot_pub_cams database.')
-    parser.add_argument('--path', dest='path', help='Output path for .xml files')
+        description='Create VOC formatted .xml files from dot_pub_cams database & copy .jpg files.')
+    parser.add_argument('--path', dest='path', help='Output path for .xml & .jpg files')
     args = parser.parse_args()
     return args
 
@@ -98,21 +100,28 @@ if __name__ == '__main__':
     cursor = conn.cursor()
     
     img_sql='''
-    SELECT id, name
+    SELECT id, image_path, name
     FROM images
     WHERE labeled=True'''
     
     cursor.execute(img_sql)
     data = cursor.fetchall()
     
-    for idx, name in data:
+    if not os.path.exists(args.path + '/JPEGImages/'):
+        os.makedirs(args.path + '/JPEGImages/')
+    if not os.path.exists(args.path + '/Annotations/'):
+        os.makedirs(args.path + '/Annotations/')
+
+    for idx, im_path, name in data:
         label_sql = '''
         SELECT topx, topy, botx, boty, type
         FROM labels
         WHERE image={}'''.format(idx)
         
-        cursor.execute(label_sql)
-        VOC_xml = VOC_xml_format(cursor.fetchall(), name)
-        VOC_xml.create_xml()
-        VOC_xml.write_xml(args.path + name[:-4] + '.xml')
+        if os.path.isfile(os.path.join(im_path, name)):
+            copyfile(os.path.join(im_path, name), os.path.join(args.path + '/JPEGImages/', name))
+            cursor.execute(label_sql)
+            VOC_xml = VOC_xml_format(cursor.fetchall(), name)
+            VOC_xml.create_xml()
+            VOC_xml.write_xml(args.path + '/Annotations/' + name[:-4] + '.xml')
         
