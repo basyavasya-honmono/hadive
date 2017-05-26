@@ -36,33 +36,38 @@
 	cp -r <Annotations folder> data/VOCdevkit2007/
 	cp -r <JPEGImages folder> data/VOCdevkit2007/
 	```
-2. Create `output.txt` to append std output:
+2. Replace `experiments/cfgs/faster_rcnn_end2end.yml`:
+	```
+	rm experiments/cfgs/faster_rcnn_end2end.yml
+	cp ../hadive/hadive/Faster-RCNN_TF/faster_rcnn_end2end.yml experiments/cfgs/
+	```
+3. Create `output.txt` to append std output:
 	```
 	touch output.txt
 	```
-3. Train network, while appending std output to output.txt:
+4. Train network, while appending std output to output.txt:
 	```
-	python ./tools/train_net.py --device GPU --device_id 0 --weights data/pretrain_model/VGG_imagenet.npy --imdb voc_2007_trainval --iters 70000 --cfg experiments/cfgs/faster_rcnn_end2end.yml --network VGGnet_train > output.txt &
+	python ./tools/train_net.py --device GPU --device_id 0 --weights data/pretrain_model/VGG_imagenet.npy --imdb voc_2007_trainval --iters 50000 --cfg experiments/cfgs/faster_rcnn_end2end.yml --network VGGnet_train > output.txt &
 	```
+5. Concurrently, delete extra .ckpt files as new ones are output:
+	```
+	python ../hadive/hadive/Faster-RCNN_TF/del_ckpt.py --path output/faster_rcnn_end2end/voc_2007_trainval/ --iters <iters for training> &
+	```
+	
 ### Notes
-1. I've been renaming the VOCdevkit2007_orig & VOCdevkit2007_resized to VOCdevkit when training.
-2. The cache need to be cleared when switching between the original and resized data.
-3. Should delete unnecessary .ckpt files as they're produced.
-4. Approximate runtime of 13:00 hrs for 70,000 iters.
-
+1. Should improve data prep process.
+2. Runtime of approx 2:15hrs for 50,000 iters.
 
 ### Organization
 ```
 Faster-RCNN_TF
-    ├── tools                      <- .py scripts from Faster-RCNN_TF Repo
-    ├── output                     <- Directory to store tensorflow .ckpt files #When is this created?
-    ├── lib                        <- Faster RCNN code
+    ├── tools
+    ├── output                     <- Directory to store tensorflow .ckpt files
+    ├── lib
     ├── experiments
     │   └── cfgs                   <- Configuration .yml for training
     └── data
         ├── cache
-        ├── demo
         ├── pretrain_model         <- Includes VGG_imagenet.npy
-        ├── VOCdevkit2007_orig     <- Original VOC training data.
-        └── VOCdevkit2007_resized  <- Resized VOC training data           
+        └── VOCdevkit2007          <- Includes Annotations & JPEGImages
 ```
