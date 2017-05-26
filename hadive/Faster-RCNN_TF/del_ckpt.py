@@ -17,16 +17,19 @@ if __name__ == '__main__':
     running = True
 
     while running == True:
-        f = filter(lambda x: '.ckpt' in x, os.listdir(args.path))
-        num = str(sorted(map(lambda x: int(filter(str.isdigit, x)), f))[0]) + '.'
+        try:
+	    f = filter(lambda x: '.ckpt' in x, os.listdir(args.path))
+            num = str(sorted(map(lambda x: int(filter(str.isdigit, x)), f))[0]) + '.'
         
-        if len(f) > 4:
-            for ckpt in f:
-                if num in ckpt:
-                    os.remove(os.path.join(args.path, ckpt))
+            if len(f) > 4:
+                for ckpt in f:
+                    if num in ckpt:
+                        os.remove(os.path.join(args.path, ckpt))
 
-        for ckpt in f:
-            if args.iters in f:
-                running = False
+            for ckpt in f:
+                if args.iters in f:
+                    running = False
+	except:
+		pass
 
         time.sleep(60)
