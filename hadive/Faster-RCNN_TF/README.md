@@ -29,7 +29,7 @@
 	python ./VOC_xml_rm.py --path <Location with saved .xml & .jpg files>
 	```
 	
-### Training on DOT Training Data
+### Training on DOT Training Data (on critter, within Faster-RCNN_TF/)
 1. Copy DOT training data to `/data/VOCdevkit2007`:
 	```
 	mkdir data/VOCdevkit2007
