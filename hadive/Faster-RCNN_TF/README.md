@@ -1,7 +1,11 @@
 # Hadive Faster-RCNN
 
 ### Setup on critter
-1. Clone Faster-RCNN_TF to critter: `git clone https://github.com/smallcorgi/Faster-RCNN_TF.git`
+1. Clone Faster-RCNN_TF and hadive to critter: 
+	```
+	git clone https://github.com/smallcorgi/Faster-RCNN_TF.git
+	git clone https://github.com/gdobler/hadive.git
+	```
 2. Replace `Faster-RCNN_TF/lib/` with `hadive/hadive/Faster-RCNN_TF/lib/`: 
 	```
 	rm -r Faster-RCNN_TF/lib/
