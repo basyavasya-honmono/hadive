@@ -60,7 +60,8 @@
 	
 ### Notes
 1. Should improve data prep process.
-2. Runtime of approx 2:15hrs for 50,000 iters.
+2. Should change naming, so we're not using the VOCdevkit naming.
+3. Runtime of approx 2:15hrs for 50,000 iters.
 
 ### Organization
 ```
