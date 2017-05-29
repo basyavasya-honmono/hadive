@@ -105,23 +105,46 @@ if __name__ == '__main__':
     WHERE labeled=True'''
     
     cursor.execute(img_sql)
-    data = cursor.fetchall()
+    images = cursor.fetchall()
     
     if not os.path.exists(args.path + '/JPEGImages/'):
         os.makedirs(args.path + '/JPEGImages/')
     if not os.path.exists(args.path + '/Annotations/'):
         os.makedirs(args.path + '/Annotations/')
 
-    for idx, im_path, name in data:
+    for idx, im_path, name in images:
         label_sql = '''
         SELECT topx, topy, botx, boty, type
         FROM labels
         WHERE image={}'''.format(idx)
         
-        if os.path.isfile(os.path.join(im_path, name)):
-            copyfile(os.path.join(im_path, name), os.path.join(args.path + '/JPEGImages/', name))
-            cursor.execute(label_sql)
-            VOC_xml = VOC_xml_format(cursor.fetchall(), name)
-            VOC_xml.create_xml()
-            VOC_xml.write_xml(args.path + '/Annotations/' + name[:-4] + '.xml')
+        if os.path.isfile(os.path.join(im_path, name)): # Check if image exists.
+	    cursor.execute(label_sql)
+            labels = cursor.fetchall()
+	    if len(labels) > 0: # Check if labels exist.
+		for label in labels:
+	    	    xmin, ymin, xmax, ymax, lab = label
+		    # Fix labels on the edge of the image.
+		    if xmin < 1:
+			xmin = 1
+		    if ymin < 1: 
+			ymin = 1
+		    if xmax > 351:
+			xmax = 351
+		    if ymax > 239:
+			ymax = 239
+		    # print 'xmin: {}, ymin: {}, xmax: {}, ymax: {}, lab: {}'.format(xmin, ymin, xmax, ymax, lab)
+		    # Remove labels that are too small.
+		    try:
+			if xmax - xmin < 3:
+			    labels.remove(label)
+			if ymax - ymin < 3: 
+			    labels.remove(label)
+		    except:
+			pass
+	    if len(labels) > 0: # Check if there are remaining labels.	
+	    	copyfile(os.path.join(im_path, name), os.path.join(args.path + '/JPEGImages/', name))
+            	VOC_xml = VOC_xml_format(labels, name)
+            	VOC_xml.create_xml()
+            	VOC_xml.write_xml(args.path + '/Annotations/' + name[:-4] + '.xml')
         
