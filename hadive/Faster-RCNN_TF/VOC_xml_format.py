@@ -88,7 +88,30 @@ class VOC_xml_format(object):
         """Print formatted xml to console."""
         
         print tostring(self.xml, pretty_print=True)
-
+    
+def check_xml(labels):
+    try:
+	labels_ = list()
+        for label in labels:
+	    xmin, ymin, xmax, ymax, lab = label
+            # Fix labels on the edge of the image.
+            if xmin < 1:
+                xmin = 1
+            if ymin < 1:
+                ymin = 1
+            if xmax > 351:
+                xmax = 351
+            if ymax > 239:
+                ymax = 239
+            # print 'xmin: {}, ymin: {}, xmax: {}, ymax: {}, lab: {}'.format(xmin, ymin, xmax, ymax, lab)
+            # Remove labels that are too small.
+            if xmax - xmin > 2:
+		if ymax - ymin > 2:
+		    labels_.append((xmin, ymin, xmax, ymax, lab))
+	return labels_
+    except:
+	pass
+	
 if __name__ == '__main__':
     args = parse_args()
     
@@ -120,28 +143,7 @@ if __name__ == '__main__':
         
         if os.path.isfile(os.path.join(im_path, name)): # Check if image exists.
 	    cursor.execute(label_sql)
-            labels = cursor.fetchall()
-	    if len(labels) > 0: # Check if labels exist.
-		for label in labels:
-	    	    xmin, ymin, xmax, ymax, lab = label
-		    # Fix labels on the edge of the image.
-		    if xmin < 1:
-			xmin = 1
-		    if ymin < 1: 
-			ymin = 1
-		    if xmax > 351:
-			xmax = 351
-		    if ymax > 239:
-			ymax = 239
-		    # print 'xmin: {}, ymin: {}, xmax: {}, ymax: {}, lab: {}'.format(xmin, ymin, xmax, ymax, lab)
-		    # Remove labels that are too small.
-		    try:
-			if xmax - xmin < 3:
-			    labels.remove(label)
-			if ymax - ymin < 3: 
-			    labels.remove(label)
-		    except:
-			pass
+            labels = check_xml(cursor.fetchall()) # Clean up .xml data.
 	    if len(labels) > 0: # Check if there are remaining labels.	
 	    	copyfile(os.path.join(im_path, name), os.path.join(args.path + '/JPEGImages/', name))
             	VOC_xml = VOC_xml_format(labels, name)
