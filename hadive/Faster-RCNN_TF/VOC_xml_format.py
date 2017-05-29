@@ -137,6 +137,7 @@ if __name__ == '__main__':
     if not os.path.exists(args.path + '/Annotations/'):
         os.makedirs(args.path + '/Annotations/')
 
+    count = 0
     for idx, im_path, name in images:
         label_sql = '''
         SELECT topx, topy, botx, boty, type
@@ -151,7 +152,9 @@ if __name__ == '__main__':
             	VOC_xml = VOC_xml_format(labels, name)
             	VOC_xml.create_xml()
             	VOC_xml.write_xml(args.path + '/Annotations/' + name[:-4] + '.xml')
-    
+	count += 1
+	print '\r{}% complete'.format(int(count*1.0/len(images))) 
+
     data = map(lambda x: x[:-4], os.listdir(args.path, 'Annotations/'))
     np.random.shuffle(data)
     train = data[:int((len(data) + 1) * .7)]
@@ -162,4 +165,5 @@ if __name__ == '__main__':
         train_txt.write("{}\n".format(i))
     for i in test:
         test_txt.write("{}\n".format(i))
-    
+    print '\n{} training images and {} testing images'.format(len(train), len(test))
+
