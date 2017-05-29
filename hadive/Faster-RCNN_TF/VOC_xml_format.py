@@ -1,10 +1,12 @@
 import os
 import psycopg2
 import argparse
+import numpy as np
 import pandas as pd
 from shutil import copyfile
 from StringIO import StringIO
 from lxml.etree import Element, SubElement, tostring, ElementTree
+np.random.seed(1)
 
 def parse_args():
     """Parse input arguments"""
@@ -149,4 +151,15 @@ if __name__ == '__main__':
             	VOC_xml = VOC_xml_format(labels, name)
             	VOC_xml.create_xml()
             	VOC_xml.write_xml(args.path + '/Annotations/' + name[:-4] + '.xml')
-        
+    
+    data = map(lambda x: x[:-4], os.listdir(args.path, 'Annotations/'))
+    np.random.shuffle(data)
+    train = data[:int((len(data) + 1) * .7)]
+    test = data[int(len(data) * .7 + 1):]
+    train_txt = open(args.path + 'train.txt', 'w')
+    test_txt = open(args.path + 'test.txt', 'w')
+    for i in train:
+        train_txt.write("{}\n".format(i))
+    for i in test:
+        test_txt.write("{}\n".format(i))
+    
