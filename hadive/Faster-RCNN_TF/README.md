@@ -28,10 +28,6 @@
 	```
 	python ./VOC_xml_format.py --path <Location to save .xml & .jpg files>
 	```
-2. To clean the dataset, run `VOC_xml_rm.py`:
-	```
-	python ./VOC_xml_rm.py --path <Location with saved .xml & .jpg files>
-	```
 	
 ### Training on DOT Training Data (on critter, within Faster-RCNN_TF/)
 1. Copy DOT training data to `/data/VOCdevkit2007`:
