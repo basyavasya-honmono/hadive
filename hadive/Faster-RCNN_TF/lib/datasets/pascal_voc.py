@@ -93,10 +93,17 @@ class pascal_voc(imdb):
 #            image_index = [x.strip() for x in f.readlines()]
 #        return image_index
 
-    def	_load_image_set_index(self):
-	"""Load file names for .jpg and .xml files in training dataset."""
-	xml_files = os.listdir(os.path.join(self._devkit_path, 'Annotations'))
-	image_index = map(lambda x: x[:-4], xml_files)
+#    def	_load_image_set_index(self):
+#	"""Load file names for .jpg and .xml files in training dataset."""
+#	xml_files = os.listdir(os.path.join(self._devkit_path, 'Annotations'))
+#	image_index = map(lambda x: x[:-4], xml_files)
+#	return image_index
+
+    def _load_image_set_index(self):
+	"""Load file names for .jpg and .xml files based on train.txt"""
+	image_set_file = os.path.join(self._devkit_path, self._image_set + '.txt')
+	with open(image_set_file) as f:
+	    image_index = [x.strip() for x in f.readlines()]
 	return image_index
 
     def _get_default_path(self):
