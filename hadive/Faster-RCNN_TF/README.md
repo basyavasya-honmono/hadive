@@ -47,11 +47,11 @@
 	```
 4. Train network, while appending std output to output.txt:
 	```
-	python ./tools/train_net.py --device GPU --device_id 0 --weights data/pretrain_model/VGG_imagenet.npy --imdb voc_2007_trainval --iters 50000 --cfg experiments/cfgs/faster_rcnn_end2end.yml --network VGGnet_train > output.txt &
+	python ./tools/train_net.py --device GPU --device_id 0 --weights data/pretrain_model/VGG_imagenet.npy --imdb voc_2007_train --iters 50000 --cfg experiments/cfgs/faster_rcnn_end2end.yml --network VGGnet_train > output.txt &
 	```
 5. Concurrently, delete extra .ckpt files as new ones are output:
 	```
-	python ../hadive/hadive/Faster-RCNN_TF/del_ckpt.py --path output/faster_rcnn_end2end/voc_2007_trainval/ --iters <iters for training> &
+	python ../hadive/hadive/Faster-RCNN_TF/del_ckpt.py --path output/faster_rcnn_end2end/voc_2007_train/ --iters <iters for training> &
 	```
 	
 ### Notes
