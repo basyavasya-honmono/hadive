@@ -153,9 +153,9 @@ if __name__ == '__main__':
             	VOC_xml.create_xml()
             	VOC_xml.write_xml(args.path + '/Annotations/' + name[:-4] + '.xml')
 	count += 1
-	print '\r{}% complete'.format(int(count*1.0/len(images))) 
+	print '{}% complete'.format(int(count*100.0/len(images))), '\r', 
 
-    data = map(lambda x: x[:-4], os.listdir(args.path, 'Annotations/'))
+    data = map(lambda x: x[:-4], os.listdir(args.path + 'Annotations/'))
     np.random.shuffle(data)
     train = data[:int((len(data) + 1) * .7)]
     test = data[int(len(data) * .7 + 1):]
