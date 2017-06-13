@@ -21,7 +21,7 @@ L.tileLayer('http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png',
 function addDataToMap(data, map) {
     var dataLayer = L.geoJson(data, {
         onEachFeature: function(feature, layer) {
-            var popupText = "<h3>" + feature.properties.description + "</h3><br><img src='http://207.251.86.238/cctv" + feature.properties.name + ".jpg?math=0.7531279700202127' width='300'>" 
+            var popupText = "<h2>" + feature.properties.description + "</h2>" + "<img src='http://207.251.86.238/cctv" + feature.properties.cctv + ".jpg' width='300'>" 
             layer.bindPopup(popupText); }
         });
     dataLayer.addTo(map);
