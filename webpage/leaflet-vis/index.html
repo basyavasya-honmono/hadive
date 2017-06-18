@@ -13,7 +13,7 @@
 <body>
 <div id='map'></div>
 <script>
-var map = L.map('map', {center: [40.7, -74], zoom: 10});
+var map = L.map('map', {center: [40.7, -74], zoom: 11});
 
 L.tileLayer('http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', 
 	    {attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'}).addTo(map);
@@ -21,7 +21,7 @@ L.tileLayer('http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png',
 function addDataToMap(data, map) {
     var dataLayer = L.geoJson(data, {
         onEachFeature: function(feature, layer) {
-            var popupText = "<h2>" + feature.properties.description + "</h2>" + "<img src='http://207.251.86.238/cctv" + feature.properties.cctv + ".jpg' width='300'>" 
+            var popupText = "<h2>" + feature.properties.description + "</h2>" + "<img src='http://207.251.86.238/cctv" + feature.properties.cctv + ".jpg' width='300'></img><br><img src='data/plots/" + feature.properties.name + ".jpg'></img>"  
             layer.bindPopup(popupText); }
         });
     dataLayer.addTo(map);
