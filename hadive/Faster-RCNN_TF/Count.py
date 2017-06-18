@@ -86,7 +86,8 @@ def demo(sess, net, image_name):
             keep = nms(dets, NMS_THRESH)
             dets = dets[keep, :]
             dets = np.where(dets[:, -1] >= CONF_THRESH)[0]
-            print 'People in {}: {}'.format(image_name, len(dets))
+            #print 'People in {}: {}'.format(image_name, len(dets))
+	    return len(dets)
 
 def parse_args():
     """Parse input arguments."""
@@ -110,18 +111,22 @@ if __name__ == '__main__':
     print '\n\nLoaded network {:s}'.format(args.model)
 
     urlloc = UrlLocation([args.link])
+    print 'Filename, Time, Count'
     for _ in range(int(args.duration)):
         start_ = time.time()
 	start = time.time()
-        filename = ScrapeImage(urlloc[args.link], os.path.join(cfg.DATA_DIR, 'DOTimages/'))
-        download_time = time.time() - start
-
-        start = time.time()
-        demo(sess, net, filename)
-	count_time = time.time() - start
-
-        os.remove(os.path.join(cfg.DATA_DIR, 'DOTimages', filename))
-	print 'Download time: {}, Count time: {}, Total time: {}\n'.format(download_time, count_time, time.time() - start_) 
+	start_print = datetime.datetime.now()
+	try:
+            filename = ScrapeImage(urlloc[args.link], os.path.join(cfg.DATA_DIR, 'DOTimages/'))
+            download_time = time.time() - start
+            start = time.time()
+            count = demo(sess, net, filename)
+	    count_time = time.time() - start
+            os.remove(os.path.join(cfg.DATA_DIR, 'DOTimages', filename))
+	    #print 'Donwload Time: {}, Count Time: {}, Total Time: {}\n'.format(download_time, count_time, time.time() - start_)
+	    print '{},{},{}'.format(filename, start_print, count)
+	except:
+	    pass
 	if time.time() - start_ < 1.:
 	    time.sleep(1. - (time.time() - start_))
 
