@@ -6,29 +6,73 @@
 <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
 <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 <style>
-#map {width: 100%; height: 100%;}
+div{
+  display:inline-block;
+  float:left;
+}
+
+.map{
+  width:calc(100% - 400px);
+  height:100%;
+}
+
+.col{
+  width:400px;
+  height:100%;
+}
+
+.row1{
+  width:100%;
+  height:10%;
+  text-align:center;
+  vertical-align:middle;
+}
+
+.row2{
+  width:100%;
+  height:45%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 </style>
 </head>
 
 <body>
-<div id='map'></div>
-<script>
-var map = L.map('map', {center: [40.7, -74], zoom: 11});
+<div class="map" id="map"></div>
+<div class="col">
+  <div class="row1" id="desc"><h1>Camera Description</h1></div>
+  <div class="row2" id="cam"><h2>Cam Feed</h2></div>
+  <div class="row2" id="plot"><h2>Plot</h2></div>
+</div>
 
-L.tileLayer('http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', 
-	    {attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'}).addTo(map);
+<script>
+var map = L.map("map", {center: [40.7, -74], zoom: 11});
+
+L.tileLayer("http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png", {
+  attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
+}).addTo(map);
+
+function camdesc(feature, layer) {
+  //bind click
+  layer.on('click', function (event) {
+    document.getElementById("desc").innerHTML = "<h1>" + feature.properties.description + "</h1>";
+    document.getElementById("cam").innerHTML = "<img src='http://207.251.86.238/cctv" + feature.properties.cctv + ".jpg'></img>";
+    document.getElementById("plot").innerHTML = "<img src='./data/plots/" + feature.properties.name + ".jpg' width=100%></img>";
+  });
+  //var popupText = feature.properties.description //add the popup...
+  //layer.bindPopup(popupText);
+}
 
 function addDataToMap(data, map) {
-    var dataLayer = L.geoJson(data, {
-        onEachFeature: function(feature, layer) {
-            var popupText = "<h2>" + feature.properties.description + "</h2>" + "<img src='http://207.251.86.238/cctv" + feature.properties.cctv + ".jpg' width='300'></img><br><img src='data/plots/" + feature.properties.name + ".jpg'></img>"  
-            layer.bindPopup(popupText); }
-        });
-    dataLayer.addTo(map);
+  var dataLayer = L.geoJson(data, {
+    onEachFeature: camdesc
+  });
+  dataLayer.addTo(map);
 }
 
 $.getJSON("./data/cameras.json", function(data) { addDataToMap(data, map); });
-
 </script>
 </body>
 </html>
