@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
 <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
 <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="http://d3js.org/d3.v3.min.js"></script>
 <style>
 div{
   display:inline-block;
@@ -23,14 +24,14 @@ div{
 
 .row1{
   width:100%;
-  height:10%;
+  height:50px;
   text-align:center;
   vertical-align:middle;
 }
 
 .row2{
   width:100%;
-  height:45%;
+  height:calc(50% - 25px);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -59,6 +60,14 @@ function camdesc(feature, layer) {
   layer.on('click', function (event) {
     document.getElementById("desc").innerHTML = "<h1>" + feature.properties.description + "</h1>";
     document.getElementById("cam").innerHTML = "<img src='http://207.251.86.238/cctv" + feature.properties.cctv + ".jpg'></img>";
+/*    
+    d3.csv("./data/output.txt", function(error, data) {
+      data_ = data.filter(function(row) {
+        return row['cam'] == feature.properties.name;
+      }) 
+    alert(data_);
+    }
+*/
     document.getElementById("plot").innerHTML = "<img src='./data/plots/" + feature.properties.name + ".jpg' width=100%></img>";
   });
   //var popupText = feature.properties.description //add the popup...
