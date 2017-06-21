@@ -7,6 +7,8 @@
 <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <style>
+body { font: 12px Arial;}
+
 div{
   display:inline-block;
   float:left;
@@ -37,6 +39,20 @@ div{
   align-items: center;
 }
 
+path {
+    stroke: steelblue;
+    stroke-width: 2;
+    fill: none;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: grey;
+    stroke-width: 1;
+    shape-rendering: crispEdges;
+}
+
 </style>
 </head>
 
@@ -45,35 +61,21 @@ div{
 <div class="col">
   <div class="row1" id="desc"><h1>Camera Description</h1></div>
   <div class="row2" id="cam"><h2>Cam Feed</h2></div>
-  <div class="row2" id="plot"><h2>Plot</h2></div>
+  <div class="row2" id="plot"></div>
 </div>
 
 <script>
-var map = L.map("map", {center: [40.7, -74], zoom: 11});
 
+// Create map
+var map = L.map("map", {center: [40.7, -74], zoom: 11});
 L.tileLayer("http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png", {
   attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
 }).addTo(map);
 
-function camdesc(feature, layer) {
-  //bind click
-  layer.on('click', function (event) {
-    document.getElementById("desc").innerHTML = "<h1>" + feature.properties.description + "</h1>";
-    document.getElementById("cam").innerHTML = "<img src='http://207.251.86.238/cctv" + feature.properties.cctv + ".jpg'></img>";
-/*    
-    d3.csv("./data/output.txt", function(error, data) {
-      data_ = data.filter(function(row) {
-        return row['cam'] == feature.properties.name;
-      }) 
-    alert(data_);
-    }
-*/
-    document.getElementById("plot").innerHTML = "<img src='./data/plots/" + feature.properties.name + ".jpg' width=100%></img>";
-  });
-  //var popupText = feature.properties.description //add the popup...
-  //layer.bindPopup(popupText);
-}
+// Load geojson.
+$.getJSON("./data/cameras.json", function(data) { addDataToMap(data, map); });
 
+// Add data to map.
 function addDataToMap(data, map) {
   var dataLayer = L.geoJson(data, {
     onEachFeature: camdesc
@@ -81,7 +83,97 @@ function addDataToMap(data, map) {
   dataLayer.addTo(map);
 }
 
-$.getJSON("./data/cameras.json", function(data) { addDataToMap(data, map); });
+// Function on-click
+function camdesc(feature, layer) {
+  //bind click
+  layer.on('click', function (event) {
+    document.getElementById("desc").innerHTML = "<h1>" + feature.properties.description + "</h1>";
+    document.getElementById("cam").innerHTML = "<img src='http://207.251.86.238/cctv" + feature.properties.cctv + ".jpg'></img>";
+    //document.getElementById("plot").innerHTML = "<img src='./data/plots/" + feature.properties.name + ".jpg' width=100%></img>";
+//    $("#plot").empty();
+    d3.csv("/data/output.csv", function(data){      
+      data = data.filter(function(row) {
+        return row['cam'] == feature.properties.name;
+      })
+
+      data.forEach(function(d) {
+      d.date = parseDate(d.date.slice(0, -3));
+      d.count = +d.count;
+      });
+
+      // Clear contents
+      svg.selectAll("*").remove();
+
+      // Scale the range of the data
+      x.domain(d3.extent(data, function(d) { return d.date; }));
+      y.domain([0, d3.max(data, function(d) { return d.count; })]);
+
+      console.log(d3.max(data, function(d) {return d.count;}));
+
+      // Add the valueline path.
+      svg.append("path")
+          .attr("class", "line")
+          .attr("d", valueline(data));
+
+      // Add the X Axis
+      svg.append("g")
+          .attr("class", "x axis")
+          .attr("transform", "translate(0," + height + ")")
+          .call(xAxis);
+
+      // Add the Y Axis
+      svg.append("g")
+          .attr("class", "y axis")
+          .call(yAxis);
+
+     // Add axis labels
+     svg.append("text")
+         .attr("text-anchor", "middle")
+         .attr("transform", "translate("+ (width/2) +","+(height+(padding*1.8))+")")
+         .text("Time");
+
+     svg.append("text")
+         .attr("text-anchor", "middle")
+         .attr("transform", "translate("+ (-padding*1.8) +","+(height/2)+")rotate(-90)")
+         .text("Pedestrian Count");  
+    
+    console.log(data);
+    });
+  });
+
+  //var popupText = feature.properties.description //add the popup...
+  //layer.bindPopup(popupText);
+}
+
+// To create d3 plot.
+var margin = {top: 10, right: 10, bottom: 50, left: 60},
+    width = 350,
+    height = 300,
+    padding = 20;
+
+var parseDate = d3.time.format("%Y-%m-%d %H:%M:%S.%L").parse;
+var x = d3.time.scale().range([0, width]);
+var y = d3.scale.linear().range([height, 0]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom").ticks(5);
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left"); //.ticks(10);
+
+var valueline = d3.svg.line()
+    .x(function(d) { return x(d.date); })
+    .y(function(d) { return y(d.count); });
+
+var svg = d3.select("#plot")
+  .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")")
 </script>
 </body>
 </html>
