@@ -108,8 +108,6 @@ function camdesc(feature, layer) {
       x.domain(d3.extent(data, function(d) { return d.date; }));
       y.domain([0, d3.max(data, function(d) { return d.count; })]);
 
-      console.log(d3.max(data, function(d) {return d.count;}));
-
       // Add the valueline path.
       svg.append("path")
           .attr("class", "line")
@@ -137,7 +135,7 @@ function camdesc(feature, layer) {
          .attr("transform", "translate("+ (-padding*1.8) +","+(height/2)+")rotate(-90)")
          .text("Pedestrian Count");  
     
-    console.log(data);
+    // console.log(data);
     });
   });
 
