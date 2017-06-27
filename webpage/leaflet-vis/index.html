@@ -6,6 +6,7 @@
 <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
 <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 <script src="http://d3js.org/d3.v3.min.js"></script>
+<link rel='shortcut icon' type='image/x-icon' href='/favicon.ico' />
 <style>
 body { font: 12px Arial;}
 
@@ -53,6 +54,16 @@ path {
     shape-rendering: crispEdges;
 }
 
+.overlay {
+  fill: none;
+  pointer-events: all;
+}
+
+.focus circle {
+  fill: none;
+  stroke: black;
+}
+
 </style>
 </head>
 
@@ -90,7 +101,7 @@ function camdesc(feature, layer) {
     document.getElementById("desc").innerHTML = "<h1>" + feature.properties.description + "</h1>";
     document.getElementById("cam").innerHTML = "<img src='http://207.251.86.238/cctv" + feature.properties.cctv + ".jpg'></img>";
     //document.getElementById("plot").innerHTML = "<img src='./data/plots/" + feature.properties.name + ".jpg' width=100%></img>";
-//    $("#plot").empty();
+
     d3.csv("/data/output.csv", function(data){      
       data = data.filter(function(row) {
         return row['cam'] == feature.properties.name;
@@ -100,6 +111,8 @@ function camdesc(feature, layer) {
       d.date = parseDate(d.date.slice(0, -3));
       d.count = +d.count;
       });
+
+     var bisectDate = d3.bisector(function(d) { return d.date; }).left;
 
       // Clear contents
       svg.selectAll("*").remove();
@@ -134,7 +147,41 @@ function camdesc(feature, layer) {
          .attr("text-anchor", "middle")
          .attr("transform", "translate("+ (-padding*1.8) +","+(height/2)+")rotate(-90)")
          .text("Pedestrian Count");  
-    
+
+    // Mouseover
+    var focus = svg.append("g")
+        .attr("class", "focus")
+        .style("display", "none")
+        .style("font-size", "14px");
+
+    focus.append("circle")
+        .attr("r", 4.5);
+
+    focus.append("text")
+        .attr("x", 9)
+        .attr("dy", ".35em");
+
+    svg.append("rect")
+        .attr("class", "overlay")
+        .attr("width", width)
+        .attr("height", height)
+        .on("mouseover", function() { focus.style("display", null); })
+        .on("mouseout", function() { focus.style("display", "none"); })
+        .on("mousemove", mousemove);
+
+    function mousemove() {
+      var x0 = x.invert(d3.mouse(this)[0]),
+          i = bisectDate(data, x0, 1),
+          d0 = data[i - 1],
+          d1 = data[i],
+          d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+//          maxdate = max(data.date)
+//          maxcount = max(data.count)
+      focus.attr("transform", "translate(" + x(d.date) + "," + y(d.count) + ")");
+//      focus.attr("transform", "translate(" + maxdate + "," + maxcount + ")");
+      focus.select("text").text(d.count + ", " + d.date);
+    }
+
     // console.log(data);
     });
   });
