@@ -67,62 +67,39 @@ if __name__ == '__main__':
     saver.restore(sess, args.model)
 
     cams = get_cctv_links()
- 
- #   det_work = 0
- #   errors = 0
- 
     with psycopg2.connect("dbname='dot_pedestrian_counts'") as conn:
         with conn.cursor() as cursor:
             for iter_ in range(int(args.duration)):
                 save = randint(0, len(cams))
                 for _, cam in enumerate(cams):
-                    message = []
-                    start_im = time.time()
+                    # Download image, & get time when url is pinged.
                     try:
+                        im_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
                         im = get_im(cam[1])
-                        end_im = time.time() - start_im
                     except:
                         im = None
-                        message.append("Error at dl")
-                        end_im = time.time() - start_im
-
-                    start_det = time.time()
-                    try:
-                        details = get_time(im, 'test')
-                        end_det = time.time() - start_det
-                    except:
-                        details = ['error', 'error', 'error']
-                        message.append("Error at details")
-                        end_det = time.time() - start_det
+                        pass
                     
-                    start_count = time.time()
+                    # Pull camera direction if availabe (needs to be improved and pull time).
+                    try:
+                        details = get_time(im)
+                    except:
+                        details = 'NA'
+                    
+                    # Count pedestrians in image.
                     try:
                         count = detect(sess, net, im, float(args.conf))
-                        end_count = time.time() - start_count
                     except:
-                        count = 0
-                        message.append("Error at count")
-                        end_count = time.time() - start_count
-
-                    print '{}, {}, {}, {}'.format(cam[0], details[0], details[2], count)
+                        pass
                     
-                    sql = """INSERT INTO ped_count VALUES ({}, '{}', '{}', {})
-                    """.format(cam[0], details[0], details[2], count)
-
-                    cursor.execute(sql)
+                    # Put data in database
+                    cursor.execute(
+                    """INSERT INTO ped_count (cam_id, date, cam_dir, count) VALUES (%s, %s, %s, %s);""",
+                    (cam[0], im_time, details, count))
+                    conn.commit()
+#                    print '{}, {}, {}, {}'.format(cam[0], im_time, details, count)
                     
+                    # Randomly save images.
                     if _ == save:
-                        cv2.imwrite("/home/jmv423/DOT_Faster-RCNN_TF/tools/Images/{}_{}.jpg".format(cam[0], int(time.time())), im) 
+                        cv2.imwrite("/home/jmv423/DOT_Faster-RCNN_TF/tools/Images/{}_{}.jpg".format(cam[0], int(time.time())), im)
 
-#                    end = time.time() - start_im
-#                    print 'dl {},det {},count {}, tot {}'.format(end_im, end_det, end_count, end)
-#                    print '{}, {}, {}, {}'.format(cam[0], details[0], details[2], count)
-#                    if message != []:
-#                        errors +=1
-#                    try:
-#                        if details[2] in ['N', 'S', 'E', 'W']:
-#                            det_work += 1
-#                    except:
-#                        pass
-#    print 1.0 * det_work / len(cams)
-#    print 1.0 * errors / len(cams)   
