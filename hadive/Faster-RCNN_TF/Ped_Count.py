@@ -90,6 +90,8 @@ if __name__ == '__main__':
                     try:
                         count = detect(sess, net, im, float(args.conf))
                     except:
+                        count = 0
+                        im_time = 'Error'
                         pass
                     
                     # Put data in database
