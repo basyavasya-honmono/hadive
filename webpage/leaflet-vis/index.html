@@ -92,13 +92,13 @@ function camdesc(feature, layer) {
         document.getElementById("desc").innerHTML += "<p>Longitude: " + feature.geometry.coordinates[0] + "</p>";
         document.getElementById("desc").innerHTML += "<p><a href='http://dotsignals.org/google_popup.php?cid=" + feature.properties.cctv + "' target='popup' onclick='window.open('http://dotsignals.org/google_popup.php?cid=" + feature.properties.cctv + "','DOT Camera','width=400,height=300')'>Visit the DOT Camera</a>";
 
-        d3.csv("data/output.csv", function(data){      
+        d3.csv("data/weekdayavg.csv", function(data){      
             data = data.filter(function(row) {
                 return row['cam'] == feature.properties.name;
             })
 
             data.forEach(function(d) {
-                d.date = parseDate(d.date.slice(0, -3)); //get rid of this when you connect to the database.
+                d.date = parseDate(d.date); //get rid of this when you connect to the database.
                 d.count = +d.count;
             });
 
@@ -134,8 +134,23 @@ function camdesc(feature, layer) {
 
             svg.append("text")
                 .attr("text-anchor", "middle")
-                .attr("transform", "translate("+ (-padding*1.8) +","+(height/2)+")rotate(-90)")
+                .attr("transform", "translate("+ (-padding*2.2) +","+(height/2)+")rotate(-90)")
                 .text("Pedestrian Count");
+
+            svg.append("text")
+                .attr("text-anchor", "middle")
+                .attr("x", 450)
+                .attr("y", -20)
+                .text("Average Weekday Pedestrian Count (5 Minute Interval)")
+                .style("font-size", "20px")
+                .style("font-weight", "bold");
+
+            svg.append("text")
+                .attr("text-anchor", "end")
+                .attr("x", 900)
+                .attr("y", 255)
+                .text("*Average calculated using data from 2017/06/27-2017/06/30 & 2017/07/10-2017/07/13.")
+                .style("font-size", "10px");
 
             // Mouseover
             var focus = svg.append("g")
@@ -144,17 +159,17 @@ function camdesc(feature, layer) {
                 .style("font-size", "14px");
 
             focus.append("circle")
-                .attr("r", 4.5);;
+                .attr("r", 4.5);
 
             svg.append("text")
                 .attr("class", "datelabel")
                 .attr("x", 0)
-                .attr("y", 245);
+                .attr("y", 255);
 
             svg.append("text")
                 .attr("class", "pedlabel")
                 .attr("x", 0)
-                .attr("y", 230);
+                .attr("y", 240);
 
             svg.append("rect")
                 .attr("class", "overlay")
@@ -174,11 +189,11 @@ function camdesc(feature, layer) {
 
                 d3.select("svg")
                     .select(".datelabel")
-                    .text("Date: " + d.date);
+                    .text("Time: " + d.date.getHours() + ":" + d.date.getMinutes());
 
                 d3.select("svg")
                     .select(".pedlabel")
-                    .text("Pedestrians: " + d.count);             
+                    .text("Pedestrians: " + Math.round(d.count * 100) / 100);             
             }
         });
     });
@@ -186,12 +201,12 @@ function camdesc(feature, layer) {
 
 
 // To create d3 plot.
-var margin = {top: 50, right: 50, bottom: 80, left: 50},
+var margin = {top: 60, right: 30, bottom: 80, left: 70},
     width = 900,
     height = 200,
     padding = 20;
 
-var parseDate = d3.time.format("%Y-%m-%d %H:%M:%S.%L").parse;
+var parseDate = d3.time.format("%Y-%m-%d %H:%M:%S").parse;
 
 var x = d3.time.scale().range([0, width]);
 
