@@ -53,11 +53,10 @@
 	```
 	python ../hadive/hadive/Faster-RCNN_TF/del_ckpt.py --path output/faster_rcnn_end2end/voc_2007_train/ --iters <iters for training> &
 	```
-	
-### Notes
-1. Should improve data prep process.
-2. Should change naming, so we're not using the VOCdevkit naming.
-3. Runtime of approx 2:15hrs for 50,000 iters.
+
+### Counting Pedestrians
+1. Copy `Ped_Count.py` and `get_time` scripts to tools folder.
+2. Open new screen, run `Ped_Count.py`, and detach screen.
 
 ### Resulting Organization
 ```
