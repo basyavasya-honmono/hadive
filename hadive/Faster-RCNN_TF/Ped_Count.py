@@ -74,7 +74,7 @@ if __name__ == '__main__':
                 for _, cam in enumerate(cams):
                     # Download image, & get time when url is pinged.
                     try:
-                        im_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+                        time_ = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
                         im = get_im(cam[1])
                     except:
                         im = None
@@ -82,24 +82,24 @@ if __name__ == '__main__':
                     
                     # Pull camera direction if availabe (needs to be improved and pull time).
                     try:
-                        details = get_time(im)
+                        direction, imtime = get_time(im)
                     except:
-                        details = 'NA'
+                        pass
                     
                     # Count pedestrians in image.
                     try:
                         count = detect(sess, net, im, float(args.conf))
                     except:
                         count = 0
-                        im_time = 'Error'
+                        time_ = 'Error'
                         pass
                     
                     # Put data in database
                     cursor.execute(
-                    """INSERT INTO ped_count (cam_id, date, cam_dir, count) VALUES (%s, %s, %s, %s);""",
-                    (cam[0], im_time, details, count))
+                    """INSERT INTO ped_count (cam_id, date, cam_dir, count, imtime) VALUES (%s, %s, %s, %s, %s);""",
+                    (cam[0], time_, direction, count, imtime))
                     conn.commit()
-#                    print '{}, {}, {}, {}'.format(cam[0], im_time, details, count)
+#                    print '{}, {}, {}, {}'.format(cam[0], time_, details, count, imtime)
                     
                     # Randomly save images.
                     if _ == save:

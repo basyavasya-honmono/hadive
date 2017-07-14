@@ -1,224 +1,235 @@
+<!doctype html>
+
 <html lang="en">
-<head>
-<meta charset="utf-8">
-<title>DOT Traffic Cameras</title>
-<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
-<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
-<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
-<script src="http://d3js.org/d3.v3.min.js"></script>
-<link rel='shortcut icon' type='image/x-icon' href='/favicon.ico' />
-<style>
-body { font: 12px Arial;}
+    <head>
+        <meta charset="utf-8">
 
-div{
-  display:inline-block;
-  float:left;
-}
+        <title>HaDiVe</title>
+        <meta name="description" content="HaDiVe Data Visualization">
+        <meta name="author" content="Jordan Vani">
+        <link rel='favicon' type='image/x-icon' href='favicon.ico' />
 
-.map{
-  width:calc(100% - 400px);
-  height:100%;
-}
+        <link rel="stylesheet" href="css/styles.css" />
+        <link rel="stylesheet" href="js/leaflet/leaflet.css" />
 
-.col{
-  width:400px;
-  height:100%;
-}
+        <script src="js/leaflet/leaflet.js"></script>
+        <script src="js/jquery-1.11.3.min.js"></script>
+        <script src="https://d3js.org/d3.v3.min.js"></script>
+    </head>
 
-.row1{
-  width:100%;
-  height:50px;
-  text-align:center;
-  vertical-align:middle;
-}
-
-.row2{
-  width:100%;
-  height:calc(50% - 25px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-path {
-    stroke: steelblue;
-    stroke-width: 2;
-    fill: none;
-}
-
-.axis path,
-.axis line {
-    fill: none;
-    stroke: grey;
-    stroke-width: 1;
-    shape-rendering: crispEdges;
-}
-
-.overlay {
-  fill: none;
-  pointer-events: all;
-}
-
-.focus circle {
-  fill: none;
-  stroke: black;
-}
-
-</style>
-</head>
-
-<body>
-<div class="map" id="map"></div>
-<div class="col">
-  <div class="row1" id="desc"><h1>Camera Description</h1></div>
-  <div class="row2" id="cam"><h2>Cam Feed</h2></div>
-  <div class="row2" id="plot"></div>
-</div>
-
-<script>
+    <body background="images/bg.png">
+        <div class="wrapper" id="main">
+            <div class="banner" id="banner">
+                <div class="col" id="title"><h1>HaDiVe</h1></div>
+                <div class="col" id="logo">
+                    <img src="images/CUSP-logo.png" alt="CUSP-logo"></img>
+                </div>
+            </div>
+            <div class="row" id="about">
+                <h2>About</h2>
+                <p>The Human Detection in Video (HaDiVe) project is a culmination of work undertaken by 
+                faculty and students at the NYU Center for Urban Science + Progress. Using <a 
+                             href="http://dotsignals.org">publicly available video streams</a> the HaDiVe project
+                         aims to create a real-time pedestrian counter within New York City. At present, counts
+                         are recorded at approximately one minute intervals for each camera. Ultimately, this is
+                         being accomplished through the use of a Faster Region-based Convolutional Network 
+                         (Faster R-CNN) and hand-labelled training data.
+                </p>
+            </div>
+            <div class="main" id="main">            
+                <div class="map" id="map"></div>
+                <div class="side" id="cam">Click on the map for more info.</div>
+                <div class="side" id="desc"></div>
+            </div>
+            <div class="row" id="plot" style="background:rgba(0,0,0,0.1);"></div>
+            <div class="row" id="examples">
+                <h2>Examples</h2>
+                <p>With the current training and test set, the Faster R-CNN is achieving a 51% precision
+                identifying people. Together, both images below illustrate the current successes and 
+                shortcomings of the current iteration. As seen, the model is confidently identifying 
+                individuals in the foreground of the images. However, individuals who distant from the 
+                camera or partially occluded are not being identified. Ultimately, creating additional 
+                training is likely to improve overall preformance.</p>
+                <div class="row" id="exs" style="text-align:center"> 
+                    <img src="images/ex1.png" style="width:450px"></img><img src="images/ex2.png" style="width:450px"></img>
+                </div>
+                <p><br></p>
+            </div>
+            <div class"row" id="credit" style="display:inline; position:relative; text-align:center;">
+                <h3>Prof. Greggory Dobler, Trang Dam, and Jordan Vani</h3>
+                <p style="text-align:center;">Center for Urban Science + Progress</p>
+                <p style="text-align:center;"> 2017 NYU CUSP. All rights reserved</p>
+            </div>
+        </div>
+        <script>
 
 // Create map
-var map = L.map("map", {center: [40.7, -74], zoom: 11});
+var map = L.map("map", {center: [40.72, -73.95], zoom: 10});
+
 L.tileLayer("http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png", {
-  attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://cartodb.com/attributions">CartoDB</a>'
 }).addTo(map);
 
 // Load geojson.
-$.getJSON("./data/cameras.json", function(data) { addDataToMap(data, map); });
+$.getJSON("data/cameras.json", function(data) { addDataToMap(data, map); });
 
 // Add data to map.
 function addDataToMap(data, map) {
-  var dataLayer = L.geoJson(data, {
-    onEachFeature: camdesc
-  });
-  dataLayer.addTo(map);
+    var dataLayer = L.geoJson(data, {
+        onEachFeature: camdesc
+    });
+    dataLayer.addTo(map);
 }
 
 // Function on-click
 function camdesc(feature, layer) {
-  //bind click
-  layer.on('click', function (event) {
-    document.getElementById("desc").innerHTML = "<h1>" + feature.properties.description + "</h1>";
-    document.getElementById("cam").innerHTML = "<img src='http://207.251.86.238/cctv" + feature.properties.cctv + ".jpg'></img>";
-    //document.getElementById("plot").innerHTML = "<img src='./data/plots/" + feature.properties.name + ".jpg' width=100%></img>";
+    //bind click
+    layer.on('click', function (event) {
+        document.getElementById("cam").innerHTML = "<img src='http://207.251.86.238/cctv" + feature.properties.cctv + ".jpg' style='max-width:100%'></img>";
+        document.getElementById("desc").innerHTML = "<h3>" + feature.properties.description + "</h3>";
+        document.getElementById("desc").innerHTML += "<p>Camera ID: " + feature.properties.name + "</p>";
+        document.getElementById("desc").innerHTML += "<p>Latitude: " + feature.geometry.coordinates[1] + "</p>";
+        document.getElementById("desc").innerHTML += "<p>Longitude: " + feature.geometry.coordinates[0] + "</p>";
+        document.getElementById("desc").innerHTML += "<p><a href='http://dotsignals.org/google_popup.php?cid=" + feature.properties.cctv + "' target='popup' onclick='window.open('http://dotsignals.org/google_popup.php?cid=" + feature.properties.cctv + "','DOT Camera','width=400,height=300')'>Visit the DOT Camera</a>";
 
-    d3.csv("/data/output.csv", function(data){      
-      data = data.filter(function(row) {
-        return row['cam'] == feature.properties.name;
-      })
+        d3.csv("data/weekdayavg.csv", function(data){      
+            data = data.filter(function(row) {
+                return row['cam'] == feature.properties.name;
+            })
 
-      data.forEach(function(d) {
-      d.date = parseDate(d.date.slice(0, -3));
-      d.count = +d.count;
-      });
+            data.forEach(function(d) {
+                d.date = parseDate(d.date); //get rid of this when you connect to the database.
+                d.count = +d.count;
+            });
 
-     var bisectDate = d3.bisector(function(d) { return d.date; }).left;
+            var bisectDate = d3.bisector(function(d) { return d.date; }).left;
 
-      // Clear contents
-      svg.selectAll("*").remove();
+            // Clear contents
+            svg.selectAll("*").remove();
 
-      // Scale the range of the data
-      x.domain(d3.extent(data, function(d) { return d.date; }));
-      y.domain([0, d3.max(data, function(d) { return d.count; })]);
+            x.domain(d3.extent(data, function(d) { return d.date; }));
+            y.domain([0, d3.max(data, function(d) { return d.count; })]);
 
-      // Add the valueline path.
-      svg.append("path")
-          .attr("class", "line")
-          .attr("d", valueline(data));
+            // Add the valueline path.
+            svg.append("path")
+                .attr("class", "line")
+                .attr("d", valueline(data));
 
-      // Add the X Axis
-      svg.append("g")
-          .attr("class", "x axis")
-          .attr("transform", "translate(0," + height + ")")
-          .call(xAxis);
+            // Add the X Axis
+            svg.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(0," + height + ")")
+                .call(xAxis);
 
-      // Add the Y Axis
-      svg.append("g")
-          .attr("class", "y axis")
-          .call(yAxis);
+            // Add the Y Axis
+            svg.append("g")
+                .attr("class", "y axis")
+                .call(yAxis);
 
-     // Add axis labels
-     svg.append("text")
-         .attr("text-anchor", "middle")
-         .attr("transform", "translate("+ (width/2) +","+(height+(padding*1.8))+")")
-         .text("Time");
+            // Add axis labels
+            svg.append("text")
+                .attr("text-anchor", "middle")
+                .attr("transform", "translate("+ (width/2) +","+(height+(padding*1.8))+")")
+                .text("Time");
 
-     svg.append("text")
-         .attr("text-anchor", "middle")
-         .attr("transform", "translate("+ (-padding*1.8) +","+(height/2)+")rotate(-90)")
-         .text("Pedestrian Count");  
+            svg.append("text")
+                .attr("text-anchor", "middle")
+                .attr("transform", "translate("+ (-padding*2.2) +","+(height/2)+")rotate(-90)")
+                .text("Pedestrian Count");
 
-    // Mouseover
-    var focus = svg.append("g")
-        .attr("class", "focus")
-        .style("display", "none")
-        .style("font-size", "14px");
+            svg.append("text")
+                .attr("text-anchor", "middle")
+                .attr("x", 450)
+                .attr("y", -20)
+                .text("Average Weekday Pedestrian Count (5 Minute Interval)")
+                .style("font-size", "20px")
+                .style("font-weight", "bold");
 
-    focus.append("circle")
-        .attr("r", 4.5);
+            svg.append("text")
+                .attr("text-anchor", "end")
+                .attr("x", 900)
+                .attr("y", 255)
+                .text("*Average calculated using data from 2017/06/27-2017/06/30 & 2017/07/10-2017/07/13.")
+                .style("font-size", "10px");
 
-    focus.append("text")
-        .attr("x", 9)
-        .attr("dy", ".35em");
+            // Mouseover
+            var focus = svg.append("g")
+                .attr("class", "focus")
+                .style("display", "none")
+                .style("font-size", "14px");
 
-    svg.append("rect")
-        .attr("class", "overlay")
-        .attr("width", width)
-        .attr("height", height)
-        .on("mouseover", function() { focus.style("display", null); })
-        .on("mouseout", function() { focus.style("display", "none"); })
-        .on("mousemove", mousemove);
+            focus.append("circle")
+                .attr("r", 4.5);
 
-    function mousemove() {
-      var x0 = x.invert(d3.mouse(this)[0]),
-          i = bisectDate(data, x0, 1),
-          d0 = data[i - 1],
-          d1 = data[i],
-          d = x0 - d0.date > d1.date - x0 ? d1 : d0;
-//          maxdate = max(data.date)
-//          maxcount = max(data.count)
-      focus.attr("transform", "translate(" + x(d.date) + "," + y(d.count) + ")");
-//      focus.attr("transform", "translate(" + maxdate + "," + maxcount + ")");
-      focus.select("text").text(d.count + ", " + d.date);
-    }
+            svg.append("text")
+                .attr("class", "datelabel")
+                .attr("x", 0)
+                .attr("y", 255);
 
-    // console.log(data);
+            svg.append("text")
+                .attr("class", "pedlabel")
+                .attr("x", 0)
+                .attr("y", 240);
+
+            svg.append("rect")
+                .attr("class", "overlay")
+                .attr("width", width)
+                .attr("height", height)
+                .on("mouseover", function() { focus.style("display", null); })
+                .on("mouseout", function() { focus.style("display", "none"); })
+                .on("mousemove", mousemove);
+
+            function mousemove() {
+                var x0 = x.invert(d3.mouse(this)[0]),
+                i = bisectDate(data, x0, 1),
+                d0 = data[i - 1],
+                d1 = data[i],
+                d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+                focus.attr("transform", "translate(" + x(d.date) + "," + y(d.count) + ")");
+
+                d3.select("svg")
+                    .select(".datelabel")
+                    .text("Time: " + d.date.getHours() + ":" + d.date.getMinutes());
+
+                d3.select("svg")
+                    .select(".pedlabel")
+                    .text("Pedestrians: " + Math.round(d.count * 100) / 100);             
+            }
+        });
     });
-  });
-
-  //var popupText = feature.properties.description //add the popup...
-  //layer.bindPopup(popupText);
 }
 
+
 // To create d3 plot.
-var margin = {top: 10, right: 10, bottom: 50, left: 60},
-    width = 350,
-    height = 300,
+var margin = {top: 60, right: 30, bottom: 80, left: 70},
+    width = 900,
+    height = 200,
     padding = 20;
 
-var parseDate = d3.time.format("%Y-%m-%d %H:%M:%S.%L").parse;
+var parseDate = d3.time.format("%Y-%m-%d %H:%M:%S").parse;
+
 var x = d3.time.scale().range([0, width]);
+
 var y = d3.scale.linear().range([height, 0]);
 
-var xAxis = d3.svg.axis()
-    .scale(x)
+    var xAxis = d3.svg.axis()
+.scale(x)
     .orient("bottom").ticks(5);
 
-var yAxis = d3.svg.axis()
-    .scale(y)
+    var yAxis = d3.svg.axis()
+.scale(y)
     .orient("left"); //.ticks(10);
 
 var valueline = d3.svg.line()
     .x(function(d) { return x(d.date); })
     .y(function(d) { return y(d.count); });
 
-var svg = d3.select("#plot")
-  .append("svg")
+    var svg = d3.select("#plot")
+    .append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-    .attr("transform",
-          "translate(" + margin.left + "," + margin.top + ")")
-</script>
-</body>
+    .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        </script>
+    </body>
 </html>
