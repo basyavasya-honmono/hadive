@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8 />
+<title>Pedestrians in NYC</title>
+<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+  <style>
+    body { 
+      margin:0; padding:0; 
+      color:#fff;
+      font-family:verdana,sans-serif;
+    }
+
+    #map { 
+      position:absolute; top:0; bottom:0; width:100%; 
+    }
+
+    #titleBox {
+      position: absolute;
+      height: 50px;
+      width: 800px;
+      background: #666;
+      border-radius: 10px;
+      right: 0;
+      left: 0;
+      top: 20px;
+      margin: 0 auto;
+      border: 2px solid #AFAFAF;
+      font-size: 17px;
+      font-weight: bold;
+      line-height: 46px;
+      text-align: center;
+    }
+
+    #chartBox {
+      position:absolute;
+      height:30px;
+      width:200px;
+      background:#666;
+      border-radius:10px;
+      right:0;
+      left:0;
+      bottom:20px;
+      text-align:center;
+      font-size: 18px;
+      margin: 0 auto;
+      border: 2px solid #AFAFAF;
+    }
+
+    text { 
+      fill: #fff;
+    }
+
+    svg line {
+      stroke: #fff;
+      stroke-width: 1px;
+    }
+
+    svg .domain {
+      stroke: #fff;
+      fill: none;
+    }
+
+  </style>
+</head>
+<body>
+  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+  <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+  <script src='heatmap.js'></script>
+  <script src='leaflet-heatmap.js'></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="jquery.min.js"></script>  <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.11/d3.min.js"></script>
+  <div id = 'map'></div>
+  <div id = 'titleBox'>
+    Pedestrian Heatmap in NYC
+  </div>
+  <div id = 'chartBox'></div>
+
+<div style="position: absolute; height:40px;
+      width:80px; left:250px; bottom:10px;"> 
+
+        <div id="play" style="position:absolute; top:0; display:none;" onClick = "play.style.visibility= 'hidden';"><button>play</button></div></div>
+
+  <script>
+// Create map
+
+  var cfg = {
+    "radius": .005,
+    "maxOpacity": 1, 
+    "scaleRadius": true, 
+    "useLocalExtrema": false,
+    valueField: 'value'
+  };
+
+  var heatmapLayer = new HeatmapOverlay(cfg);
+
+  var baseLayer = L.tileLayer("http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png", {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://cartodb.com/attributions">CartoDB</a>'
+  });
+
+  var sliderControl = null;
+
+  var map = L.map("map", {
+    center: [40.736947, -73.989619], zoom: 12,
+    layers: [baseLayer, heatmapLayer]
+  });
+
+  function getMax(arr, prop) {
+    var max;
+    for (var i=0 ; i<arr.length ; i++) {
+        if (!max || parseInt(arr[i][prop]) > parseInt(max[prop]))
+            max = arr[i];
+    }
+    return max;
+  };
+
+  function areAllValuesZero(arr, prop) {
+    for (var i=0 ; i<arr.length ; i++) {
+        if (parseInt(arr[i][prop]) > 0)
+            return false;
+    }
+    return true;
+  };
+
+  //get json from the Socrata API
+  $.getJSON('output.json', function( rawData ) {
+
+    var goodData = [];
+    for(var i=0;i<rawData.length;i++){
+      rawData[i].lat = parseFloat(rawData[i].lat);
+      rawData[i].lng = parseFloat(rawData[i].lon); 
+      goodData.push(rawData[i]);
+
+    };
+    function sortResults(prop, asc) {
+        goodData = goodData.sort(function(a, b) {
+          if (asc) {
+              return (a[prop] > b[prop]) ? 1 : ((a[prop] < b[prop]) ? -1 : 0);
+          } else {
+              return (b[prop] > a[prop]) ? 1 : ((b[prop] < a[prop]) ? -1 : 0);
+          }
+        });
+      }
+      sortResults("hour", true);
+      //console.log(goodData);
+    var nextHour = goodData[0].hour;
+    var maxHour = getMax(goodData, "hour").hour;
+    var maxRepeat = 2;
+    var count = 0;
+
+    //initilaize variables for the heatmap
+    var countArray = [],
+      svg,
+      day,
+      x,
+      y,
+      margin,
+      height,
+      width,
+      intervalCounter = 1,
+      index = 0,
+      lastHour,
+      data = {
+        max:15,
+        min:0,
+        data:[]
+      };
+
+    // iterate interval
+    var intervalID = setInterval(function () {
+
+    //iterates 10 times for each hour
+    if (intervalCounter == 1){
+      intervalCounter = 0;
+      getAnotherHour();
+      
+    } else {
+      intervalCounter++;
+    }
+
+    var updatedHour = '0:00:00'
+
+    //create new array for live points, push it to the map
+    var newData = [];
+    for(var j=0;j<data.data.length;j++) {
+      var point = data.data[j];
+      point.value = point.value - .5 * point.value; 
+      
+      if(point.value > 0) {
+        newData.push(data.data[j]);
+      }
+    };
+    data.data = newData;
+    updatedHour = nextHour - 1;
+    if (nextHour > maxHour) {
+      if (areAllValuesZero(data.data, "value")) {
+        if (count == maxRepeat) {
+          clearInterval(intervalID);
+
+          $(document).ready(function() {
+          $("#play").show();
+          });
+        } else { 
+          count++;
+          nextHour = goodData[0].hour;
+        };
+      };
+    };
+
+    heatmapLayer.setData(data);
+
+    $("#chartBox").text('Hour: ' + updatedHour.toString() + ':00:00');
+
+    }, 100);
+
+    $(document).ready(function() {
+      $("#play").click(function() {
+      intervalID
+      });
+    });
+
+    function getAnotherHour() {
+      if (nextHour > maxHour) return;
+      var thisHour = nextHour;
+      nextHour = nextHour + 1;  
+
+      //iterate over goodData, push today's events to data.data
+      data.data = [];
+      for(var i=0;i<goodData.length;i++){
+        var hour = goodData[i].hour;
+        if (hour == thisHour) {
+          data.data.push(goodData[i]);
+        }
+
+      }
+    };     
+
+  });
+
+  
+  </script>
+</body>
+</html>
