@@ -33,7 +33,7 @@
                          aims to create a real-time pedestrian counter within New York City. At present, counts
                          are recorded at approximately one minute intervals for each camera. Ultimately, this is
                          being accomplished through the use of a Faster Region-based Convolutional Network 
-                         (Faster R-CNN) and hand-labelled training data.
+                         (Faster R-CNN) trained with a hand-labelled set of DOT images.
                 </p>
             </div>
             <div class="main" id="main">            
@@ -47,9 +47,10 @@
                 <p>With the current training and test set, the Faster R-CNN is achieving a 51% precision
                 identifying people. Together, both images below illustrate the current successes and 
                 shortcomings of the current iteration. As seen, the model is confidently identifying 
-                individuals in the foreground of the images. However, individuals who distant from the 
-                camera or partially occluded are not being identified. Ultimately, creating additional 
-                training is likely to improve overall preformance.</p>
+                individuals in the foreground of the images. However, individuals who are distant from the 
+                camera or partially occluded are not being identified. Expanding the current training set
+                is likely to improve overall performance. Nonetheless, current results may inform the
+                relative number of pedestrians throughout the city at an granular temporal scale.</p>
                 <div class="row" id="exs" style="text-align:center"> 
                     <img src="images/ex1.png" style="width:450px"></img><img src="images/ex2.png" style="width:450px"></img>
                 </div>
@@ -58,7 +59,7 @@
             <div class"row" id="credit" style="display:inline; position:relative; text-align:center;">
                 <h3>Prof. Greggory Dobler, Trang Dam, and Jordan Vani</h3>
                 <p style="text-align:center;">Center for Urban Science + Progress</p>
-                <p style="text-align:center;"> 2017 NYU CUSP. All rights reserved</p>
+                <p style="text-align:center;"> 2017 NYU CUSP. All rights reserved.</p>
             </div>
         </div>
         <script>
