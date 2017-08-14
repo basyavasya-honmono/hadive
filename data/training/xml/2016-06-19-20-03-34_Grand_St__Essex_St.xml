@@ -1,0 +1,22 @@
+<annotation>
+  <folder>NA</folder>
+  <filename>2016-06-19-20-03-34_Grand_St__Essex_St.jpg</filename>
+  <size>
+    <width>352</width>
+    <height>240</height>
+    <depth>0</depth>
+  </size>
+  <segmented>0</segmented>
+  <object>
+    <name>neg</name>
+    <pose>NA</pose>
+    <truncated>0</truncated>
+    <difficult>0</difficult>
+    <bndbox>
+      <xmin>72</xmin>
+      <ymin>93</ymin>
+      <xmax>88</xmax>
+      <ymax>114</ymax>
+    </bndbox>
+  </object>
+</annotation>

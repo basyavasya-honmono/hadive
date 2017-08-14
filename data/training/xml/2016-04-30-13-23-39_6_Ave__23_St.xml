@@ -1,0 +1,22 @@
+<annotation>
+  <folder>NA</folder>
+  <filename>2016-04-30-13-23-39_6_Ave__23_St.jpg</filename>
+  <size>
+    <width>352</width>
+    <height>240</height>
+    <depth>0</depth>
+  </size>
+  <segmented>0</segmented>
+  <object>
+    <name>neg</name>
+    <pose>NA</pose>
+    <truncated>0</truncated>
+    <difficult>0</difficult>
+    <bndbox>
+      <xmin>84</xmin>
+      <ymin>121</ymin>
+      <xmax>122</xmax>
+      <ymax>171</ymax>
+    </bndbox>
+  </object>
+</annotation>

@@ -1,0 +1,22 @@
+<annotation>
+  <folder>NA</folder>
+  <filename>2016-06-19-19-29-00_Madison_Ave__42_St.jpg</filename>
+  <size>
+    <width>352</width>
+    <height>240</height>
+    <depth>0</depth>
+  </size>
+  <segmented>0</segmented>
+  <object>
+    <name>pos</name>
+    <pose>NA</pose>
+    <truncated>0</truncated>
+    <difficult>0</difficult>
+    <bndbox>
+      <xmin>329</xmin>
+      <ymin>178</ymin>
+      <xmax>351</xmax>
+      <ymax>237</ymax>
+    </bndbox>
+  </object>
+</annotation>

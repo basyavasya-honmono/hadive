@@ -1,0 +1,34 @@
+<annotation>
+  <folder>NA</folder>
+  <filename>2016-06-19-18-36-28_West_Houston__Hudson_St.jpg</filename>
+  <size>
+    <width>352</width>
+    <height>240</height>
+    <depth>0</depth>
+  </size>
+  <segmented>0</segmented>
+  <object>
+    <name>neg</name>
+    <pose>NA</pose>
+    <truncated>0</truncated>
+    <difficult>0</difficult>
+    <bndbox>
+      <xmin>15</xmin>
+      <ymin>121</ymin>
+      <xmax>35</xmax>
+      <ymax>146</ymax>
+    </bndbox>
+  </object>
+  <object>
+    <name>neg</name>
+    <pose>NA</pose>
+    <truncated>0</truncated>
+    <difficult>0</difficult>
+    <bndbox>
+      <xmin>2</xmin>
+      <ymin>86</ymin>
+      <xmax>22</xmax>
+      <ymax>112</ymax>
+    </bndbox>
+  </object>
+</annotation>

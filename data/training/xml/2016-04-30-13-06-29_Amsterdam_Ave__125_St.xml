@@ -1,0 +1,22 @@
+<annotation>
+  <folder>NA</folder>
+  <filename>2016-04-30-13-06-29_Amsterdam_Ave__125_St.jpg</filename>
+  <size>
+    <width>352</width>
+    <height>240</height>
+    <depth>0</depth>
+  </size>
+  <segmented>0</segmented>
+  <object>
+    <name>pos</name>
+    <pose>NA</pose>
+    <truncated>0</truncated>
+    <difficult>0</difficult>
+    <bndbox>
+      <xmin>267</xmin>
+      <ymin>85</ymin>
+      <xmax>287</xmax>
+      <ymax>112</ymax>
+    </bndbox>
+  </object>
+</annotation>

@@ -1,0 +1,34 @@
+<annotation>
+  <folder>NA</folder>
+  <filename>2016-04-30-18-37-53_11_Ave__57_St.jpg</filename>
+  <size>
+    <width>352</width>
+    <height>240</height>
+    <depth>0</depth>
+  </size>
+  <segmented>0</segmented>
+  <object>
+    <name>neg</name>
+    <pose>NA</pose>
+    <truncated>0</truncated>
+    <difficult>0</difficult>
+    <bndbox>
+      <xmin>165</xmin>
+      <ymin>40</ymin>
+      <xmax>173</xmax>
+      <ymax>51</ymax>
+    </bndbox>
+  </object>
+  <object>
+    <name>neg</name>
+    <pose>NA</pose>
+    <truncated>0</truncated>
+    <difficult>0</difficult>
+    <bndbox>
+      <xmin>205</xmin>
+      <ymin>27</ymin>
+      <xmax>213</xmax>
+      <ymax>37</ymax>
+    </bndbox>
+  </object>
+</annotation>

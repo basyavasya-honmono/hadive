@@ -1,0 +1,22 @@
+<annotation>
+  <folder>NA</folder>
+  <filename>2016-06-19-19-23-24_East_Houston_St__Ave_D.jpg</filename>
+  <size>
+    <width>352</width>
+    <height>240</height>
+    <depth>0</depth>
+  </size>
+  <segmented>0</segmented>
+  <object>
+    <name>neg</name>
+    <pose>NA</pose>
+    <truncated>0</truncated>
+    <difficult>0</difficult>
+    <bndbox>
+      <xmin>232</xmin>
+      <ymin>100</ymin>
+      <xmax>250</xmax>
+      <ymax>123</ymax>
+    </bndbox>
+  </object>
+</annotation>
