@@ -1,0 +1,34 @@
+<annotation>
+  <folder>NA</folder>
+  <filename>2016-06-19-20-01-54_WBB6__DelancyClinton.jpg</filename>
+  <size>
+    <width>352</width>
+    <height>240</height>
+    <depth>0</depth>
+  </size>
+  <segmented>0</segmented>
+  <object>
+    <name>neg</name>
+    <pose>NA</pose>
+    <truncated>0</truncated>
+    <difficult>0</difficult>
+    <bndbox>
+      <xmin>70</xmin>
+      <ymin>50</ymin>
+      <xmax>83</xmax>
+      <ymax>67</ymax>
+    </bndbox>
+  </object>
+  <object>
+    <name>neg</name>
+    <pose>NA</pose>
+    <truncated>0</truncated>
+    <difficult>0</difficult>
+    <bndbox>
+      <xmin>59</xmin>
+      <ymin>39</ymin>
+      <xmax>69</xmax>
+      <ymax>53</ymax>
+    </bndbox>
+  </object>
+</annotation>

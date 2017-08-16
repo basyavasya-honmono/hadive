@@ -1,0 +1,34 @@
+<annotation>
+  <folder>NA</folder>
+  <filename>2016-06-19-19-04-09_6_Ave__West_Houston_St.jpg</filename>
+  <size>
+    <width>352</width>
+    <height>240</height>
+    <depth>0</depth>
+  </size>
+  <segmented>0</segmented>
+  <object>
+    <name>neg</name>
+    <pose>NA</pose>
+    <truncated>0</truncated>
+    <difficult>0</difficult>
+    <bndbox>
+      <xmin>234</xmin>
+      <ymin>88</ymin>
+      <xmax>283</xmax>
+      <ymax>152</ymax>
+    </bndbox>
+  </object>
+  <object>
+    <name>neg</name>
+    <pose>NA</pose>
+    <truncated>0</truncated>
+    <difficult>0</difficult>
+    <bndbox>
+      <xmin>45</xmin>
+      <ymin>40</ymin>
+      <xmax>76</xmax>
+      <ymax>80</ymax>
+    </bndbox>
+  </object>
+</annotation>
