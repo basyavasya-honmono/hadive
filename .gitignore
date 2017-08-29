@@ -1,2 +1,6 @@
 dot_images
 plots/
+
+data/external/hadive-data.csv
+
+notebooks/.ipynb_checkpoints/1.0-JV-Analysis-checkpoint.ipynb
