@@ -1,4 +1,5 @@
 import os
+import time
 import dropbox
 import psycopg2
 import datetime
@@ -7,9 +8,9 @@ import pandas as pd
 
 def parse_args():
     """Parse input arguments."""
-     parser = argparse.ArgumentParser(description="Input access token.")
-     parser.add_argument("--token", dest="token", help="Dropbox app access tokent")
-     return parser.parse_args()
+    parser = argparse.ArgumentParser(description="Input access token.")
+    parser.add_argument("--token", dest="token", help="Dropbox app access tokent")
+    return parser.parse_args()
 
 class transfer_data:
     """Dropbox transfer class."""
@@ -63,14 +64,15 @@ def main():
         print "Loaded data to df."
         df["date"] = pd.to_datetime(df["date"], format="%Y-%m-%d %H:%M:%S", errors="coerce")
         print "Converted 'date' to datetime object."
-        recent = datetime.datetime.today() - datetime.timedelta(days=100)
-        df[df["date"] > recent].to_csv("./hadive-data.csv", mode="w+")
+        df = df[df["date"].dt.month == datetime.datetime.now().month - 1]
+        df.to_csv("./hadive-data.csv", mode="w+")
         print "Wrote df to csv."
     hadive_data.upload_file("./hadive-data.csv", "/hadive-data.csv")
 
 if __name__ == "__main__":
-    day = datetime.datetime.now().day - 1
+    month = datetime.datetime.now().month - 1
     while True == True:
-        if day != datetime.datetime.now().day:
-            day = datetime.datetime.now().day
+        if month != datetime.datetime.now().month:
+            month = datetime.datetime.now().month
             main()
+            time.sleep(3600*24)
