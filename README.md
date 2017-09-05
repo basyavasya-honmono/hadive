@@ -25,6 +25,9 @@ Last, to create xml files for newly labeled data and update the train-test split
 python create_training_data.py
 ```
 
+## Training & Testing
+Training and testing is accomplished by following the [Faster-RCNN_TF documentation](https://github.com/smallcorgi/Faster-RCNN_TF/blob/master/README.md), and replacing the VOC training data with the created training data.
+
 ## Counting Pedestrians
 Download `VGGnet_fast_rcnn_iter_90000.ckpt*` files (to be hosted somewhere) and store in `hadive/data/external/`. Navigate to `hadive/src/lib/` and run `make`. Subsequently, navigate to `hadive/src/tools/` and run:
 ```
