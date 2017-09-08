@@ -14,7 +14,7 @@ from sklearn.decomposition import PCA
 # -- Load the camera locations file
 cam_file = os.path.join("..", "data", "external", "cameras.csv")
 cams     = pd.read_csv(cam_file)
-cams     = cams[cams.boro == "Manhattan"]
+cams     = cams[(cams.boro == "Manhattan") & (cams.people == 1.0)]
 
 
 # -- convert cam locations to NY state plane
@@ -31,7 +31,7 @@ ft      = pd.read_csv(ft_file, parse_dates=["date"])
 
 # -- select only those cameras in both the cams and foot traffic dataframes
 ft   = ft[ft.cam_id.isin(cams.cam_id)]
-cams = cams[cams.cam_id.isin(ft.cam_id)]
+# cams = cams[cams.cam_id.isin(ft.cam_id)]
 
 
 # -- Load the census tract shapefile
@@ -123,13 +123,13 @@ wd_full["dtmod"] = [pd.datetime.combine(i, j) for i, j in
                     zip(wd_full.day, wd_full.time)]
 
 wd_full.set_index("dtmod", inplace=True)
-wd = wd_full.groupby("cam_id").resample("5Min").mean()[["count"]].unstack(1)
+wd = wd_full.groupby("cam_id").resample("30Min").mean()[["count"]].unstack(1)
 wd_vals = wd.values
 avg = wd_vals.mean(1, keepdims=True)
 sig = wd_vals.std(1, keepdims=True)
 wd_norm = (wd_vals - avg) / (sig + (sig == 0))
-bad     = np.isnan(wd_norm[:, 0])
-wd_norm = wd_norm[~bad]
+# bad     = np.isnan(wd_norm[:, 0])
+# wd_norm = wd_norm[~bad]
 
 we_full["time"]  = we_full.date.dt.time
 we_full["day"]   = pd.datetime.today().date()
@@ -160,7 +160,8 @@ cam_rat = cam_res.astype(float) / (cam_tot + (cam_tot == 0))
 
 
 # -- PCA across cameras
-vals_all = np.hstack((wd_norm, we_norm))
+# vals_all = np.hstack((wd_norm, we_norm))
+vals_all = wd_norm
 pca = PCA(n_components=2)
 pca.fit(vals_all)
 
