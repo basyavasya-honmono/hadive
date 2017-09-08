@@ -148,9 +148,27 @@ we_norm = we_norm[~bad]
 wd_norm = wd_norm[~bad]
 
 
+# -- for each camera assign the residential characteristics
+foo = cams.merge(ct[["BoroCT2010", "UnitsRes", "UnitsComm", "UnitsTotal"]], 
+                 on="BoroCT2010", how="left")
+foo = foo[foo.cam_id.isin(we.index[~bad])]
+foo.set_index("cam_id", inplace=True)
+cam_res = foo.ix[we.index[~bad]].UnitsRes.values
+cam_com = foo.ix[we.index[~bad]].UnitsComm.values
+cam_tot = cam_res + cam_com
+cam_rat = cam_res.astype(float) / (cam_tot + (cam_tot == 0))
+
+
 # -- PCA across cameras
-#vals_all = np.hstack((wd_norm, we_norm))
-#pca = PCA(n_components=2)
+vals_all = np.hstack((wd_norm, we_norm))
+pca = PCA(n_components=2)
+pca.fit(vals_all)
+
+
+# -- plot
+# wgts = pca.transform(vals_all)
+# clf(); scatter(wgts[:, 0], wgts[:, 1], c=cm.jet(cam_rat))
+# clf(); scatter(cam_res, cam_com, c=cm.Set1(km.labels_/3.))
 
 
 
