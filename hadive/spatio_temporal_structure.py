@@ -171,6 +171,18 @@ pca.fit(vals_all)
 # clf(); scatter(cam_res, cam_com, c=cm.Set1(km.labels_/3.))
 
 
+# -- sort by ratio of residential units and calculate the correlation matrix
+rind = cam_rat.argsort()
+vals_allr = vals_all[rind]
+cc = np.dot(vals_allr, vals_allr.T) / vals_allr.shape[1]
 
+plt.close("all")
+fig, ax = plt.subplots()
+im = ax.imshow(cc, cmap="RdBu", clim=[-1, 1])
+fig.colorbar(im, ax=ax)
+fig.text(0.9, 0.5, "correlation coefficient", rotation=270, va="center")
+fig.text(0.175, 0.9, "sorted by fraction of residential units", ha="left")
+fig.canvas.draw()
+fig.savefig("../output/cc_mat.png", clobber=True)
 
 # -- Plot PCA amplitudes vs num of residential units vs num of commercial units
