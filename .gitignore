@@ -1,3 +1,5 @@
 src/assorted/hadive-data.csv
 data/external/hadive-data.csv
 notebooks/.ipynb_checkpoints/
+
+data/external/si_ferry_weekday_si_departures.csv
