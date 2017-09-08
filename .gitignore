@@ -1,5 +1,9 @@
 src/assorted/hadive-data.csv
 data/external/hadive-data.csv
 notebooks/.ipynb_checkpoints/
+<<<<<<< HEAD
 
 data/external/si_ferry_weekday_si_departures.csv
+=======
+output
+>>>>>>> origin/master
