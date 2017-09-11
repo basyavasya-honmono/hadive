@@ -11,3 +11,5 @@ output
 data/external/nyc_centralpark_2017precip.csv
 
 data/external/si_ferry_weekend_si_departures.csv
+
+data/external/turnstile_170729.txt
