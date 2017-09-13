@@ -5,6 +5,8 @@ import os
 import pyproj
 import numpy as np
 import pandas as pd
+import geopandas as gp
+from shapely.geometry import Point
 
 
 def deg_to_nys(lat, lon):
@@ -82,3 +84,74 @@ def get_cam_info(boro=None, street=True, nys=True):
         ind &= cams.boro == boro
 
     return cams[ind]
+
+
+
+def load_ct_shapes(boro=None):
+    """
+    ADD DOCS!!!
+    """
+
+    # -- set the file name
+    fname = os.path.join("..", "data", "external", "nyct2010_17b", 
+                         "nyct2010.shp")
+
+
+    # -- check if file exists and load
+    if not os.path.isfile(fname):
+        print("UTILS: census tract data {0} not found".format(fname))
+        return None
+
+
+    # -- load the data
+    ct = gp.read_file(fname)
+
+
+    # -- subselect boro
+    if boro is not None:
+        ct = ct[ct.BoroName == boro]
+
+    return ct
+
+
+
+def nys_to_ct(lat, lon, ct=None, **kwargs):
+    """
+    ADD DOCS!!!
+    """
+
+    # -- load the census tracts if need be
+    if ct is None:
+        ct = load_ct_shapes(**kwargs)
+
+
+    # -- get the number of input values
+    try:
+        nlat = len(lat)
+        nlon = len(lon)
+
+        if nlat != nlon:
+            print("UTILS: different number of lat and lon.")
+            return None
+    except:
+        lat  = [lat]
+        lon  = [lon]
+        nlat = 1
+
+
+    # -- loop through lat/lon
+    labs = []
+    for ii in range(nlat):
+        cont = ct.contains(Point(lat[ii], lon[ii]))
+        nct  = cont.sum()
+        if nct == 1:
+            labs.append(ct[cont].iloc[0].BoroCT2010)
+        elif nct == 0:
+            labs.append(u'-1')
+            print("UTILS: Census Tract not found for {0}!!!".format(lat, lon))
+        else:
+            labs.append(u'-1')
+            print("UTILS: {0} Census Tracts found for {1}, {2}!!!" \
+                      .format(cont.sum(), lat, lon))
+
+    return labs if nlat > 1 else labs[0]
