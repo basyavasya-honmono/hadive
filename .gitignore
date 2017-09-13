@@ -15,3 +15,15 @@ data/external/si_ferry_weekend_si_departures.csv
 data/external/turnstile_170729.txt
 
 data/external/hadive-data.feather
+
+data/external/mappluto
+
+data/external/zips
+
+data/external/nyct2010_17b
+
+data/results/hadive-data.csv
+
+data/results/hadive-data.feather
+
+hadive/mn_ct.npy
