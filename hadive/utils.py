@@ -28,11 +28,17 @@ def get_cam_info(boro=None, street=True):
     # -- Define the path to the file
     cfile = os.path.join("..", "data", "external", "cameras.csv")
 
+    if not os.path.isfile(cfile):
+        print("Camera parameters file {0} NOT found!!!".format(cfile))
+        return None
+
     # -- load to dataframe and subselect
     cams = pd.read_csv(cfile)
     ind  = np.ones(len(cams), dtype=bool) 
+
     if street:
         ind &= cams.people == 1.0
+
     if boro is not None:
         ind &= cams.boro == boro
 
