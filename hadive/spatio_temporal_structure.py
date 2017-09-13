@@ -43,7 +43,7 @@ ct      = ct[ct.BoroName == "Manhattan"]
 
 # -- Load the MapPLUTO manhattan shapefile
 print("loading MapPLUTO Manhattan...")
-mn_file = os.path.join("..", "data", "external", "mappluto", "Manhattan", 
+mn_file = os.path.join("..", "data", "external", "mappluto", "MN", 
                        "MNMapPLUTO.shp")
 mn      = gp.read_file(mn_file)
 
@@ -114,8 +114,8 @@ ct["UnitsRat"]  = ct.UnitsRes.astype(float) / \
 
 
 # -- For each camera, get the mean weekday/weekend behavior
-wd_full = ft[ft.date.dt.weekday < 5].copy()
-we_full = ft[ft.date.dt.weekday >= 5].copy()
+wd_full = ft[ft.date.dt.weekday < 4].copy()
+we_full = ft[ft.date.dt.weekday >= 4].copy()
 
 wd_full["time"]  = wd_full.date.dt.time
 wd_full["day"]   = pd.datetime.today().date()
@@ -123,7 +123,7 @@ wd_full["dtmod"] = [pd.datetime.combine(i, j) for i, j in
                     zip(wd_full.day, wd_full.time)]
 
 wd_full.set_index("dtmod", inplace=True)
-wd = wd_full.groupby("cam_id").resample("30Min").mean()[["count"]].unstack(1)
+wd = wd_full.groupby("cam_id").resample("5Min").mean()[["count"]].unstack(1)
 wd_vals = wd.values
 avg = wd_vals.mean(1, keepdims=True)
 sig = wd_vals.std(1, keepdims=True)
@@ -187,3 +187,31 @@ fig.canvas.draw()
 fig.savefig("../output/cc_mat.png", clobber=True)
 
 # -- Plot PCA amplitudes vs num of residential units vs num of commercial units
+
+
+# -- make a model
+def gauss(xx, xx0, sig):
+    return np.exp(-(xx - xx0)**2 / (2.0 * sig**2))
+
+xx   = np.arange(float(vals_allr.shape[1]))
+wgt  = np.array([1.1, 1.8, 1.9, -1.0])
+tmpl = np.array([gauss(xx, 102., 10.), gauss(xx, 155., 40.),
+                 gauss(xx, 222., 19.), np.ones(xx.size)])
+mod  = np.dot(tmpl.T, wgt)
+clf()
+plot(xx, vals_allr.mean(0))
+plot(xx, mod)
+
+
+
+wgts = np.zeros((vals_allr.shape[0], 4))
+
+for ii in range(vals_allr.shape[0]):
+    wgts[ii] = np.dot(np.linalg.inv(np.dot(tmpl, tmpl.T)),
+                      np.dot(tmpl, vals_allr[ii]))
+
+mod = np.dot(wgts, tmpl)
+
+clf()
+plot(xx, vals_allr[ii])
+plot(xx, mod[ii])
