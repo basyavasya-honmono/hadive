@@ -34,7 +34,7 @@ def deg_to_nys(lat, lon):
     
 
 
-def get_cam_info(boro=None, street=True, nys=True):
+def get_cam_info(boro=None, street=True, nys=True, add_ct=True):
     """
     Read in the camera info and sub-select entries.
 
@@ -49,6 +49,9 @@ def get_cam_info(boro=None, street=True, nys=True):
 
     nys : bool, optional
         Project lat/lon to NY State Plane coordinates and add to output.
+
+    add_ct : bool, optional
+        Append the census tract to the output dataframe.
 
     Returns:
     --------
@@ -78,12 +81,26 @@ def get_cam_info(boro=None, street=True, nys=True):
     ind  = np.ones(len(cams), dtype=bool) 
 
     if street:
+        print("UTILS: sub-selecting cameras likely to contain humans")
         ind &= cams.people == 1.0
 
     if boro is not None:
+        print("UTILS: sub-selecting cameras in {0}".format(boro))
         ind &= cams.boro == boro
 
-    return cams[ind]
+    cams = cams[ind]
+
+
+    # -- add the census tract if desired
+    if add_ct:
+        if not nys:
+            print("UTILS: no NYS projection")
+            return None
+        print("UTILS: finding census tract for each camera")
+        cams["BoroCT2010"] = nys_to_ct(cams.lat_nys.values, 
+                                       cams.lon_nys.values)
+
+    return cams
 
 
 
@@ -131,7 +148,7 @@ def nys_to_ct(lat, lon, ct=None, **kwargs):
         nlon = len(lon)
 
         if nlat != nlon:
-            print("UTILS: different number of lat and lon.")
+            print("UTILS: different number of lat and lon")
             return None
     except:
         lat  = [lat]
@@ -148,10 +165,11 @@ def nys_to_ct(lat, lon, ct=None, **kwargs):
             labs.append(ct[cont].iloc[0].BoroCT2010)
         elif nct == 0:
             labs.append(u'-1')
-            print("UTILS: Census Tract not found for {0}!!!".format(lat, lon))
+            print("UTILS: Census Tract not found for {0}, {1}" \
+                      .format(lat[ii], lon[ii]))
         else:
             labs.append(u'-1')
-            print("UTILS: {0} Census Tracts found for {1}, {2}!!!" \
+            print("UTILS: {0} Census Tracts found for {1}, {2}" \
                       .format(cont.sum(), lat, lon))
 
     return labs if nlat > 1 else labs[0]
