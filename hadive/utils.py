@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+import sys
 import pyproj
 import numpy as np
 import pandas as pd
@@ -173,3 +174,42 @@ def nys_to_ct(lat, lon, ct=None, **kwargs):
                       .format(cont.sum(), lat, lon))
 
     return labs if nlat > 1 else labs[0]
+
+
+
+def load_mappluto_shapes(boro, add_ct=False):
+    """
+    ADD DOCS!!!
+    """
+
+    # -- expand borough name definition
+    if boro == "Manhattan":
+        boro = "MN"
+
+        
+    # -- load the MapPLUTO data
+    mpfile = os.path.join("..", "data", "external", "mappluto", boro,
+                          boro + "MapPLUTO.shp")
+
+    
+    # -- add the census tracts
+    if not add_ct:
+        return gp.read_file(mn_file)
+
+    mnct_file = os.path.join("..", "output", "{0}MP_ct.npy".format(boro))
+    if os.path.isfile(mpct_file):
+        mp["BoroCT2010"] = np.load(mpct_file)
+    else:
+        print("UTILS: {0} MapPLUTO census tracts file ".format(boro) + 
+              "not found, generating {0}...".format(mnct_file))
+
+        mpx, mpy = np.array([(i.x, i.y) for i in mp.centroid]).T
+        mpct     = []
+        nmp      = len(mpx)
+
+        for ii in range(nmp):
+            if (ii + 1) % 100 == 0:
+                print("\rUTILS:   lot {0} of {1}".format(ii + 1, nmp)),
+                sys.stdout.flush()
+
+            pnt  = Point(mpx[ii], mpy[ii])
