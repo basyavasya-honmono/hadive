@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+import pandas as pd
 
 
 class FootTraffic(object):
@@ -19,7 +20,7 @@ class FootTraffic(object):
 
 
         # -- read the file 
-        print("FOOTTRAFFIC: READING FILE {0}...".format(self.fname))
+        print("FOOT_TRAFFIC: reading file {0}...".format(self.fname))
         self.data = pd.read_csv(self.fname, parse_dates=dates)
 
         return
