@@ -27,3 +27,10 @@ data/results/hadive-data.csv
 data/results/hadive-data.feather
 
 hadive/mn_ct.npy
+
+data/external/nyc_zip
+
+data/external/nynta_17c
+
+data/results/mn_ct.npy
+

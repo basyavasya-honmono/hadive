@@ -113,6 +113,21 @@ ct["UnitsRat"]  = ct.UnitsRes.astype(float) / \
     (ct.UnitsTotal + (ct.UnitsTotal == 0))
 
 
+# -- calculate the number of residential and commercial units for each CT
+mn_sum = mn.groupby("BoroCT2010").sum().reset_index()
+resu   = mn_sum.UnitsRes
+resc   = mn_sum.UnitsTotal - resu
+ct     = ct.merge(cams.groupby("BoroCT2010").size().reset_index(). \
+                      rename(columns={0:"NumCams"}), how="left")
+ct     = ct.merge(mn_sum[[["BoroCT2010", "ResArea", "ComArea", "BldgArea"]], 
+                  on="BoroCT2010")
+
+ct["AreaRat"]  = ct.ResArea.astype(float) / \
+                         (ct.ResArea.astype(float) + ct.ComArea.astype(float))
+ct["ResFrac"]  = ct.ResArea.astype(float) / ct.BldgArea.astype(float)
+ct["ComFrac"]  = ct.ComArea.astype(float) / ct.BldgArea.astype(float)
+    
+    
 # -- For each camera, get the mean weekday/weekend behavior
 wd_full = ft[ft.date.dt.weekday < 4].copy()
 we_full = ft[ft.date.dt.weekday >= 4].copy()
@@ -159,6 +174,19 @@ cam_tot = cam_res + cam_com
 cam_rat = cam_res.astype(float) / (cam_tot + (cam_tot == 0))
 
 
+# -- for each camera assign the residential characteristics
+foo = cams.merge(ct[["BoroCT2010", "ResArea", "ComArea", "AreaRat", "BldgArea"plt.plo]], 
+                 on="BoroCT2010", how="left")
+foo = foo[foo.cam_id.isin(we.index[~bad])]
+foo.set_index("cam_id", inplace=True)
+cam_res = foo.ix[we.index[~bad]].ResArea.values
+cam_com = foo.ix[we.index[~bad]].ComArea.values
+cam_bld = foo.ix[we.index[~bad]].BldgArea.values
+cam_tot = cam_res + cam_com
+cam_rat = cam_res.astype(float) / (cam_tot + (cam_tot == 0))
+res_frac = cam_res.astype(float) / cam_bld.astype(float)
+com_frac = cam_com.astype(float) / cam_bld.astype(float)
+                         
 # -- PCA across cameras
 # vals_all = np.hstack((wd_norm, we_norm))
 vals_all = wd_norm
