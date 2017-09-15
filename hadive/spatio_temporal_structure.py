@@ -175,7 +175,7 @@ cam_rat = cam_res.astype(float) / (cam_tot + (cam_tot == 0))
 
 
 # -- for each camera assign the residential characteristics
-foo = cams.merge(ct[["BoroCT2010", "ResArea", "ComArea", "AreaRat", "BldgArea"plt.plo]], 
+foo = cams.merge(ct[["BoroCT2010", "ResArea", "ComArea", "AreaRat", "BldgArea"]], 
                  on="BoroCT2010", how="left")
 foo = foo[foo.cam_id.isin(we.index[~bad])]
 foo.set_index("cam_id", inplace=True)
