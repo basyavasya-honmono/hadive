@@ -22,7 +22,6 @@ cam_id,cctv_id,description,lat,long,people,ribbon,boro,zipcode
 656,566,Long Island Expy @ 99 St,40.735932,-73.858634,0,0,Queens,11374
 668,541,Brooklyn Queens Expwyat Stewart Avenue,40.725389,-73.93316,9,9,Brooklyn,11222
 680,608,GCP07 EB at Ditmars Blvd - Ex9,40.760521,-73.857694,0,0,Queens,11368
-714,663,Rockaway Blvd @ Division St,40.6370209746,-73.7404337159,0,0,Queens,Bridge
 730,678,Bruckner Blvd @ Lincoln Ave,40.807681,-73.929512,0,1,Bronx,10454
 743,691,Springfield Blvd @ Merrick Blvd,40.680209,-73.753356,1,2,Queens,11413
 806,393,MHB-27 Bklyn N URDWY @ Twr,40.705112,-73.989272,0,2,Bridge,Bridge
@@ -32,17 +31,15 @@ cam_id,cctv_id,description,lat,long,people,ribbon,boro,zipcode
 871,763,Hamilton Ave @ Hamilton Pl @ 15 St (N SR),40.669201,-73.99665,1,1,Brooklyn,11215
 897,786,Jackie Robinson Pkwy @ Queens Blvd,40.714811,-73.829108,0,0,Queens,11375
 910,798,Park Ave @ 96 St,40.786516,-73.952456,1,1,Manhattan,10029
-935,823,Kissena Blvd @ Sanford Ave,40.757138,-73.827106,1,1,Queens,11355
 944,832,BQE-23-EB_at_Division_Ave-Ex31,40.707191,-73.957735,9,9,Brooklyn,11211
 956,844,VWE-21A-NB_at_QnsBlvd-Et.Rmp-Ex9,40.711512,-73.822072,9,9,Queens,11435
-311,image,Brooklyn Battery Tunnel @ West Street,40.704567,-74.015205,,,Manhattan,10004
+311,image,Brooklyn Battery Tunnel @ West Street,40.704567,-74.015205,999,999,Manhattan,10004
 176,15,E 57 St @ QBB,40.7584403234,-73.9649391174,1,1,Manhattan,10022
-313,image,Marine Parkway @ North Bound,40.58091,-73.8910388,,,Brooklyn,11234
+313,image,Marine Parkway @ North Bound,40.58091,-73.8910388,999,999,Brooklyn,11234
 124,146,Qns Blvd @ 65 Ave,40.7279742537,-73.8576507568,0,1,Queens,11374
-317,image,Throgs Neck Bridge @ Bronx Bound,40.821165,-73.814488,,,Bronx,10465
+317,image,Throgs Neck Bridge @ Bronx Bound,40.821165,-73.814488,999,999,Bronx,10465
 979,867,Northern Blvd @ 61 St,40.75391,-73.901201,1,1,Queens,11377
 980,868,BB – 25 North Rdwy @ West of Manhattan Twr,40.707558,-73.998581,0,1,Bridge,Bridge
-991,878,BB -39 North Rdwy @ Bridge Midspan,40.7060356,-73.9966579,0,0,Bridge,Bridge
 1000,888,BB-29 North East Manhattan Tower,40.707189,-73.998376,0,1,Bridge,Bridge
 1017,904,Bruckner Expwy (BRE-03) @ Witier St Ex 49,40.822617,-73.885982,0,0,Bronx,10459
 1028,914,10 Ave @ Dyer Ave,40.752424,-74.000899,1,0,Manhattan,10001
@@ -76,7 +73,9 @@ cam_id,cctv_id,description,lat,long,people,ribbon,boro,zipcode
 398,290,3 Ave @ 42 St,40.7498904234,-73.9742946625,1,1,Manhattan,10017
 399,428,3 Ave @ 57 St,40.7594480338,-73.9673423767,1,1,Manhattan,10022
 400,432,3 Ave @ 59 St,40.7607157769,-73.9663982391,1,1,Manhattan,10022
-403,431,3 AVE @ 34 ST,40.7448184804,-73.9779853821,1,0,Manhattan,10016
+991,878,BB -39 North Rdwy @ Bridge Midspan,40.7060356,-73.9966579,1,0,Bridge,Bridge
+714,663,Rockaway Blvd @ Division St,40.6370209746,-73.7404337159,0,0,Queens,Bridge
+935,823,Kissena Blvd @ Sanford Ave,40.757138,-73.827106,0,1,Queens,11355
 409,299,5 Ave @ 57 St,40.7621785273,-73.9737796783,1,1,Manhattan,10022
 410,429,3 Ave @ 49 St,40.7544093288,-73.9711618423,1,0,Manhattan,10017
 413,303,Lexington Ave @ 42 St,40.7506381772,-73.9759254456,1,1,Manhattan,10017
@@ -86,7 +85,6 @@ cam_id,cctv_id,description,lat,long,people,ribbon,boro,zipcode
 427,317,Pearl Street @ St. James Pl,40.710475156,-74.0002155304,1,0,Manhattan,10038
 462,376,WBB-21 @ SOR Manh Appr,40.7169158793,-73.985710144,0,0,Manhattan,10002
 472,400,2 Ave @ 58 St,40.7592529943,-73.9646816254,1,1,Manhattan,10022
-473,401,6 Ave @ 58 St,40.7642913322,-73.9765262604,1,0,Manhattan,10019
 483,416,QBB LL CM @ 11 St,40.7526863292,-73.9464426041,0,1,Queens,11101
 489,422,7 Ave @ 43 St,40.7567,-73.986494,1,1,Manhattan,10036
 494,427,Atlantic Ave @ Vanderbilt Ave,40.6809634749,-73.9670419693,9,9,Brooklyn,11238
@@ -135,7 +133,6 @@ cam_id,cctv_id,description,lat,long,people,ribbon,boro,zipcode
 899,787,Broadway @ 43 St,40.756583,-73.986156,1,1,Manhattan,10036
 891,782,7 Ave @ 43 St,40.756691,-73.986476,1,0,Manhattan,10036
 906,794,5 Ave @ 65 St,40.768025,-73.970282,1,1,Manhattan,00083
-907,795,5 Ave @ 66 St,40.768651,-73.969814,1,1,Manhattan,10065
 908,796,5 Ave @ 96 St,40.787916,-73.955752,1,2,Manhattan,10029
 922,811,QBB UL Entrance @ Thomson Ave,40.745235,-73.9377,0,0,Queens,11101
 934,822,2 Ave @ 74 St,40.770142,-73.957381,1,1,Manhattan,10021
@@ -158,6 +155,8 @@ cam_id,cctv_id,description,lat,long,people,ribbon,boro,zipcode
 248,112,Amsterdam @ 178 St,40.850354,-73.940604,1,1,Manhattan,10033
 321,194,Bronx River Pkwy @ 233 ST,40.893866,-73.863297,0,2,Bronx,10467
 351,223,Broadway @ Vesey St,40.7106378082,-74.0085411072,1,1,Manhattan,10038
+473,401,6 Ave @ 58 St,40.7642913322,-73.9765262604,1,0,Manhattan,10019
+907,795,5 Ave @ 66 St,40.768651,-73.969814,0,1,Manhattan,10065
 359,354,9 Ave @ 30 St,40.7501505126,-73.9978981018,9,9,Manhattan,10001
 420,437,8 Ave @ 49 St,40.7608132946,-73.9863967896,1,1,Manhattan,10019
 443,335,Belt Pkwy @ Brookville Blvd,40.6652749911,-73.7404060364,0,1,Queens,11413
@@ -167,7 +166,6 @@ cam_id,cctv_id,description,lat,long,people,ribbon,boro,zipcode
 491,424,Atlantic Ave @ Boerum St,40.6884158386,-73.9902591705,1,1,Brooklyn,11201
 492,425,Atlantic Ave @ BQE,40.6907587677,-73.9984130859,1,1,Brooklyn,11201
 496,434,Belt Pkwy @ Pennsylvania Ave,40.6425168767,-73.8758897781,0,1,Brooklyn,11239
-497,435,Belt Pkwy @ Springfield Blvd,40.6652749911,-73.7575721741,9,9,Queens,11413
 500,441,8th Ave @ 23 St,40.744395801,-73.9981126785,1,1,Manhattan,10011
 502,350,9 Ave @ 49 St,40.7619834958,-73.9892292023,1,1,Manhattan,10019
 506,351,9 Ave @ 42 St,40.7575951351,-73.9924478531,1,1,Manhattan,10036
@@ -182,7 +180,6 @@ cam_id,cctv_id,description,lat,long,people,ribbon,boro,zipcode
 671,544,BQE35 EB at 61st St - Ex39,40.73825,-73.903635,0,0,Queens,11377
 672,545,BQE39 WB at Broadway - Ex40,40.748801,-73.896317,0,0,Queens,11377
 673,546,BQE40 WB at Northern Blvd - Ex41,40.754149,-73.898635,0,0,Queens,11377
-686,637,BRE05 WB at Castle Hill Ave Ex52,40.827303,-73.849905,0,0,Bronx,10473
 699,162,Belt Pkwy @ 158 Ave,40.659301,-73.854457,0,1,Queens,11414
 711,661,BQE E/B Ent. Ramp @ Broadway,40.748641,-73.895892,0,1,Queens,11377
 739,687,Broadway @ 96 St,40.794668,-73.971788,1,1,Manhattan,10025
@@ -190,14 +187,12 @@ cam_id,cctv_id,description,lat,long,people,ribbon,boro,zipcode
 816,712,Beach Channel Dr @B 101 St,40.585808,-73.823158,1,1,Queens,11694
 817,713,Beach Channel Dr @B 90 St,40.589356,-73.815578,1,1,Queens,11693
 818,714,Beach Channel Dr @B 32 St,40.598651,-73.766059,1,1,Queens,11691
-819,715,Beach Channel Dr @B Mott Ave,40.605347,-73.75518,1,1,Queens,11691
 847,741,Amsterdam Ave @ 181 St,40.84833,-73.930868,1,1,Manhattan,10033
 918,806,Boerum Pl @ Fulton St & Joralemon St,40.692174,-73.98913,9,9,Brooklyn,11201
 924,813,Beach Channel Dr @ Beach 116 St,40.58174,-73.838443,1,1,Queens,11694
 937,825,Broadway @ 145 St,40.826446,-73.950423,1,1,Manhattan,10031
 942,830,BQE-09-WB_at_State_St_LL-Ex27,40.692444,-73.999539,0,0,Brooklyn,11201
 943,831,BQE-17_E_at_Navy_St-Ex29B,40.696418,-73.980496,9,9,Brooklyn,11201
-946,834,BQE-43-EB_at_49th_St-Ex44,40.76584,-73.903508,0,0,Queens,11377
 945,833,BQE-32-WB_at_ramp_to_LIE-Ex35,40.735292,-73.91917,0,0,Queens,11377
 963,861,BB – 64 South Rdwy @ Bklyn Twr Side Sapn,40.703795,-73.994062,0,1,Brooklyn,11201
 973,860,Astoria Blvd @ 108 St,40.760433,-73.861412,1,1,Queens,11369
@@ -209,7 +204,6 @@ cam_id,cctv_id,description,lat,long,people,ribbon,boro,zipcode
 984,872,BB-63 North Rdwy@ Bklyn Twr East,40.703912,-73.994062,0,0,Brooklyn,11201
 986,874,Br Br - 19 N Rdwy @ FDR Dr,40.708195,-73.999305,0,1,Manhattan,10002
 987,875,Br Br-20 S Rdwy FDR Dr,40.708045,-73.999541,0,1,Manhattan,10038
-989,876,BB -21 North Rdwy @ Above South St,40.708272,-73.999488,0,1,Manhattan,10002
 990,877,BB -24 South Rdwy @ Above South St,40.708186,-73.999623,0,1,Manhattan,10038
 992,879,BB - 42 South Rdwy @ Bridge Midspan,40.705954,-73.996802,0,0,Bridge,Bridge
 993,880,BB - 47 North Rdwy @ West of Bklyn Twr,40.705446,-73.9959166,1,0,Bridge,Bridge
@@ -223,31 +217,32 @@ cam_id,cctv_id,description,lat,long,people,ribbon,boro,zipcode
 1002,890,BB-51 North West Brooklyn Tower,40.704172,-73.994324,0,0,Brooklyn,11201
 1003,891,BB-52 South West Brooklyn Tower,40.704071,-73.994462,0,0,Brooklyn,11201
 1004,892,BB-53 North East Brooklyn Tower,40.704129,-73.994275,0,0,Brooklyn,11201
-1005,893,BB-54 South East Brooklyn Tower,40.70403,-73.994422,0,0,Brooklyn,11201
 1006,894,BB - 28 North West Manhattan Tower,40.707339,-73.998294,0,1,Bridge,Bridge
 1032,918,BB – 51A Brooklyn Tower – South Rdwy,40.704131,-73.994659,0,1,Brooklyn,11201
 1037,923,Adam C. Powell Blvd @ 110 St/CPN,40.799492,-73.955209,1,0,Manhattan,10026
-312,image,Brooklyn-Battery Tunnel @ Brooklyn Side,40.6804102095,-74.0048503876,,,Brooklyn,11231
-316,image,CrossBay @ North Bound,40.587526,-73.81731,,,Queens,11693
-315,image,CrossBay @ South Bound,40.597758,-73.82082,,,Queens,11693
+312,image,Brooklyn-Battery Tunnel @ Brooklyn Side,40.6804102095,-74.0048503876,999,999,Brooklyn,11231
+316,image,CrossBay @ North Bound,40.587526,-73.81731,999,999,Queens,11693
+315,image,CrossBay @ South Bound,40.597758,-73.82082,999,999,Queens,11693
 123,144,Clearview @ Northern Blvd,40.7577251648,-73.7767982483,9,9,Queens,11361
 143,120,Cross Island Pkwy @ Throgsneck,40.788185,-73.790539,0,1,Queens,11360
 166,5,Central Park S @ Columbus Cr,40.7677366853,-73.981461525,1,0,Manhattan,10019
+946,834,BQE-43-EB_at_49th_St-Ex44,40.76584,-73.903508,1,0,Queens,11377
+989,876,BB -21 North Rdwy @ Above South St,40.708272,-73.999488,1,1,Manhattan,10002
+686,637,BRE05 WB at Castle Hill Ave Ex52,40.827303,-73.849905,0,0,Bronx,10473
+819,715,Beach Channel Dr @B Mott Ave,40.605347,-73.75518,0,1,Queens,11691
+1005,893,BB-54 South East Brooklyn Tower,40.70403,-73.994422,999,0,Brooklyn,11201
 177,16,E 63 St @ QBB,40.7619184851,-73.9613771439,1,1,Manhattan,10065
 182,21,Dyer @ 42 Street,40.7581477594,-73.9939069748,1,1,Manhattan,10018
 194,33,Cross Bronx Expy @ Randall Avenue,40.8240720989,-73.824262619,0,0,Bronx,10465
-281,178,Cross Island Pkwy @ Bayside Marina,40.779278,-73.768564,0,2,Queens,11360
 347,220,Church St @ Park Pl,40.7124920152,-74.0090990067,1,1,Manhattan,10007
 434,324,Canal Street @ Chrystie Street,40.7151919084,-73.9945936203,0,0,Manhattan,10002
 435,325,Canal Street @ Allen Street,40.7144112276,-73.9922332764,9,9,Manhattan,10002
 448,339,Clearview Expy @ 26th Ave,40.7754393286,-73.7841796875,9,9,Queens,11360
-449,340,Clearview Expy @ 35 St,40.7665340823,-73.7809610367,0,0,Queens,11361
 450,341,Cross Island Expy @ 14 Ave,40.7873652885,-73.8159799576,9,9,Queens,11357
 505,445,Columbus St @ 65 Ave,40.7721568767,-73.981719017,1,1,Manhattan,10023
 513,454,Columbus Ave @ 67 St,40.7735218764,-73.9808177948,9,9,Manhattan,10023
 583,517,Brooklyn Queens Expy @ Hamilton Ave,40.680264,-74.003627,0,0,Brooklyn,11231
 588,519,Brooklyn Queens Expy @ Union St,40.684397,-74.001245,0,0,Brooklyn,11231
-589,521,Brooklyn Queens Expy @ Sackett St,40.684901,-74.000988,0,0,Brooklyn,11231
 592,523,Brooklyn Queens Expy @ Congress St,40.689685,-73.998735,0,0,Brooklyn,11201
 598,525,Brooklyn Queens Expy @ State St UL,40.692369,-73.999486,0,0,Brooklyn,11201
 605,528,Brooklyn Queens Expy @ Middagh St UL,40.701187,-73.9941,0,0,Brooklyn,11201
@@ -274,14 +269,12 @@ cam_id,cctv_id,description,lat,long,people,ribbon,boro,zipcode
 731,679,FDR @ Grand St,40.713209,-73.977491,0,1,Manhattan,10002
 732,680,FDR @ E 6 St,40.721494,-73.974554,0,0,Manhattan,10002
 733,681,FDR @ E 53 St,40.754739,-73.96219,0,0,Manhattan,10022
-734,682,FDR @ E 127 St,40.803143,-73.930444,0,1,Manhattan,10035
 735,683,FDR @ 48 St,40.751693,-73.965239,0,1,Manhattan,10017
 736,684,FDR @ Jackson St,40.710874,-73.980571,0,1,Manhattan,10002
 790,697,East Houston St @ Ave B,40.721437,-73.983838,1,1,Manhattan,10002
 791,698,East Houston St @ Ave D,40.719876,-73.978731,1,1,Manhattan,10002
 810,706,E 149 St @ River Ave,40.819285,-73.930094,1,1,Bronx,10451
 823,717,Exterior St @ E 138 St,40.81369,-73.931416,1,1,Bronx,10451
-824,718,Exterior St @ 3 Ave,40.809314,-73.929538,1,1,Bronx,10451
 829,723,Farmers Blvd @ 147 Ave @ 175 St,40.661198,-73.770991,1,1,Queens,11434
 873,766,College Point Blvd @ 35 Ave,40.763583,-73.836038,1,1,Queens,11354
 874,767,College Point Blvd @ Roosevelt Ave,40.758092,-73.834234,1,1,Queens,11354
@@ -292,7 +285,6 @@ cam_id,cctv_id,description,lat,long,people,ribbon,boro,zipcode
 930,819,FDR Dr @ 10 St,40.724136,-73.973412,0,1,Manhattan,10009
 931,820,Columbus Ave @ 90 St,40.789062,-73.970297,9,9,Manhattan,10024
 964,851,Central Park West @ 66 St,40.772441,-73.978751,1,1,Manhattan,10023
-965,852,Central Park West @ 100 St,40.79421,-73.962857,1,1,Manhattan,10025
 966,853,Central Park West @ 65 St,40.771797,-73.979217,1,1,Manhattan,10023
 967,854,Central Park West @ 72 St,40.776225,-73.975974,1,1,Manhattan,10023
 968,855,Central Park West @ 77 St,40.779481,-73.973578,1,1,Manhattan,10024
@@ -307,10 +299,15 @@ cam_id,cctv_id,description,lat,long,people,ribbon,boro,zipcode
 1021,908,Cross Bronx Expwy (CBE-05) SB @ Walton Av Ex2A,40.84524,-73.911906,0,0,Bronx,10453
 1022,909,Cross Bronx Expwy (CBE-06) NB @ Weeks Av Ex2B,40.844891,-73.907556,0,0,Bronx,10457
 1023,910,Cross Bronx Expwy (CBE-08) SB @ Arthur Av Ex3,40.84377,-73.894791,0,0,Bronx,10457
+449,340,Clearview Expy @ 35 St,40.7665340823,-73.7809610367,1,0,Queens,11361
+824,718,Exterior St @ 3 Ave,40.809314,-73.929538,1,1,Bronx,10451
+965,852,Central Park West @ 100 St,40.79421,-73.962857,1,1,Manhattan,10025
+734,682,FDR @ E 127 St,40.803143,-73.930444,0,1,Manhattan,10035
+589,521,Brooklyn Queens Expy @ Sackett St,40.684901,-74.000988,1,0,Brooklyn,11231
 1024,911,Cross Bronx Expwy (CBE-09) NB @ Marion Av Ex3,40.841645,-73.888362,0,0,Bronx,10460
 1026,35,Bruckner Expy @ Bronx River Pkwy,40.8238122991,-73.8717269897,9,9,Bronx,10473
-307,image,Henry Hudson @ North Bound,40.8780234504,-73.9206075668,,,Bronx,10463
-308,image,Henry Hudson @ South Bound,40.8759791642,-73.9236545563,,,Manhattan,10034
+307,image,Henry Hudson @ North Bound,40.8780234504,-73.9206075668,999,999,Bronx,10463
+308,image,Henry Hudson @ South Bound,40.8759791642,-73.9236545563,999,999,Manhattan,10034
 142,106,GCP @ Astoria Blvd @ 49 St,40.7670031362,-73.901191446,0,0,Queens,11377
 152,163,GR Brewer @ Belt,40.6667398398,-73.7709617615,9,9,Queens,11434
 157,92,Holland Tunnel,40.725925,-74.009506,9,9,Manhattan,10013
@@ -325,9 +322,7 @@ cam_id,cctv_id,description,lat,long,people,ribbon,boro,zipcode
 233,442,FDR Dr @ 155 Street,40.827384458,-73.934211731,0,1,Bridge,Bridge
 253,134,FDR Dr @ 23 St,40.7348035083,-73.9746809006,1,2,Manhattan,10010
 278,173,Henry Hudson Pkwy @ 232 St,40.8838314748,-73.914513588,0,1,Bronx,10463
-291,188,Henry Hudson Pkwy @ 96 St,40.7956179688,-73.9761829376,9,9,Manhattan,10024
 318,201,Fordham Rd and Grand Concourse,40.8617972187,-73.8967037201,1,1,Bronx,10458
-327,202,Fordham Rd @ Hughes Ave,40.8575452887,-73.8840866089,9,9,Bronx,10458
 378,269,GCP E Connector  @ 126 St,40.759919,-73.846248,0,0,Queens,11368
 394,279,Gowanus Expy WB @ 36 St,40.6548248038,-74.006524086,9,9,Brooklyn,11232
 436,326,FDR Dr @ Brooklyn Bridge Exit SB,40.7072545607,-74.000043869,0,1,Bridge,Bridge
@@ -357,22 +352,18 @@ cam_id,cctv_id,description,lat,long,people,ribbon,boro,zipcode
 681,609,GCP08 EB at Roosevelt Ave - Ex9,40.752036129,-73.85181427,0,0,Queens,11368
 689,640,FDR Dr @ 38 St,40.744441,-73.971242,0,1,Manhattan,10016
 690,641,FDR Dr @ 90 St,40.777422,-73.942713,0,1,Manhattan,10028
-691,642,FDR Dr @ 79 St,40.770256,-73.947626,0,1,Manhattan,10028
 692,643,FDR Dr @ 73 St,40.766599,-73.950845,9,9,Manhattan,10021
 713,662,GCP @ LGA 94 St Exit,40.771466,-73.877462,0,0,Queens,11371
 719,668,Houston St @ Lafeyette St,40.725063,-73.995413,9,9,Manhattan,10012
 720,669,Houston St @ Bowery St,40.724348,-73.992623,0,0,Manhattan,10012
 722,671,Houston St @ Broadway,40.725458,-73.996756,1,1,Manhattan,10012
 788,695,Hillside Ave @ Little Neck Pkwy,40.736207,-73.713777,9,9,Queens,11426
-805,705,Harlem Rvr Dr (FDR) @ 166 St,40.836133,-73.934883,0,1,Manhattan,10032
 812,708,Grand Concourse @ 161 St,40.826849,-73.922609,0,1,Bronx,10451
 825,719,Grand Concourse @ E 149 St,40.81857,-73.927322,1,1,Bronx,10451
 832,726,Guy Brewer Blvd @ N Conduit Ave,40.667978,-73.771617,1,1,Queens,11434
 839,738,Flatbush Ave @ Aviator Sports & Golf Club,40.5902,-73.900803,1,1,Brooklyn,11234
 840,733,Ft Washinton @ 179 St,40.849349,-73.93894,0,1,Manhattan,10033
 841,732,Ft Washington @ 178 St,40.848657,-73.939207,1,1,Manhattan,10033
-844,737,Flatbush Ave @ Fillmore Ave,40.614704,-73.928063,1,2,Brooklyn,11234
-850,744,Hylan Blvd @ Seaview Ave,40.586632,-74.091912,1,1,Staten Island,10305
 858,752,Hylan Blvd @ Richmond Ave,40.534229,-74.153896,1,1,Staten Island,10312
 860,754,Hylan Blvd @ Huguenot Ave,40.524067,-74.186177,1,1,Staten Island,10312
 861,755,Hylan Blvd @ Arden Ave,40.529434,-74.161351,1,1,Staten Island,10312
@@ -383,20 +374,24 @@ cam_id,cctv_id,description,lat,long,people,ribbon,boro,zipcode
 876,769,Flatbush Ave @ Ave U,40.609864,-73.922379,9,9,Brooklyn,11234
 877,770,Flatbush Ave @ Kings Hwy,40.622374,-73.936664,1,1,Brooklyn,11234
 878,771,Flatbush Ave @ Marine Park,40.601134,-73.913036,9,9,Brooklyn,11234
+850,744,Hylan Blvd @ Seaview Ave,40.586632,-74.091912,1,1,Staten Island,10305
+327,202,Fordham Rd @ Hughes Ave,40.8575452887,-73.8840866089,0,9,Bronx,10458
+691,642,FDR Dr @ 79 St,40.770256,-73.947626,0,1,Manhattan,10028
+291,188,Henry Hudson Pkwy @ 96 St,40.7956179688,-73.9761829376,1,9,Manhattan,10024
+844,737,Flatbush Ave @ Fillmore Ave,40.614704,-73.928063,1,2,Brooklyn,11234
+805,705,Harlem Rvr Dr (FDR) @ 166 St,40.836133,-73.934883,1,1,Manhattan,10032
 879,772,Hylan Blvd @ West Fingerboard Rd & Sand Ln,40.598942,-74.072231,1,1,Staten Island,10305
 896,781,Henry Hudson Pkwy @ 125 St,40.816868,-73.96281,9,9,Manhattan,10024
 895,779,Henry Hudson Pkwy @ 70 St,40.779679,-73.988462,0,1,Manhattan,10069
 929,818,FDR Dr @ Old Slip,40.703052,-74.007824,0,1,Manhattan,10004
 933,501,Henry Hudson Pkwy @ 125 St,40.818617,-73.96099,0,1,Manhattan,10027
-948,836,GE-10-WB_at_46th_St-Ex23,40.650021,-74.012391,0,0,Brooklyn,11220
 1008,895,Flushing Ave @ 54 St,40.715065,-73.913276,1,0,Queens,11378
 1009,896,Flushing Ave @ 61 St,40.721009,-73.904092,1,0,Queens,11378
 1010,897,Flushing Ave @ Fresh Pond Rd,40.721888,-73.903107,1,0,Queens,11378
 1011,898,Flushing Ave @ Grand Ave & 64 St,40.722749,-73.901592,1,0,Queens,11378
 1012,899,Grand Ave @ Hamilton Pl,40.724536,-73.898416,1,0,Queens,11378
 1013,900,Grand Ave @ LIE,40.725764,-73.895635,1,0,Queens,11378
-1029,915,Flushing Bridge,40.762558,-73.83709,0,1,Queens,Bridge
-314,image,Marine Parkway @ South Bound,40.567187,-73.880567,,,Queens,11694
+314,image,Marine Parkway @ South Bound,40.567187,-73.880567,999,999,Queens,11694
 146,111,Major Deegan @ Triboro Bridge,40.809443,-73.929361,0,1,Bronx,10454
 147,122,New Eng Thru @ Bartow,40.868476,-73.832667,0,1,Bronx,10475
 216,55,LIE @ QMT-  Pulaski Br,40.7409167225,-73.9533948898,0,0,Queens,11101
@@ -414,7 +409,6 @@ cam_id,cctv_id,description,lat,long,people,ribbon,boro,zipcode
 466,386,MHB-20 Mahn S URW @ Anch,40.709987197,-73.9930057526,0,1,Manhattan,10002
 467,391,MHB-25 Manh S URW @ Twr Walkwy,40.708714,-73.991704,0,1,Bridge,Bridge
 470,397,MHB-31 Bklyn N URW @ Anch,40.7030577937,-73.9884996414,0,1,Brooklyn,11201
-521,450,Lenox Ave @ 135 St,40.8133220296,-73.9406061172,9,9,Manhattan,10037
 522,467,Madison Ave @ 42 St,40.7519711087,-73.9790153503,1,1,Manhattan,10165
 528,470,Madison Ave @ 49 St,40.7563598406,-73.9758396149,1,1,Manhattan,10017
 530,472,Lenox Ave @ 125 St,40.80798,-73.945472,1,1,Manhattan,10027
@@ -442,7 +436,6 @@ cam_id,cctv_id,description,lat,long,people,ribbon,boro,zipcode
 661,571,Long Island Expy @ 172nd St,40.738072,-73.797433,0,0,Queens,11365
 662,572,Long Island Expy @ 185th St,40.739972,-73.790251,0,0,Queens,11365
 663,573,Long Island Expy @ Underhill Ave,40.742773,-73.780607,9,9,Queens,11365
-666,562,Long Island Expy @ 58th St LL,40.729904,-73.911293,9,9,Queens,11378
 712,130,LIE @ Marathon Pkwy,40.760716,-73.73183,0,1,Queens,11362
 798,396,MHB-30 @ BRK S URW @ TWR Walk Way,40.705035,-73.98958,0,1,Bridge,Bridge
 799,161,LIE @ Oceania St,40.7458,-73.767759,0,2,Queens,11364
@@ -459,19 +452,19 @@ cam_id,cctv_id,description,lat,long,people,ribbon,boro,zipcode
 822,398,MHB-32 Bklyn S URDW @ Anch,40.702878,-73.98845,0,1,Brooklyn,11201
 848,742,Northern Blvd @ 108 St,40.757824,-73.861028,1,1,Queens,11369
 849,743,Northern Blvd @ 114 St,40.758271,-73.855567,0,1,Queens,11369
+521,450,Lenox Ave @ 135 St,40.8133220296,-73.9406061172,0,9,Manhattan,10037
+1029,915,Flushing Bridge,40.762558,-73.83709,0,1,Queens,Bridge
+948,836,GE-10-WB_at_46th_St-Ex23,40.650021,-74.012391,0,0,Brooklyn,11220
 869,382,MHB-16 Manh Colonade Entr,40.71298,-73.993783,1,1,Manhattan,10002
 870,762,MHB-16A Manh East of Colonnade Entr,40.715131,-73.995022,0,1,Manhattan,10002
 880,773,Northern Blvd @ 51 St,40.752967,-73.910238,1,1,Queens,11377
 894,785,LIE @ College Point Blvd,40.744001,-73.837011,1,1,Queens,11355
-900,788,Kissena Blvd @ Holly Ave,40.750627,-73.819113,1,1,Queens,11355
 902,790,Kissena Blvd @ LIE N S/R,40.739234,-73.815061,1,1,Queens,11355
 903,791,Main St @ LIE N S/R,40.742587,-73.825432,1,1,Queens,11367
 904,792,Main St @ Roosevelt Ave,40.759565,-73.830121,9,9,Queens,11354
 916,804,Jackie Robinson Pkwy @ Metropolitan Ave,40.708048,-73.970297,0,0,Bridge,Bridge
 927,816,Main St @ Sanford Ave,40.756669,-73.828794,1,1,Queens,11355
-932,821,Malcom X Blvd @ 145 St,40.820458,-73.936233,1,1,Manhattan,10039
 938,829,Jackie Robinson Pkwy @ Jamaica Ave,40.678191,-73.897749,0,1,Brooklyn,11207
-949,837,LIE-06-EB_ramp_E_BQE_to_W_LIE,40.733208,-73.921545,0,0,Queens,11378
 950,838,LIE-11-EB_at_60th_St-Ex18,40.726831,-73.906097,0,0,Queens,11378
 951,839,LIE-15-WB_at_Queens_Blvd-Ex19,40.732826,-73.868289,0,0,Queens,11373
 953,841,LIE-20-WB_at_146th_St-Ex24,40.741394,-73.822525,0,0,Queens,11367
@@ -481,8 +474,8 @@ cam_id,cctv_id,description,lat,long,people,ribbon,boro,zipcode
 1033,919,NB Cross Brx Expy-Webster Av Exit ramp @ E 174 St & Cater Av,40.844531,-73.903627,1,1,Bronx,10457
 1035,921,Melrose Ave/Webster Ave @ E 161,40.824194,-73.913826,1,0,Bronx,10451
 1038,924,Malcolm X Blvd/Lenox Ave @ 110 St/CPN,40.798238,-73.952408,1,0,Manhattan,10026
-320,image,Queens Midtown Tunnel @ Manhattan Side,40.7452411571,-73.9706468582,,,Manhattan,10016
-310,image,Queens Midtown Tunnel @ Queens Side,40.7417621228,-73.9584159851,,,Queens,11101
+320,image,Queens Midtown Tunnel @ Manhattan Side,40.7452411571,-73.9706468582,999,999,Manhattan,10016
+310,image,Queens Midtown Tunnel @ Queens Side,40.7417621228,-73.9584159851,999,999,Queens,11101
 126,148,Qns Blvd @ 65 PL,40.741495,-73.898293,1,1,Queens,11377
 161,56,Queens Blvd @ Van Dam,40.743034,-73.934624,1,1,Queens,11101
 215,54,Queens Plaza North @ 2811 (Westside),40.7493702419,-73.9386320114,0,1,Queens,11101
@@ -495,7 +488,6 @@ cam_id,cctv_id,description,lat,long,people,ribbon,boro,zipcode
 425,315,Sands St @ BQE Ent,40.699186123,-73.9847660065,1,1,Brooklyn,11201
 426,316,Pearl St @ Dover,40.7086859556,-74.0019321442,1,0,Manhattan,10038
 430,320,RT. 9A @ N. Moore St,40.7196481192,-74.0120601654,1,1,Manhattan,10013
-438,328,South Street @ Pike Street,40.7092715174,-73.9915466309,1,1,Bridge,Bridge
 476,404,QBB SOR @ 1 Ave,40.7593830207,-73.9615058899,0,2,Manhattan,10022
 478,407,QBB NOR @ York Ave,40.7587328861,-73.9600896835,0,1,Manhattan,10022
 479,408,QBB UL CM @ York Ave,40.7585703514,-73.9603900909,0,1,Manhattan,10022
@@ -511,12 +503,10 @@ cam_id,cctv_id,description,lat,long,people,ribbon,boro,zipcode
 573,512,Prospect Expy @ Fort Hamilton Pkwy,40.649811,-73.97541,0,0,Brooklyn,11218
 577,514,Prospect Expy @ 9 Ave,40.657429,-73.983135,0,0,Brooklyn,11215
 578,515,Prospect Expy @ 7 Ave,40.660376,-73.987234,0,0,Brooklyn,11215
-580,516,Prospect Expy @ 6 Ave,40.662427,-73.988693,0,0,Brooklyn,11215
 639,628,Staten Island Expwy @ W of South Ave,40.621249,-74.168873,0,0,Staten Island,10314
 641,630,Staten Island Expwy @ Richmond Ave,40.615044,-74.15735,9,9,Staten Island,10314
 642,631,Staten Island Expwy @ SIE/MLK Interchange,40.612242,-74.153767,9,9,Staten Island,10314
 644,632,Staten Island Expwy @ Victory Blvd.,40.609522,-74.150183,0,0,Staten Island,10314
-645,633,Staten Island Expwy @ Bradley Ave,40.60817,-74.132073,0,0,Staten Island,10314
 697,649,Prospect Pkwy @ 3 Ave,40.666593,-73.994958,0,1,Brooklyn,11215
 707,658,Ocean Pkwy @ Ave U,40.59785,-73.9655,0,1,Brooklyn,11223
 723,672,Ocean Pkwy @ Ave I,40.626558,-73.970924,1,1,Brooklyn,11230
@@ -535,10 +525,13 @@ cam_id,cctv_id,description,lat,long,people,ribbon,boro,zipcode
 833,727,Rockaway Blvd @ Baisley Blvd,40.672635,-73.785637,1,1,Queens,11434
 834,728,S Conduit Ave @ 150 St,40.665993,-73.78955,9,9,Queens,11430
 837,731,Rockaway Blvd @ Brookville Blvd,40.640648,-73.743377,9,9,Queens,11422
+900,788,Kissena Blvd @ Holly Ave,40.750627,-73.819113,1,1,Queens,11355
+949,837,LIE-06-EB_ramp_E_BQE_to_W_LIE,40.733208,-73.921545,1,0,Queens,11378
+932,821,Malcom X Blvd @ 145 St,40.820458,-73.936233,1,1,Manhattan,10039
+438,328,South Street @ Pike Street,40.7092715174,-73.9915466309,0,1,Bridge,Bridge
 842,735,Rockaway Blvd @ S. Conduit Ave,40.6668,-73.779833,1,1,Queens,11434
 843,736,Rockaway Blvd @ Farmers Blvd,40.659656,-73.773968,0,1,Queens,11430
 851,745,Ocean Pkwy @ Surf Av @ Sea Breeze Ave,40.575219,-73.968764,1,1,Brooklyn,11235
-852,746,Ocean Pkwy @ Ave X,40.591079,-73.965347,9,9,Brooklyn,11223
 853,747,Ocean Pkwy @ Kings Hwy,40.605697,-73.966819,0,0,Brooklyn,11223
 855,749,Seagirt Blvd @ B 9 St,40.596501,-73.744193,0,1,Queens,11691
 866,760,Pelham Pkwy @ Stillwell Ave,40.856678,-73.836682,1,2,Bronx,10461
@@ -565,14 +558,14 @@ cam_id,cctv_id,description,lat,long,people,ribbon,boro,zipcode
 976,864,Northern Blvd @ Steinway,40.752466,-73.924313,1,1,Queens,11101
 1025,912,Sheridan Expwy (SHE-01) SB @ Jennings St,40.830583,-73.885398,0,0,Bronx,10459
 1027,913,Queens Blvd @ 48 St,40.743075,-73.916846,1,0,Queens,11104
-304,image,Throgs Neck Bridge @ Queens Bound,40.789083,-73.79157,,,Queens,11360
-298,image,Triborough Bridge Bronx Bound,40.799604,-73.918512,,,Bronx,10454
-299,image,Triborough Bridge Queens Bound,40.777421721,-73.9257144928,,,Queens,11105
-301,image,Triborough Bridges @ Manhattan Bound,40.80055609,-73.9291906357,,,Manhattan,10035
-306,image,Verrazano-Narrows @ Brooklyn Bound,40.601213,-74.055619,,,Staten Island,10305
-305,image,Verrazano-Narrows @ Staten Island Bound,40.603283,-74.054887,,,Staten Island,10305
-302,image,Whitestone @ Bronx Bound,40.806837,-73.832813,,,Bronx,10465
-303,image,Whitestone @ Queens Bound,40.7958453903,-73.8258075714,,,Queens,11357
+304,image,Throgs Neck Bridge @ Queens Bound,40.789083,-73.79157,999,999,Queens,11360
+298,image,Triborough Bridge Bronx Bound,40.799604,-73.918512,999,999,Bronx,10454
+299,image,Triborough Bridge Queens Bound,40.777421721,-73.9257144928,999,999,Queens,11105
+301,image,Triborough Bridges @ Manhattan Bound,40.80055609,-73.9291906357,999,999,Manhattan,10035
+306,image,Verrazano-Narrows @ Brooklyn Bound,40.601213,-74.055619,999,999,Staten Island,10305
+305,image,Verrazano-Narrows @ Staten Island Bound,40.603283,-74.054887,999,999,Staten Island,10305
+302,image,Whitestone @ Bronx Bound,40.806837,-73.832813,999,999,Bronx,10465
+303,image,Whitestone @ Queens Bound,40.7958453903,-73.8258075714,999,999,Queens,11357
 118,128,GCP @ 214 St,40.7269335439,-73.7537097931,0,2,Queens,11427
 155,171,Victory Blvd @ Bay St,40.637748,-74.076018,9,9,Staten Island,10301
 211,50,West St @ Canal St,40.7250797391,-74.0104722977,1,1,Manhattan,10013
@@ -581,7 +574,6 @@ cam_id,cctv_id,description,lat,long,people,ribbon,boro,zipcode
 330,217,Worth St @ Centre St,40.7143786991,-74.0019750595,1,0,Manhattan,10007
 338,212,Water St @ Wall St,40.704424212,-74.0072107315,1,1,Manhattan,10005
 339,213,Water St @ John St,40.7060508639,-74.0048503876,1,1,Manhattan,10038
-391,281,Van Wyck Expy @ S Conduit Ave LL,40.666235,-73.801711,0,0,Queens,11430
 401,71,West St @ Murray,40.7144437562,-74.013261795,0,1,Manhattan,10007
 431,321,Worth Street @ W. Broadway,40.7169158793,-74.0075540543,9,9,Manhattan,10013
 432,322,Worth Street @ Lafayette Street,40.7148015692,-74.002790451,1,1,Manhattan,10007
@@ -598,19 +590,20 @@ cam_id,cctv_id,description,lat,long,people,ribbon,boro,zipcode
 464,378,WBB-23 @ N Manh Twr,40.714282,-73.976186,0,0,Manhattan,10002
 474,402,Sutton Pl @ 58 St,40.7572700598,-73.9599609375,1,1,Manhattan,10022
 535,474,Union Sq @ 14 St,40.735226,-73.990946,1,1,Manhattan,10003
-562,581,Van Wyck Expwy @ 133 Ave SB,40.669369,-73.80159,1,0,Queens,11420
 568,582,Van Wyck Expwy @ Alwick Rd SB,40.673467,-73.801589,0,0,Queens,11420
 575,585,Van Wyck Expwy @ Foch Blvd. SB,40.677796,-73.80354,0,0,Queens,11420
 576,586,Van Wyck Expwy Btwn 115 Ave. & 116 Ave,40.680149,-73.804696,0,0,Queens,11420
 579,587,Van Wyck Expwy @ 111 Ave,40.684474,-73.806756,0,0,Queens,11420
-581,588,Van Wyck Expwy @ 109 Ave,40.687341,-73.807777,0,0,Queens,11435
-582,589,Van Wyck Expwy @ 101 Ave NB,40.693968,-73.811431,0,0,Queens,11435
 584,590,Van Wyck Expwy @ 101  Ave SB,40.693773,-73.81193,0,0,Queens,11419
 586,592,Van Wyck Expwy @ 91 Ave,40.699832,-73.814823,0,0,Queens,11435
 587,593,Van Wyck Expwy @ Hillside Ave,40.703875,-73.8167,0,0,Queens,11435
 590,594,Van Wyck Expwy @ 87 Ave,40.706768,-73.819027,0,0,Queens,11435
 591,595,Van Wyck Expwy @ Queens Blvd.(entrance ramp),40.711483,-73.821954,0,0,Queens,11435
 593,596,Van Wyck Expwy @ Jackie Robinson Pkwy,40.713339,-73.824376,9,9,Queens,11415
+852,746,Ocean Pkwy @ Ave X,40.591079,-73.965347,1,9,Brooklyn,11223
+582,589,Van Wyck Expwy @ 101 Ave NB,40.693968,-73.811431,0,0,Queens,11435
+562,581,Van Wyck Expwy @ 133 Ave SB,40.669369,-73.80159,0,0,Queens,11420
+391,281,Van Wyck Expy @ S Conduit Ave LL,40.666235,-73.801711,0,0,Queens,11430
 594,597,Van Wyck Expwy @ GCP/Interchange,40.716877,-73.826497,0,0,Queens,11367
 596,598,Van Wyck Expwy @ 67 Rd,40.733169,-73.835841,0,0,Queens,11367
 597,599,Van Wyck Expwy @ LIE,40.7393559552,-73.845076561,0,0,Queens,11367
@@ -649,3 +642,10 @@ cam_id,cctv_id,description,lat,long,people,ribbon,boro,zipcode
 962,850,WSE-12-N_at_Bloomfield_Ave_Ex9,40.612187,-74.180287,0,0,Staten Island,10314
 985,873,Water St @ Whitehall,40.702389,-74.012806,1,0,Manhattan,10004
 1034,920,Webster Ave @ E 180 St,40.851889,-73.898344,1,0,Bronx,10457
+281,178,Cross Island Pkwy @ Bayside Marina,40.779278,-73.768564,1,2,Queens,11360
+403,431,3 AVE @ 34 ST,40.7448184804,-73.9779853821,1,0,Manhattan,10016
+497,435,Belt Pkwy @ Springfield Blvd,40.6652749911,-73.7575721741,1,9,Queens,11413
+580,516,Prospect Expy @ 6 Ave,40.662427,-73.988693,1,0,Brooklyn,11215
+645,633,Staten Island Expwy @ Bradley Ave,40.60817,-74.132073,0,0,Staten Island,10314
+581,588,Van Wyck Expwy @ 109 Ave,40.687341,-73.807777,1,0,Queens,11435
+666,562,Long Island Expy @ 58th St LL,40.729904,-73.911293,0,9,Queens,11378
