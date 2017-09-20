@@ -40,3 +40,5 @@ data/external/states
 
 *.pkl
 
+data/external/NYS_Civil_Boundaries_SHP/
+
