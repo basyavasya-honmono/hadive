@@ -34,3 +34,9 @@ data/external/nynta_17c
 
 data/results/mn_ct.npy
 
+data/external/nj_shp
+
+data/external/states
+
+*.pkl
+
