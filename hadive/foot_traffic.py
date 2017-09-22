@@ -22,7 +22,8 @@ class FootTraffic(object):
 
         # -- read the file 
         print("FOOT_TRAFFIC: reading file {0}...".format(self.fname))
-        self.data = pd.read_csv(self.fname, parse_dates=dates)
+        print("FOOT_TRAFFIC:   dropping NaN rows")
+        self.counts_full = pd.read_csv(self.fname, parse_dates=dates).dropna()
 
         return
 
@@ -34,26 +35,71 @@ class FootTraffic(object):
 
         # -- sub-select cameras
         if cam_id is not None:
-            ft_cams = self.data.cam_id.unique()
+            ft_cams = self.counts_full.cam_id.unique()
             missing = (~np.in1d(cam_id, ft_cams)).nonzero()[0]
 
             for ii in missing:
                 print("FOOT_TRAFFIC: cam_id {0} not found".format(cam_id[ii]))
 
-            self.data_sub = self.data[self.data.cam_id.isin(cam_id)]
+            self.counts = self.counts_full[self.counts_full.cam_id \
+                                           .isin(cam_id)]
+
+        else:
+            try:
+                self.cams
+            except:
+                print("FOOT_TRAFFIC: camera file not yet loaded!")
+                return
+
+            self.select_cams(self.cams.cam_id.values)
+
 
         return
 
 
     def get_cams(self, **kwargs):
         """
-        AND DOCS!!!
+        ADD DOCS!!!
         """
 
         # -- get the camera parameters
         self.cams = get_cam_info(**kwargs)
 
-        # -- sub-select based on those cameras
-        self.select_cams(self.cams.cam_id)
+        return
+
+
+    def merge_ct_residential(self):
+        """
+        ADD DOCS!!!
+        """
+
+        # -- alert user
+        print("FOOT_TRAFFIC: merging with census tracts not yet implemented!")
 
         return
+
+
+    def bin_timeseries(self, interval="15Min", full=False):
+        """
+        ADD DOCS!!!
+        """
+
+        # -- test for selection
+        if not full:
+            try:
+                self.counts
+            except:
+                print("FOOT_TRAFFIC: the data has not been sub-selected by "
+                      "camera")
+                print("FOOT_TRAFFIC:   use get_cams() or set full=True")
+                return
+
+            self.counts_bin = self.counts.set_index("date").groupby("cam_id") \
+                                    .resample(interval).mean()[["counts"]]
+
+
+# # testing
+# 11033247
+# counts.loc[counts.index == 11033247, "count"] = np.NaN
+
+# fname = '../data/results/hadive-data.csv'

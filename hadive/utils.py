@@ -86,6 +86,10 @@ def get_cam_info(boro=None, street=True, nys=True, add_ct=True):
         ind &= cams.people == 1.0
 
     if boro is not None:
+        blist = ["Brooklyn", "Bronx", "Manhattan", "Queens", "Staten Island"]
+        if boro is not in blist:
+            print("UTILS: boro must be one of ")
+            print("UTILS:   {0}".format(blist))
         print("UTILS: sub-selecting cameras in {0}".format(boro))
         ind &= cams.boro == boro
 
