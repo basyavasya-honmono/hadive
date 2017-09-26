@@ -1,4 +1,6 @@
+from __future__ import print_function
 import os
+import sys
 import cv2
 import time
 import json
@@ -23,7 +25,7 @@ def parse_args():
     parser = argparse.ArgumentParser(description='Count pos examples of people in DOT images')
     parser.add_argument('--net', dest='demo_net', help='Network to use [vgg16]', default='VGGnet_test')
     parser.add_argument('--model', dest='model', help='Path to .ckpt', default=' ')
-    parser.add_argument('--folder', dest='folder', help='Folde containing ims', default=' ')
+    parser.add_argument('--folder', dest='folder', help='Folder containing ims', default=' ')
     parser.add_argument('--conf', dest='conf', help='Confidence limit for detecting pedestrians', default='0.8')
     args = parser.parse_args()
     return args
@@ -60,11 +62,12 @@ if __name__ == '__main__':
     demo_ims = filter(lambda x: x.endswith(".jpg"), os.listdir(demo_path))
 
     data = {}
-    for im_file in demo_ims:
+    for idx, im_file in enumerate(demo_ims):
         try:
             im_file_path = os.path.join(demo_path, im_file)
             dets = detect(sess, net, im_file_path, args.conf)
-            print im_file, len(dets)
+            print("({}/{}) {} in {}".format(idx, len(demo_ims), len(dets), im_file), end="\r")
+            sys.stdout.flush()
             data[im_file] = {"count": len(dets), "bboxes": [x.tolist() for x in dets]}
         except:
             pass
