@@ -25,7 +25,7 @@ def parse_args():
     parser = argparse.ArgumentParser(description='Count pos examples of people in DOT images')
     parser.add_argument('--net', dest='demo_net', help='Network to use [vgg16]', default='VGGnet_test')
     parser.add_argument('--model', dest='model', help='Path to .ckpt', default=' ')
-    parser.add_argument('--path', dest='folder', help='Folder containing ims', default=' ')
+    parser.add_argument('--path', dest='path, help='Folder containing ims', default=' ')
     parser.add_argument('--conf', dest='conf', help='Confidence limit for detecting pedestrians', default='0.8')
     args = parser.parse_args()
     return args
