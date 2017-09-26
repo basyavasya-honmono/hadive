@@ -25,7 +25,7 @@ def parse_args():
     parser = argparse.ArgumentParser(description='Count pos examples of people in DOT images')
     parser.add_argument('--net', dest='demo_net', help='Network to use [vgg16]', default='VGGnet_test')
     parser.add_argument('--model', dest='model', help='Path to .ckpt', default=' ')
-    parser.add_argument('--folder', dest='folder', help='Folder containing ims', default=' ')
+    parser.add_argument('--path', dest='folder', help='Folder containing ims', default=' ')
     parser.add_argument('--conf', dest='conf', help='Confidence limit for detecting pedestrians', default='0.8')
     args = parser.parse_args()
     return args
@@ -58,13 +58,12 @@ if __name__ == '__main__':
     saver = tf.train.Saver(write_version=tf.train.SaverDef.V2)                   # load model
     saver.restore(sess, args.model)
 
-    demo_path = os.path.join("..", "data", "demo", args.folder)
-    demo_ims = filter(lambda x: x.endswith(".jpg"), os.listdir(demo_path))
+    demo_ims = filter(lambda x: x.endswith(".jpg"), os.listdir(args.path))
 
     data = {}
     for idx, im_file in enumerate(demo_ims):
         try:
-            im_file_path = os.path.join(demo_path, im_file)
+            im_file_path = os.path.join(args.path, im_file)
             dets = detect(sess, net, im_file_path, args.conf)
             print("({}/{}) {} in {}".format(idx, len(demo_ims), len(dets), im_file), end="\r")
             sys.stdout.flush()
