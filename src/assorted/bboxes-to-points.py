@@ -2,6 +2,7 @@ from __future__ import print_function
 import os
 import sys
 import json
+import seaborn as sns
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from lxml import etree
@@ -39,37 +40,163 @@ def bboxes_to_points(xml_folder):
     return img_points
 
 
-def plot_im(img_folder, img_points):
-    for img in img_points.keys():
-        coords = img_points[img]
-        xx, yy = zip(*coords)
+def combine_json(files):
+    file1, file2 = files
 
-        fig, [ax1, ax2] = plt.subplots(nrows=1, ncols=2, figsize=(14, 5))
-        ax2.imshow(plt.imread(os.path.join(img_folder, img)), aspect="equal")
-        ax2.scatter(xx, yy, c="cyan", s=80, alpha=0.5)
-        plt.show(block=True)
+    with open(os.path.join(file1)) as f:
+        dd1 = json.load(f)
+    with open(os.path.join(file2)) as f:
+        dd2 = json.load(f)
+
+    for key in dd1.keys():
+        if key in dd2.keys():
+            dd2[key].update(dd1[key])
+        else:
+            dd2[key] = dd[key]
+
+    with open("output.json", "w") as f:
+        json.dump(dd2, f)
 
 
-def write_to_json(file_path, dd):
-    if not os.path.isfile(file_path):
-        with open(file_path, "w") as f:
-            json.dump(dd, f)
+def point_in_box(point, box):
+    xx, yy = [float(i) for i in point]
+    x0, y0, x1, y1, _ = [float(i) for i in box]
+    if xx >= x0 and xx <= x1 and yy >= y0 and yy <= y1:
+        return True
     else:
-        with open(file_path, "r") as f:
-            data = json.load(f)
-            for key in dd.keys():
-                if key in data.keys():
-                    data[key].update(dd[key])
-                else:
-                    data[key] = dd[key]
-        os.system("rm {}".format(file_path))
-        with open(file_path, "w") as f:
-            json.dump(data, f)
+        return False
 
 
+def points_in_box(points, box):
+    nn = []
+    for pp in points:
+        nn.append(point_in_box(pp, box))
+    return nn
 
-# # -- Plot points on image.
-# plot_im(".", bboxes_to_points("."))
 
-# -- Get all points for each im.
-dd = bboxes_to_points("./xml/")
+def box_w_points(box, points):
+    nn = 0
+    for point in points:
+        if point_in_box(point, box):
+            nn += 1
+    return nn
+
+
+def boxes_per_point(point, bboxes, return_bboxes=True):
+    nn = []
+    bb = []
+    for bbox in bboxes:
+        nn.append(point_in_box(point, bbox))
+        bb.append(bbox)
+
+    if return_bboxes:
+        return nn, bb
+    else:
+        return nn
+
+
+def prec_recall(json_path):
+    with open(json_path, "r") as f:
+        data = json.load(f)
+
+    for im in data.keys():
+        fp = tp = fn = tn = 0
+
+        bboxes = list(data[im]["bboxes"])
+        pos_pp = list(data[im]["pos_points"])
+        neg_pp = list(data[im]["neg_points"])
+
+        for pp in neg_pp:
+            in_a_box = 0
+            for bb in bboxes:
+                if point_in_box(pp, bb):
+                    in_a_box += 1
+            if in_a_box == 0:
+                tn += 1
+
+        for pp in pos_pp:
+            last_bb = []
+            for bb in bboxes:
+                if point_in_box(pp, bb):
+                    last_bb = [bb]
+            if last_bb:
+                tp += 1
+                bboxes.remove(last_bb[0])
+            else:
+                fn += 1
+
+        for pp in neg_pp:
+            for bb in bboxes:
+                if point_in_box(pp, bb):
+                    fp += 1
+
+        print("False Positives: {}, True Positives: {}, False Negatives: {}, True Negatives: {}             ".format(fp, tp, fn, tn))
+        sys.stdout.flush()
+
+        data[im]["relevance"] = {"fp": fp, "tp": tp, "fn": fn, "tn": tn}
+
+    with open("./output.json", "w") as f:
+        json.dump(data, f)
+
+
+def summary(json_path):
+    with open(json_path, "r") as f:
+        data = json.load(f)
+
+    fp_sum = tn_sum = tp_sum = fn_sum = pos = neg = dets = 0
+    for im in data.keys():
+        fp, tn, tp, fn =  data[im]["relevance"].values()
+        fp_sum += fp
+        tn_sum += tn
+        tp_sum += tp
+        fn_sum += fn
+        neg += len(data[im]["neg_points"])
+        pos += len(data[im]["pos_points"])
+        dets += len(data[im]["bboxes"])
+
+    print ("False Positives: {}, True Positives: {}, False Negatives: {}, True Negatives: {}".format(fp_sum, tp_sum, fn_sum, tn_sum))
+    print ("Positive Labels: {}, Negative Labels: {}".format(pos, neg))
+    print ("Detections: {}".format(dets))
+
+
+def plot_im(key, json_file, img_folder):
+    neg_xx = neg_yy = pos_xx = pos_yy = bboxes = []
+    img = os.path.join(img_folder, key)
+    vv = json_file[key]
+    neg_coords = vv["neg_points"]
+    pos_coords = vv["pos_points"]
+    try:
+        neg_xx, neg_yy = zip(*neg_coords)
+        pos_xx, pos_yy = zip(*pos_coords)
+        bboxes = vv["bboxes"]
+    except:
+        pass
+    fp = vv["relevance"]["fp"]
+    tp = vv["relevance"]["tp"]
+    fn = vv["relevance"]["fn"]
+    tn = vv["relevance"]["tn"]
+
+    fig, ax = plt.subplots(nrows=1, ncols=1)
+    fig.subplots_adjust(left=0,right=1,bottom=0,top=1)
+    rr = ax.scatter(neg_xx, neg_yy, s=80, c="r", alpha=0.5)
+    cc = ax.scatter(pos_xx, pos_yy, s=80, c="cyan", alpha=0.5)
+    for box in bboxes:
+        rect = ax.add_patch(patches.Rectangle((box[0], box[1]), box[2] - box[0],
+                                               box[3] - box[1], fill=False,
+                                               edgecolor="yellow", lw=2))
+    ax.imshow(plt.imread(img), aspect="equal")
+    ax.grid(False)
+    ax.set_xticks([])
+    ax.set_yticks([])
+
+    if len(bboxes) == 0:
+        leg = ax.legend([cc, rr], ["Positive Label", "Negative Label"],
+                        frameon=True, fontsize=14, loc="upper right", cols=3)
+    else:
+        leg = ax.legend([rect, cc, rr], ["Pedestrian Detection", "Positive Label",
+                                         "Negative Label"], frameon=True,
+                        fontsize=14, loc="upper right")
+    leg.get_frame().set_alpha(0.8)
+    tt = ax.text(5, 5, "FP: {}, TP: {}\nFN: {}, TN: {}".format(fp, tp, fn, tn), fontsize=14, va="top")
+    tt.set_bbox(dict(alpha=0.8, edgecolor="w", facecolor="white", boxstyle="round,pad=0.1"))
+    plt.show()
