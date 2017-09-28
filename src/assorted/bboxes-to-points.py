@@ -176,6 +176,7 @@ def prec_recall_complete_labels(json_path):
     with open(json_path, "w") as f:
         json.dump(data, f)
 
+
 def bootstrapsummary(json_path, iters=100, sample_size=20):
     np.random.seed(1)
     with open(json_path, "r") as f:
@@ -216,6 +217,12 @@ def bootstrapsummary(json_path, iters=100, sample_size=20):
     np.mean(fn_tot) / sample_size, np.mean(fp_tot) / sample_size,
     np.mean(tp_tot) / (np.mean(tp_tot) + np.mean(fp_tot)),
     np.mean(tp_tot) / (np.mean(tp_tot) + np.mean(fn_tot))))
+
+    return {"iters": np.array(iters), "sample_size": np.array(sample_size),
+            "detections": np.array(dets_tot), "fp": np.array(fp_tot),
+            "tp": np.array(tp_tot), "fn": np.array(fn_tot), "fp": np.array(fp_tot),
+            "prec": np.array(tp_tot) / (np.array(tp_tot) + np.array(fp_tot)),
+            "rec": np.array(tp_tot) / (np.array(tp_tot) + np.array(fn_tot))}
 
 
 def summary(json_path, subset_file=False):
@@ -335,3 +342,11 @@ def plot_im(key, json_file, img_folder):
 # False Negatives: 2061, True Negatives: 0
 # Precision: 92%, Recall: 42%
 #
+# Bootstrapped Results (Means):
+#     Params: iters=10000, sample_size=20
+#     Positive Labels: 12.31, Detections: 5.60
+#     False Positives: 0.43, True Positives: 5.18
+#     False Negatives: 7.13, True Negatives: 0.43
+#     Precision: 0.92, Recall: 0.42
+# Precision (95% Conf Interval): 0.9202 - 0.9214
+# Recall (95% Conf Interval): 0.4247 - 0.4265
