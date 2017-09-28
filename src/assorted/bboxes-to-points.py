@@ -368,10 +368,11 @@ def plot_im(key, json_file, img_folder):
 # Precision: 92%, Recall: 42%
 #
 # Bootstrapped Results (Means):
-#     Params: iters=10000, sample_size=20
-#     Positive Labels: 12.31, Detections: 5.60
-#     False Positives: 0.43, True Positives: 5.18
-#     False Negatives: 7.13, True Negatives: 0.43
+#     Params: iters=14, sample_size=20
+#     Positive Labels: 12.48, Detections: 5.66
+#     False Positives: 0.42, True Positives: 5.23
+#     False Negatives: 7.25, True Negatives: 0.42
 #     Precision: 0.92, Recall: 0.42
-# Precision (95% Conf Interval): 0.9202 - 0.9214
-# Recall (95% Conf Interval): 0.4247 - 0.4265
+# Confidence Intervals:
+#     Mean Precision 0.9207 | +/- 0.0166 | 0.9041 - 0.9373
+#     Mean Recall    0.4250 | +/- 0.0192 | 0.4058 - 0.4442
