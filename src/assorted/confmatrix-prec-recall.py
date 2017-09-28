@@ -10,6 +10,15 @@ import matplotlib.patches as patches
 from lxml import etree
 
 def bboxes_to_points(xml_folder):
+    """Read all .xml files in a given folder storing data following the PASCAL
+    VOC format, and return the centroids for all positive and negative labels
+    Args:
+        xml_folder (str): path to folder containing xml files.
+    Returns:
+        img_points (dict): Dictionary of all label centroids (e.g., {key:
+        {pos_points:[], neg_points:[]}}).
+    """
+
     xml_files = os.listdir(xml_folder)
 
     run = True
@@ -37,12 +46,19 @@ def bboxes_to_points(xml_folder):
                 ymax = float(obj.find("bndbox/ymax").text)
                 neg_points.append(((xmin + xmax) / 2., (ymin + ymax) / 2.))
 
-        img_points[filename] = {"pos_points": pos_points, "neg_points": neg_points}
+        img_points[filename] = {"pos_points": pos_points,
+                                "neg_points": neg_points}
 
     return img_points
 
 
 def combine_json(files, filename):
+    """"Combine two json files with shared keys.
+    Args:
+        files (list): list of paths to the two json files.
+        filename (str): output string name (e.g., filename='filename' will
+        result in filename.json being written in the current dir)."""
+
     file1, file2 = files
 
     with open(os.path.join(file1)) as f:
@@ -61,6 +77,14 @@ def combine_json(files, filename):
 
 
 def point_in_box(point, box):
+    """Deteremine if a given coordinate falls within a box (where the boxes
+    axes are parallel to the x and y axis).
+    Args:
+        point (list): [x, y]
+        box (list): [x0, y0, x1, y1, conf]
+    Returns:
+        (bool)"""
+
     xx, yy = [float(i) for i in point]
     x0, y0, x1, y1, _ = [float(i) for i in box]
     if xx >= x0 and xx <= x1 and yy >= y0 and yy <= y1:
@@ -70,21 +94,29 @@ def point_in_box(point, box):
 
 
 def points_in_box(points, box):
+    """For a list of points, which fall in a given box?
+    Args:
+        points (list): [[x, y], [x, y]]
+        box (list): [x0, y0, x1, y1, conf]
+    Returns:
+        nn (list): [True, False]"""
+
     nn = []
     for pp in points:
         nn.append(point_in_box(pp, box))
     return nn
 
 
-def box_w_points(box, points):
-    nn = 0
-    for point in points:
-        if point_in_box(point, box):
-            nn += 1
-    return nn
-
-
 def boxes_per_point(point, bboxes, return_bboxes=True):
+    """For a given point, what boxes does it fall in?
+    Args:
+        point (list): [x, y]
+        bboxes (list): [[x0, y0, x1, y1, conf], [x0, y0, x1, y1, conf]]
+        return_bboxes (bool): if the function returns the paired boxes
+    Returns:
+        nn (list): [True, False]
+        bb (list): [[x0, y0, x1, y1, conf]]"""
+
     nn = []
     bb = []
     for bbox in bboxes:
@@ -98,6 +130,13 @@ def boxes_per_point(point, bboxes, return_bboxes=True):
 
 
 def prec_recall(json_path):
+    """For a given json file with both label points, and detection boxxes, where
+    the positive labels is not exhaustive, classify the number of false
+    positives, false negatives, true positives, and true negatives, and add
+    results to json.
+    Args:
+        json_path (str): json file to read and write.
+    """
     with open(json_path, "r") as f:
         data = json.load(f)
 
@@ -108,6 +147,8 @@ def prec_recall(json_path):
         pos_pp = list(data[im]["pos_points"])
         neg_pp = list(data[im]["neg_points"])
 
+        # -- For each neg label, if in a detection fp += 1 and pull a detection,
+        # -- otherwise, tn += 1.
         for pp in neg_pp:
             in_a_box = 0
             last_bb = []
@@ -121,6 +162,8 @@ def prec_recall(json_path):
                 fp += 1
                 bboxes.remove(last_bb[0])
 
+        # -- For each pos label, if in a detection tp += 1 and pull a detection,
+        # -- if not in a box fn += 1.
         for pp in pos_pp:
             last_bb = []
             for bb in bboxes:
@@ -132,20 +175,32 @@ def prec_recall(json_path):
             else:
                 fn += 1
 
+        # -- For each negative point, if it falls in a remaining detection
+        # -- fp += 1.
         for pp in neg_pp:
             for bb in bboxes:
                 if point_in_box(pp, bb):
                     fp += 1
 
+        # -- Print output for each image.
         print("False Positives: {}, True Positives: {}, False Negatives: {}, True Negatives: {}             ".format(fp, tp, fn, tn))
         sys.stdout.flush()
 
+        # -- Add node storing counts.
         data[im]["relevance"] = {"fp": fp, "tp": tp, "fn": fn, "tn": tn}
 
+    # -- Write to file.
     with open("./output.json", "w") as f:
         json.dump(data, f)
 
 def prec_recall_complete_labels(json_path):
+    """For a given json file with both label points, and detection boxxes, where
+    the positive labels are exhaustive, classify the number of false
+    positives, false negatives, true positives, and true negatives, and add
+    results to json.
+    Args:
+        json_path (str): file to read and write."""
+
     with open(json_path, "r") as f:
         data = json.load(f)
 
@@ -155,6 +210,9 @@ def prec_recall_complete_labels(json_path):
         bboxes = list(data[im]["bboxes"])
         pos_pp = list(data[im]["locations"])
 
+        # -- If the positive label falls within a detection tp += 1 and pull a
+        # -- box. If a positive label does not fall in detection fn += 1. For
+        # -- each remaining detection fp += 1.
         for pp in pos_pp:
             last_bb = []
             for bb in bboxes:
@@ -165,29 +223,47 @@ def prec_recall_complete_labels(json_path):
                 bboxes.remove(last_bb[0])
             else:
                 fn += 1
-
         fp = len(bboxes)
 
+        # -- Print output for each image.
         print("False Positives: {}, True Positives: {}, False Negatives: {}, True Negatives: {}             ".format(fp, tp, fn, tn))
         sys.stdout.flush()
 
+        # -- Add node storing counts.
         data[im]["relevance"] = {"fp": fp, "tp": tp, "fn": fn, "tn": tn}
 
+    # -- Write to file.
     with open(json_path, "w") as f:
         json.dump(data, f)
 
 
 def chunks(l, n):
-    """Yield successive n-sized chunks from l."""
+    """Yield successive n-sized chunks from l.
+    Args:
+        l (list) - list to split.
+        n (int) - size of each split.
+    Yields:
+        (list)"""
+
     for i in xrange(0, len(l), n):
         yield l[i:i + n]
 
 
 def bootstrapsummary(json_path, sample_size=20):
+    """Bootstrap results where positive labels are exhaustive to estimate
+    confidence intervals.
+    Args:
+        json_path (str): path to json file.
+        sample_size (int): how many samples to include in each Bootstrapped
+            subsample.
+    Returns:
+        (dict): stored lists for values from each bootstrapped subsample."""
+
     np.random.seed(1)
     with open(json_path, "r") as f:
         data = json.load(f)
 
+    # -- Create empty variables.
     fp_tot = list()
     tn_tot = list()
     tp_tot = list()
@@ -197,6 +273,7 @@ def bootstrapsummary(json_path, sample_size=20):
     dets_tot = list()
     samples = 0
 
+    # -- Subsample the total number of images per the sample_size and pull data.
     for ix, keys_sample in enumerate(chunks(data.keys(), sample_size)):
         fp_sum = tn_sum = tp_sum = fn_sum = dets = pos = 0
         if len(keys_sample) == sample_size:
@@ -215,6 +292,7 @@ def bootstrapsummary(json_path, sample_size=20):
             pos_tot.append(float(pos))
             dets_tot.append(float(dets))
 
+    # -- Print summary table.
     print("""Bootstrapped Results (Means):
     Params: iters={0}, sample_size={1}
     Positive Labels: {2:.2f}, Detections: {3:.2f}
@@ -228,6 +306,7 @@ def bootstrapsummary(json_path, sample_size=20):
     np.mean(tp_tot) / (np.mean(tp_tot) + np.mean(fp_tot)),
     np.mean(tp_tot) / (np.mean(tp_tot) + np.mean(fn_tot))))
 
+    # -- Return dictioanry of data for each bootstrapped sample.
     return {"iters": np.array(samples), "sample_size": np.array(sample_size),
             "detections": np.array(dets_tot), "fp": np.array(fp_tot),
             "tp": np.array(tp_tot), "fn": np.array(fn_tot), "fp": np.array(fp_tot),
@@ -236,6 +315,11 @@ def bootstrapsummary(json_path, sample_size=20):
 
 
 def conf_ints(bootstrap_results):
+    """Calculate and print confidence intervals for the resulting bootstrapped
+    data.
+    Args:
+        bootstrap_results (dict): output from bootstrapping."""
+
     prec = bootstrap_results["prec"]
     reca = bootstrap_results["rec"]
     mean_prec = prec.mean()
@@ -251,6 +335,12 @@ def conf_ints(bootstrap_results):
 
 
 def summary(json_path, subset_file=False):
+    """ For a given json file return the sums for false positives, false
+    negatives, true positives, true negatives.
+    Args:
+        json_path (str): path to json file.
+        subset_file (bool/str): path to .txt file with keys to subset the data.""""
+
     with open(json_path, "r") as f:
         data = json.load(f)
 
@@ -285,6 +375,12 @@ def summary(json_path, subset_file=False):
 
 
 def plot_im(key, json_file, img_folder):
+    """Plot an image with it's labels, detections, and confusion matrix.
+    Args:
+        key (str): key (i.e., filename) in json.
+        json_file (str): path to json file storing data.
+        img_folder (str): path to file with img files."""
+
     neg_xx = neg_yy = pos_xx = pos_yy = bboxes = []
     img = os.path.join(img_folder, key)
     vv = json_file[key]
@@ -322,11 +418,15 @@ def plot_im(key, json_file, img_folder):
                                          "Negative Label"], frameon=True,
                         fontsize=14, loc="upper right")
     leg.get_frame().set_alpha(0.8)
-    tt = ax.text(5, 5, "FP: {}, TP: {}\nFN: {}, TN: {}".format(fp, tp, fn, tn), fontsize=14, va="top")
-    tt.set_bbox(dict(alpha=0.8, edgecolor="w", facecolor="white", boxstyle="round,pad=0.1"))
+    tt = ax.text(5, 5, "FP: {}, TP: {}\nFN: {}, TN: {}".format(fp, tp, fn, tn),
+                 fontsize=14, va="top")
+    tt.set_bbox(dict(alpha=0.8, edgecolor="w", facecolor="white",
+                     boxstyle="round,pad=0.1"))
     plt.show()
 
 
+# -----------------------------------------------------------------------------
+# RESULTS
 # -----------------------------------------------------------------------------
 # All training/testing data:
 # Detections: 12283, Positive Labels: 16022, Negative Labels: 41449

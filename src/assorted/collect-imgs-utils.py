@@ -4,6 +4,11 @@ import sys
 from PIL import Image, ImageStat
 
 def brightness(im_file):
+    """Calculate the brightness of an image.
+    Args:
+        im_file (str): path to img file.
+    Return:
+        (float) - brighness."""
     try:
         im = Image.open(im_file).convert('L')
         stat = ImageStat.Stat(im)
@@ -12,6 +17,14 @@ def brightness(im_file):
         pass
 
 def get_well_lit_ims(path):
+    """Find characteristic images for each camera with a brightness between 100-
+    115 (well-lit).
+    Args:
+        path (str): path to folder containing imgs.
+    Returns:
+        bright_ims (dict): dictiaonry of characteristic images (value) for each
+            camera (key)."""
+
     ims = os.listdir(path)
     cams = set(map(lambda x: x.split("_")[0], ims))
     bright_ims = {}
@@ -29,6 +42,10 @@ def get_well_lit_ims(path):
     return bright_ims
 
 def collect_ims(ims):
+    """For each cahracteristic image, copy to an outside folder.
+    Args:
+        ims (dict): dictionary containing filenames."""
+
     os.system("mkdir {}".format(os.path.join("..", "collected_ims")))
     for key in ims.keys():
         mv_im = os.path.join("..", "collected_ims", key + ".jpg")
@@ -38,12 +55,17 @@ def collect_ims(ims):
             os.system("cp {} {}".format(os.path.join(".", ims[key][0]), mv_im))
 
 def pull_ims(cam_id, path):
+    """"For a given camera copy all relevant images to an outside folder.
+    Args:
+        cam_id (str): cam_id to copy.
+        path (str): path to folder containing images."""
+
     ims = filter(lambda x: x.startswith(cam_id + "_"), os.listdir(path))
     os.system("mkdir {}_ims".format(cam_id))
     for im in ims:
         os.system("cp {} ./{}_ims/".format(os.path.join(path, im), cam_id))
 
-ims = get_well_lit_ims("./")
-collect_ims(ims)
-
-os.system("see {}".format(ims["899"][0]))
+# ims = get_well_lit_ims("./")
+# collect_ims(ims)
+#
+# os.system("see {}".format(ims["899"][0]))

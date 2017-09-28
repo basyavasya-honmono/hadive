@@ -275,7 +275,7 @@ A Faster RCNN was trained using Tensorflow following the VGG16 network structure
 In order to collect data from all DOT cameras, our Faster RCNN Tensorflow session was initialized. Next, looping over all cameras, an image was downloaded if available and the time at download was recorded. The downloaded image was parsed for available metadata (camera direction and timestamp) overlain on the image. Then, the image was passed to the Faster RCNN which output the number of pedestrian detections. And, lastly, the resulting data (camera id, time at download, camera direction, overlaid timestamp, and the number of pedestrian detections) were saved to a local database. In addition, for each loop over all 650 cameras, 1 image was saved to file at random. Ultimately, each loop over all cameras took approximately 70 seconds, enabling pedetrian detection across all cameras at temporal resolution of nearly 1 minute.
 
 \subsection*{Measuring precision and recall}
-Filler text
+In order to test the
 
 % Place figure captions after the first paragraph in which they are cited.
 \begin{figure}[!h]
