@@ -178,14 +178,14 @@
 % Title must be 250 characters or less.
 \begin{flushleft}
 {\Large
-\textbf\newline{Title of submission to PLOS journals} % Please use "sentence case" for title and headings (capitalize only the first word in a title (or heading), the first word in a subtitle (or subheading), and any proper nouns).
+\textbf\newline{Developing a real-time foot traffic counter in New York City using publicly available camera feeds} %
 }
 \newline
 % Insert author names, affiliations and corresponding author email (do not include titles, positions, or degrees).
 \\
-Name1 Surname\textsuperscript{1,2\Yinyang},
-Name2 Surname\textsuperscript{2\Yinyang},
-Name3 Surname\textsuperscript{2,3\textcurrency},
+Gregory Dobler\textsuperscript{1,2\Yinyang},
+Jordan Vani\textsuperscript{2\Yinyang},
+Trang Dam\textsuperscript{2,3\textcurrency},
 Name4 Surname\textsuperscript{2},
 Name5 Surname\textsuperscript{2\ddag},
 Name6 Surname\textsuperscript{2\ddag},
@@ -202,7 +202,6 @@ with the Lorem Ipsum Consortium\textsuperscript{\textpilcrow}
 \bigskip
 
 % Insert additional author notes using the symbols described below. Insert symbol callouts after author names as necessary.
-%
 % Remove or comment out the author notes below if they aren't used.
 %
 % Primary Equal Contribution Note
@@ -229,31 +228,26 @@ with the Lorem Ipsum Consortium\textsuperscript{\textpilcrow}
 \end{flushleft}
 % Please keep the abstract below 300 words
 \section*{Abstract}
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eget porta erat. Morbi consectetur est vel gravida pretium. Suspendisse ut dui eu ante cursus gravida non sed sem. Nullam sapien tellus, commodo id velit id, eleifend volutpat quam. Phasellus mauris velit, dapibus finibus elementum vel, pulvinar non tellus. Nunc pellentesque pretium diam, quis maximus dolor faucibus id. Nunc convallis sodales ante, ut ullamcorper est egestas vitae. Nam sit amet enim ultrices, ultrices elit pulvinar, volutpat risus.
+Filler text
 
 
 % Please keep the Author Summary between 150 and 200 words
 % Use first person. PLOS ONE authors please skip this step.
 % Author Summary not valid for PLOS ONE submissions.
 \section*{Author summary}
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eget porta erat. Morbi consectetur est vel gravida pretium. Suspendisse ut dui eu ante cursus gravida non sed sem. Nullam sapien tellus, commodo id velit id, eleifend volutpat quam. Phasellus mauris velit, dapibus finibus elementum vel, pulvinar non tellus. Nunc pellentesque pretium diam, quis maximus dolor faucibus id. Nunc convallis sodales ante, ut ullamcorper est egestas vitae. Nam sit amet enim ultrices, ultrices elit pulvinar, volutpat risus.
+Filler text
 
 \linenumbers
 
 % Use "Eq" instead of "Equation" for equation citations.
 \section*{Introduction}
-Lorem ipsum dolor sit~\cite{bib1} amet, consectetur adipiscing elit. Curabitur eget porta erat. Morbi consectetur est vel gravida pretium. Suspendisse ut dui eu ante cursus gravida non sed sem. Nullam Eq~(\ref{eq:schemeP}) sapien tellus, commodo id velit id, eleifend volutpat quam. Phasellus mauris velit, dapibus finibus elementum vel, pulvinar non tellus. Nunc pellentesque pretium diam, quis maximus dolor faucibus id.~\cite{bib2} Nunc convallis sodales ante, ut ullamcorper est egestas vitae. Nam sit amet enim ultrices, ultrices elit pulvinar, volutpat risus.
-
-\begin{eqnarray}
-\label{eq:schemeP}
-	\mathrm{P_Y} = \underbrace{H(Y_n) - H(Y_n|\mathbf{V}^{Y}_{n})}_{S_Y} + \underbrace{H(Y_n|\mathbf{V}^{Y}_{n})- H(Y_n|\mathbf{V}^{X,Y}_{n})}_{T_{X\rightarrow Y}},
-\end{eqnarray}
+Filler text~\cite{bib1}
 
 \section*{Materials and methods}
 \subsection*{}
 
 \subsection*{Source data}
-The New York City Department of Transportation (DOT) maintains a network of real-time traffic cameras across the New York City (NYC) metro area. These camera feeds are publicly available and are served at approximately one frame per second--with each frame being a 352x240 RGB .jpg. All together, the 650 cameras are distributed across the five NYC boroughs (see Table 1 and Figure 1 (map of cameras across boroughs)) and captures a continuous record of the NYC streetscape including roadways, building facades, and pedestrian facilities. With our focus on pedestrian foot traffic, each camera was hand-labelled as including pedestrian facilities or not; Figures 2-3 (pedestrian facility images) illustrate the distinction between cameras with and without pedestrian facilities.
+The New York City Department of Transportation (DOT) maintains a network of real-time traffic cameras across the New York City (NYC) metro area. These camera feeds are publicly available and are served at approximately one frame per second--with each frame being a 352x240 RGB .jpg. All together, the 650 cameras are distributed across the five NYC boroughs (see Table 1 and Fig 1 (map of cameras across boroughs)) and captures a continuous record of the NYC streetscape including roadways, building facades, and pedestrian facilities. With our focus on pedestrian foot traffic, each camera was hand-labelled as including pedestrian facilities or not; Fig 2-3 (pedestrian facility images) illustrate the distinction between cameras with and without pedestrian facilities.
 
 % Place tables after the first paragraph in which they are cited.
 \begin{table}[!ht]
@@ -272,25 +266,16 @@ Cams w ped. facilities             & 13             & 30                & 157   
 \end{table}
 
 \subsection*{Training data}
-3918 daytime images were scraped from 17 cameras between 11:00-20:00 on April 30th, 2016 and June 19th, 2016. The 3918 images were then labelled by hand for positive and negative examples using 3:4 bounding boxes; the resulting labels were not exhaustive (i.e., not all pedestrians were labelled). Across the 3918 images, 16022 positive examples and 41449 negative examples were labelled--approximately a 2:5 (pos:neg) ratio. XML files were subsequently written for each image, following the PASCAL Visual Object Classes format.
+3918 daytime images were scraped from 17 cameras between 11:00-20:00 on April 30th, 2016 and June 19th, 2016. The 3918 images were then labelled by hand for positive and negative examples using 3:4 bounding boxes; the resulting labels were not exhaustive (i.e., not all pedestrians were labelled). Across the 3918 images, 16022 positive examples and 41449 negative examples were labelled--approximately a 2:5 (pos:neg) ratio. XML files were subsequently written for each image, following the PASCAL Visual Object Classes format. Ultimately, this dataset was split using a 70:30 train:test split.
 
-\subsection*{Faster RCNN training}
- - Tools utilized (small-corgi, Tensorflow)
- - Model structure. VGG
- - How many iterations. 90,000
- - Learning rate. 0.005
- - RPN positive overlap of 0.7, minimu size of 2.
- - Proposal method gt.
+\subsection*{Training the Faster RCNN}
+A Faster RCNN was trained using Tensorflow following the VGG16 network structure. Training parameters included: (1) a learning rate of 0.0005; (2) a Region Proposal Network (RPN) batch size of 256; (3) an RPN positive overlap of 0.7; and, (4) a minimum RPN size of 2x2. Using this setup, the network was trained for a total of 90,000 iterations on a GeForce GTX 1080 Ti GPU.
 
 \subsection*{Data collection}
- - Hardware
- - Scraping images
- - Scraping data from images
- - Return time
- - Data storage
+In order to collect data from all DOT cameras, our Faster RCNN Tensorflow session was initialized. Next, looping over all cameras, an image was downloaded if available and the time at download was recorded. The downloaded image was parsed for available metadata (camera direction and timestamp) overlain on the image. Then, the image was passed to the Faster RCNN which output the number of pedestrian detections. And, lastly, the resulting data (camera id, time at download, camera direction, overlaid timestamp, and the number of pedestrian detections) were saved to a local database. In addition, for each loop over all 650 cameras, 1 image was saved to file at random. Ultimately, each loop over all cameras took approximately 70 seconds, enabling pedetrian detection across all cameras at temporal resolution of nearly 1 minute.
 
-% For figure citations, please use "Fig" instead of "Figure".
-Nulla mi mi, Fig~\ref{fig1} venenatis sed ipsum varius, volutpat euismod diam. Proin rutrum vel massa non gravida. Quisque tempor sem et dignissim rutrum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi at justo vitae nulla elementum commodo eu id massa. In vitae diam ac augue semper tincidunt eu ut eros. Fusce fringilla erat porttitor lectus cursus, \nameref{S1_Video} vel sagittis arcu lobortis. Aliquam in enim semper, aliquam massa id, cursus neque. Praesent faucibus semper libero.
+\subsection*{Measuring precision and recall}
+Filler text
 
 % Place figure captions after the first paragraph in which they are cited.
 \begin{figure}[!h]
@@ -301,88 +286,23 @@ Figure caption text here, please use this space for the figure panel description
 
 % Results and Discussion can be combined.
 \section*{Results}
-Nulla mi mi, venenatis sed ipsum varius, Table~\ref{table1} volutpat euismod diam. Proin rutrum vel massa non gravida. Quisque tempor sem et dignissim rutrum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi at justo vitae nulla elementum commodo eu id massa. In vitae diam ac augue semper tincidunt eu ut eros. Fusce fringilla erat porttitor lectus cursus, vel sagittis arcu lobortis. Aliquam in enim semper, aliquam massa id, cursus neque. Praesent faucibus semper libero.
-
-% Place tables after the first paragraph in which they are cited.
-\begin{table}[!ht]
-\begin{adjustwidth}{-2.25in}{0in} % Comment out/remove adjustwidth environment if table fits in text column.
-\centering
-\caption{
-{\bf Table caption Nulla mi mi, venenatis sed ipsum varius, volutpat euismod diam.}}
-\begin{tabular}{|l+l|l|l|l|l|l|l|}
-\hline
-\multicolumn{4}{|l|}{\bf Heading1} & \multicolumn{4}{|l|}{\bf Heading2}\\ \thickhline
-$cell1 row1$ & cell2 row 1 & cell3 row 1 & cell4 row 1 & cell5 row 1 & cell6 row 1 & cell7 row 1 & cell8 row 1\\ \hline
-$cell1 row2$ & cell2 row 2 & cell3 row 2 & cell4 row 2 & cell5 row 2 & cell6 row 2 & cell7 row 2 & cell8 row 2\\ \hline
-$cell1 row3$ & cell2 row 3 & cell3 row 3 & cell4 row 3 & cell5 row 3 & cell6 row 3 & cell7 row 3 & cell8 row 3\\ \hline
-\end{tabular}
-\begin{flushleft} Table notes Phasellus venenatis, tortor nec vestibulum mattis, massa tortor interdum felis, nec pellentesque metus tortor nec nisl. Ut ornare mauris tellus, vel dapibus arcu suscipit sed.
-\end{flushleft}
-\label{table1}
-\end{adjustwidth}
-\end{table}
-
-
-%PLOS does not support heading levels beyond the 3rd (no 4th level headings).
-\subsection*{\lorem\ and \ipsum\ nunc blandit a tortor}
-\subsubsection*{3rd level heading}
-Maecenas convallis mauris sit amet sem ultrices gravida. Etiam eget sapien nibh. Sed ac ipsum eget enim egestas ullamcorper nec euismod ligula. Curabitur fringilla pulvinar lectus consectetur pellentesque. Quisque augue sem, tincidunt sit amet feugiat eget, ullamcorper sed velit. Sed non aliquet felis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris commodo justo ac dui pretium imperdiet. Sed suscipit iaculis mi at feugiat.
-
-\begin{enumerate}
-	\item{react}
-	\item{diffuse free particles}
-	\item{increment time by dt and go to 1}
-\end{enumerate}
-
-
-\subsection*{Sed ac quam id nisi malesuada congue}
-
-Nulla mi mi, venenatis sed ipsum varius, volutpat euismod diam. Proin rutrum vel massa non gravida. Quisque tempor sem et dignissim rutrum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi at justo vitae nulla elementum commodo eu id massa. In vitae diam ac augue semper tincidunt eu ut eros. Fusce fringilla erat porttitor lectus cursus, vel sagittis arcu lobortis. Aliquam in enim semper, aliquam massa id, cursus neque. Praesent faucibus semper libero.
-
-\begin{itemize}
-	\item First bulleted item.
-	\item Second bulleted item.
-	\item Third bulleted item.
-\end{itemize}
+Filler text
 
 \section*{Discussion}
-Nulla mi mi, venenatis sed ipsum varius, Table~\ref{table1} volutpat euismod diam. Proin rutrum vel massa non gravida. Quisque tempor sem et dignissim rutrum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi at justo vitae nulla elementum commodo eu id massa. In vitae diam ac augue semper tincidunt eu ut eros. Fusce fringilla erat porttitor lectus cursus, vel sagittis arcu lobortis. Aliquam in enim semper, aliquam massa id, cursus neque. Praesent faucibus semper libero~\cite{bib3}.
+Filler text
 
 \section*{Conclusion}
-
-CO\textsubscript{2} Maecenas convallis mauris sit amet sem ultrices gravida. Etiam eget sapien nibh. Sed ac ipsum eget enim egestas ullamcorper nec euismod ligula. Curabitur fringilla pulvinar lectus consectetur pellentesque. Quisque augue sem, tincidunt sit amet feugiat eget, ullamcorper sed velit.
-
-Sed non aliquet felis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris commodo justo ac dui pretium imperdiet. Sed suscipit iaculis mi at feugiat. Ut neque ipsum, luctus id lacus ut, laoreet scelerisque urna. Phasellus venenatis, tortor nec vestibulum mattis, massa tortor interdum felis, nec pellentesque metus tortor nec nisl. Ut ornare mauris tellus, vel dapibus arcu suscipit sed. Nam condimentum sem eget mollis euismod. Nullam dui urna, gravida venenatis dui et, tincidunt sodales ex. Nunc est dui, sodales sed mauris nec, auctor sagittis leo. Aliquam tincidunt, ex in facilisis elementum, libero lectus luctus est, non vulputate nisl augue at dolor. For more information, see \nameref{S1_Appendix}.
+Filler text
 
 \section*{Supporting information}
 
 % Include only the SI item label in the paragraph heading. Use the \nameref{label} command to cite SI items in the text.
 \paragraph*{S1 Fig.}
 \label{S1_Fig}
-{\bf Bold the title sentence.} Add descriptive text after the title of the item (optional).
-
-\paragraph*{S2 Fig.}
-\label{S2_Fig}
-{\bf Lorem ipsum.} Maecenas convallis mauris sit amet sem ultrices gravida. Etiam eget sapien nibh. Sed ac ipsum eget enim egestas ullamcorper nec euismod ligula. Curabitur fringilla pulvinar lectus consectetur pellentesque.
-
-\paragraph*{S1 File.}
-\label{S1_File}
-{\bf Lorem ipsum.}  Maecenas convallis mauris sit amet sem ultrices gravida. Etiam eget sapien nibh. Sed ac ipsum eget enim egestas ullamcorper nec euismod ligula. Curabitur fringilla pulvinar lectus consectetur pellentesque.
-
-\paragraph*{S1 Video.}
-\label{S1_Video}
-{\bf Lorem ipsum.}  Maecenas convallis mauris sit amet sem ultrices gravida. Etiam eget sapien nibh. Sed ac ipsum eget enim egestas ullamcorper nec euismod ligula. Curabitur fringilla pulvinar lectus consectetur pellentesque.
-
-\paragraph*{S1 Appendix.}
-\label{S1_Appendix}
-{\bf Lorem ipsum.} Maecenas convallis mauris sit amet sem ultrices gravida. Etiam eget sapien nibh. Sed ac ipsum eget enim egestas ullamcorper nec euismod ligula. Curabitur fringilla pulvinar lectus consectetur pellentesque.
-
-\paragraph*{S1 Table.}
-\label{S1_Table}
-{\bf Lorem ipsum.} Maecenas convallis mauris sit amet sem ultrices gravida. Etiam eget sapien nibh. Sed ac ipsum eget enim egestas ullamcorper nec euismod ligula. Curabitur fringilla pulvinar lectus consectetur pellentesque.
+{\bf Bold the title sentence.} Descriptive text (optional).
 
 \section*{Acknowledgments}
-Cras egestas velit mauris, eu mollis turpis pellentesque sit amet. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nam id pretium nisi. Sed ac quam id nisi malesuada congue. Sed interdum aliquet augue, at pellentesque quam rhoncus vitae.
+Filler text
 
 \nolinenumbers
 
@@ -407,20 +327,6 @@ Conant GC, Wolfe KH.
   functions}.
 \newblock Nat Rev Genet. 2008 Dec;9(12):938--950.
 
-\bibitem{bib2}
-Ohno S.
-\newblock Evolution by gene duplication.
-\newblock London: George Alien \& Unwin Ltd. Berlin, Heidelberg and New York:
-  Springer-Verlag.; 1970.
-
-\bibitem{bib3}
-Magwire MM, Bayer F, Webster CL, Cao C, Jiggins FM.
-\newblock {{S}uccessive increases in the resistance of {D}rosophila to viral
-  infection through a transposon insertion followed by a {D}uplication}.
-\newblock PLoS Genet. 2011 Oct;7(10):e1002337.
-
 \end{thebibliography}
-
-
 
 \end{document}

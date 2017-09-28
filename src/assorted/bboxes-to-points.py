@@ -177,10 +177,17 @@ def prec_recall_complete_labels(json_path):
         json.dump(data, f)
 
 
-def bootstrapsummary(json_path, iters=100, sample_size=20):
+def chunks(l, n):
+    """Yield successive n-sized chunks from l."""
+    for i in xrange(0, len(l), n):
+        yield l[i:i + n]
+
+
+def bootstrapsummary(json_path, sample_size=20):
     np.random.seed(1)
     with open(json_path, "r") as f:
         data = json.load(f)
+
     fp_tot = list()
     tn_tot = list()
     tp_tot = list()
@@ -188,22 +195,25 @@ def bootstrapsummary(json_path, iters=100, sample_size=20):
     pos_tot = list()
     neg_tot = list()
     dets_tot = list()
-    for _ in range(iters):
-        fp_sum = tn_sum = tp_sum = fn_sum = pos = neg = dets = 0
-        keys = random.sample(data.keys(), sample_size)
-        for key in keys:
-            fp_sum += data[key]["relevance"]["fp"]
-            tn_sum += data[key]["relevance"]["tn"]
-            tp_sum += data[key]["relevance"]["tp"]
-            fn_sum += data[key]["relevance"]["fn"]
-            dets += len(data[key]["bboxes"])
-            pos += len(data[key]["locations"])
-        fp_tot.append(float(fp_sum))
-        tn_tot.append(float(tn_sum))
-        tp_tot.append(float(tp_sum))
-        fn_tot.append(float(fn_sum))
-        pos_tot.append(float(pos))
-        dets_tot.append(float(dets))
+    samples = 0
+
+    for ix, keys_sample in enumerate(chunks(data.keys(), sample_size)):
+        fp_sum = tn_sum = tp_sum = fn_sum = dets = pos = 0
+        if len(keys_sample) == sample_size:
+            samples = ix + 1
+            for key in keys_sample:
+                fp_sum += data[key]["relevance"]["fp"]
+                tn_sum += data[key]["relevance"]["tn"]
+                tp_sum += data[key]["relevance"]["tp"]
+                fn_sum += data[key]["relevance"]["fn"]
+                dets += len(data[key]["bboxes"])
+                pos += len(data[key]["locations"])
+            fp_tot.append(float(fp_sum))
+            tn_tot.append(float(tn_sum))
+            tp_tot.append(float(tp_sum))
+            fn_tot.append(float(fn_sum))
+            pos_tot.append(float(pos))
+            dets_tot.append(float(dets))
 
     print("""Bootstrapped Results (Means):
     Params: iters={0}, sample_size={1}
@@ -211,18 +221,33 @@ def bootstrapsummary(json_path, iters=100, sample_size=20):
     False Positives: {4:.2f}, True Positives: {5:.2f}
     False Negatives: {6:.2f}, True Negatives: {7:.2f}
     Precision: {8:.2f}, Recall: {9:.2f}""".format(
-    iters, sample_size,
+    samples, sample_size,
     np.mean(pos_tot) / sample_size, np.mean(dets_tot) / sample_size,
     np.mean(fp_tot) / sample_size, np.mean(tp_tot) / sample_size,
     np.mean(fn_tot) / sample_size, np.mean(fp_tot) / sample_size,
     np.mean(tp_tot) / (np.mean(tp_tot) + np.mean(fp_tot)),
     np.mean(tp_tot) / (np.mean(tp_tot) + np.mean(fn_tot))))
 
-    return {"iters": np.array(iters), "sample_size": np.array(sample_size),
+    return {"iters": np.array(samples), "sample_size": np.array(sample_size),
             "detections": np.array(dets_tot), "fp": np.array(fp_tot),
             "tp": np.array(tp_tot), "fn": np.array(fn_tot), "fp": np.array(fp_tot),
             "prec": np.array(tp_tot) / (np.array(tp_tot) + np.array(fp_tot)),
             "rec": np.array(tp_tot) / (np.array(tp_tot) + np.array(fn_tot))}
+
+
+def conf_ints(bootstrap_results):
+    prec = bootstrap_results["prec"]
+    reca = bootstrap_results["rec"]
+    mean_prec = prec.mean()
+    mean_reca = reca.mean()
+    prec_95 = (prec.std() / np.sqrt(len(prec))) * 1.96
+    reca_95 = (reca.std() / np.sqrt(len(reca))) * 1.96
+
+    print("""Confidence Intervals:
+    Mean Precision {:.4f} | +/- {:.4f} | {:.4f} - {:.4f}
+    Mean Recall    {:.4f} | +/- {:.4f} | {:.4f} - {:.4f}
+    """.format(mean_prec, prec_95, mean_prec - prec_95, mean_prec + prec_95,
+    mean_reca, reca_95, mean_reca - reca_95, mean_reca + reca_95))
 
 
 def summary(json_path, subset_file=False):
