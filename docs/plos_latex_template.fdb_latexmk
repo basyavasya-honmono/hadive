@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1506627161 "plos_latex_template.tex" "plos_latex_template.pdf" "plos_latex_template" 1506627161
+["pdflatex"] 1506719149 "plos_latex_template.tex" "plos_latex_template.pdf" "plos_latex_template" 1506719150
   "/usr/local/texlive/2017/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1480098666 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2017/texmf-dist/fonts/map/fontname/texfonts.map" 1480098670 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
   "/usr/local/texlive/2017/texmf-dist/fonts/tfm/jknappen/ec/tcrm0700.tfm" 1480098696 1536 73da8e8f1d2a4c957d51ca133585586b ""
@@ -93,6 +93,8 @@
   "/usr/local/texlive/2017/texmf-dist/tex/latex/oberdiek/refcount.sty" 1480098836 9750 35baca0cb1bbf6d3b01b00f97451ffdf ""
   "/usr/local/texlive/2017/texmf-dist/tex/latex/oberdiek/rerunfilecheck.sty" 1480098836 9581 023642318cef9f4677efe364de1e2a27 ""
   "/usr/local/texlive/2017/texmf-dist/tex/latex/tools/array.sty" 1485129666 12396 d41f82b039f900e95f351e54ae740f31 ""
+  "/usr/local/texlive/2017/texmf-dist/tex/latex/ucs/data/uni-0.def" 1480098842 7784 086a50b784a20762a031889b73f97126 ""
+  "/usr/local/texlive/2017/texmf-dist/tex/latex/ucs/data/uni-32.def" 1480098842 8033 ee5a06eead35a732222f876800c8f10f ""
   "/usr/local/texlive/2017/texmf-dist/tex/latex/ucs/data/uni-global.def" 1480098842 1375 8a855db83af5d6753ccbbd32e6a8a901 ""
   "/usr/local/texlive/2017/texmf-dist/tex/latex/ucs/ucs.sty" 1480098842 27982 5723d81d568db410592a59b85fb3eaae ""
   "/usr/local/texlive/2017/texmf-dist/tex/latex/ucs/ucsencs.def" 1480098842 22368 c53c9d0d16c65bef2b157515c9d9f658 ""
@@ -104,11 +106,11 @@
   "/usr/local/texlive/2017/texmf-var/web2c/pdftex/pdflatex.fmt" 1495593487 4129592 0e6cfee100d68e6d96b92c0258f2ff73 ""
   "/usr/local/texlive/2017/texmf.cnf" 1495593465 577 2b71d4d888f9e5560b2e99985915a9fa ""
   "PLOS-submission.eps" 1482345906 283246 732efbee54b10a3a853e9f9643c0588e ""
-  "plos_latex_template.aux" 1506627161 1743 00662cb649d6eb9434758b75970b9267 ""
-  "plos_latex_template.out" 1506627161 0 d41d8cd98f00b204e9800998ecf8427e ""
-  "plos_latex_template.tex" 1506627157 14159 d5ab58a949201ed22efaf0be885a2cc0 ""
+  "plos_latex_template.aux" 1506719150 1727 c0559e8ce41b2d4c9eb646d4ef0596f7 ""
+  "plos_latex_template.out" 1506719150 0 d41d8cd98f00b204e9800998ecf8427e ""
+  "plos_latex_template.tex" 1506719146 18824 37f5697848b6a54e950712d79efe9289 ""
   (generated)
   "plos_latex_template.log"
-  "plos_latex_template.out"
-  "plos_latex_template.pdf"
   "plos_latex_template.aux"
+  "plos_latex_template.pdf"
+  "plos_latex_template.out"

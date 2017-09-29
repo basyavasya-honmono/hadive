@@ -131,7 +131,7 @@ def boxes_per_point(point, bboxes, return_bboxes=True):
 
 def prec_recall(json_path):
     """For a given json file with both label points, and detection boxxes, where
-    the positive labels is not exhaustive, classify the number of false
+    the positive labels are not exhaustive, classify the number of false
     positives, false negatives, true positives, and true negatives, and add
     results to json.
     Args:
@@ -175,6 +175,7 @@ def prec_recall(json_path):
             else:
                 fn += 1
 
+        # -- DELETE?
         # -- For each negative point, if it falls in a remaining detection
         # -- fp += 1.
         for pp in neg_pp:
