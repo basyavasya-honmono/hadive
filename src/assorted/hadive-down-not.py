@@ -50,4 +50,6 @@ if __name__ == "__main__":
     while is_process_running(pid):
         time.sleep(30)
 
-    send_status_email(recipients, login, password)
+    for recipient in recipients.split(", "):
+        send_status_email(recipient, login, password)
+
