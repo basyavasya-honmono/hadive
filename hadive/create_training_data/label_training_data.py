@@ -10,6 +10,8 @@ from matplotlib.patches import Rectangle
 plt.rcParams['toolbar'] = 'None'
 
 class Annotate(object):
+
+
     def __init__(self, img_name):
         self.img_name = img_name
         self.i = 0
@@ -34,6 +36,7 @@ class Annotate(object):
         connect("close_event", self.end)
         self.draw_cid = connect('draw_event', self.grab_background)
 
+
     def on_click(self, event):
         """Use two clicks to define the bbox."""
         if self.i%2 == 0:
@@ -44,6 +47,7 @@ class Annotate(object):
             self.y1 = event.ydata
             self.draw_rect()
         self.i += 1
+
 
     def on_key(self, event):
         """Change label using up, del bbox with left, and next with right."""
@@ -61,6 +65,7 @@ class Annotate(object):
         elif event.key == "right":
             self.next_image()
 
+
     def draw_rect(self):
         """Draw new bbox on canvas."""
         self.y = min(self.y0, self.y1)
@@ -76,6 +81,7 @@ class Annotate(object):
         self.ax.figure.canvas.blit(self.ax.figure.bbox)
         print self.boxes
         sys.stdout.flush()
+
 
     def delete_bbox(self):
         """Delete last bbox on canvas and redraw others."""
@@ -93,6 +99,7 @@ class Annotate(object):
             self.ax.draw_artist(self.rect)
             self.ax.figure.canvas.blit(self.ax.bbox)
 
+
     def obj_creation(self):
         """Blank values after creating bbox"""
         self.rect = Rectangle((0,0), 1, 1, fill=False, color=self.color)
@@ -106,6 +113,7 @@ class Annotate(object):
         self.width = None
         self.ax.add_patch(self.rect)
 
+
     def grab_background(self, event=None):
         self.rect.set_visible(False)
         canvas = self.ax.figure.canvas
@@ -115,11 +123,13 @@ class Annotate(object):
         self.background = self.ax.figure.canvas.copy_from_bbox(self.ax.figure.bbox)
         self.rect.set_visible(True)
 
+
     def blit(self):
         self.obj_creation()
         self.ax.figure.canvas.restore_region(self.background)
         self.ax.draw_artist(self.rect)
         self.ax.figure.canvas.blit(self.ax.figure.bbox)
+
 
     def next_image(self):
         """Update db with labels and restart main()."""
@@ -146,6 +156,7 @@ class Annotate(object):
     def end(self):
         quit()
 
+
 def main():
     """Connect to db, find unlabeled image, and begin annotation."""
     conn = sqlite3.connect("../../data/training/training.db")
@@ -170,6 +181,7 @@ def main():
         print "There are no images to be labeled."
 
     conn.close()
+
 
 if __name__ == '__main__':
     main()

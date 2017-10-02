@@ -13,6 +13,7 @@ def parse_args():
     parser.add_argument("--cam", dest="cam", help="Specifc camera to scrape (cam_id).", default="")
     return parser.parse_args()
 
+
 def download_image(cctv_id, description, cursor):
     """Downloads images from DOT camera and adds data to db.
     cctv_id - camera cctv_id
@@ -33,7 +34,12 @@ def download_image(cctv_id, description, cursor):
     except:
         pass
 
+
 def scrape_images(count, cam=""):
+    """Scrape images at random or from a specific camera (cam_id).
+    Args:
+        cam (str) - cam_id to scrape (default= "")"""
+
     conn = sqlite3.connect("../../data/results/ped-count.db")
     c = conn.cursor()
     cams = c.execute("""SELECT cam_id, cctv_id, description FROM cameras
@@ -56,6 +62,7 @@ def scrape_images(count, cam=""):
         except:
             print "Error : {}".format(data)
     conn.commit()
+
 
 if __name__ == '__main__':
     args = parse_args()

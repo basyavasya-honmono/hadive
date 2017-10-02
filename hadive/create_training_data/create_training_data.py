@@ -15,6 +15,7 @@ def imgs_wo_xmls():
     # Return list of imgs without corresponding xmls.
     return list(imgs - xmls)
 
+
 def train_test_split():
     """Write train & test .txt files with 70/30 split."""
     # Remove existing files.
@@ -35,12 +36,16 @@ def train_test_split():
             test_txt.write("{}\n".format(i))
     print '{} training images and {} testing images'.format(len(train), len(test))
 
+
 class xml_writer(object):
     """Create and write xml files in VOC format using labeled data."""
+
+
     def __init__(self, img):
         self.img = img + ".jpg"
         self.bboxes = None
         self.xml = None
+
 
     def load_data(self):
         """Load labels data from db."""
@@ -63,6 +68,7 @@ class xml_writer(object):
             if xmax - xmin > 2 and ymax - ymin > 2:
                 bboxes_validated.append([name, xmin, xmax, ymin, ymax])
         self.bboxes = bboxes_validated
+
 
     def create_xml(self):
         """Creates xml file from loaded data."""
@@ -103,9 +109,11 @@ class xml_writer(object):
             ymax_.text = str(max(ymin, ymax))
         self.xml = top
 
+
     def print_xml(self):
         """Pretty print shortcut."""
         print tostring(self.xml, pretty_print=True)
+
 
     def write_xml(self, encoding="utf-8"):
         """Write xml tree to file and update db to labeled=1."""
@@ -117,6 +125,7 @@ class xml_writer(object):
         conn.commit()
         conn.close()
         print "Succesfully wrote: {}".format(self.img[:-4] + ".xml")
+
 
 if __name__ == '__main__':
     # Find all labeled images without a corresponding xml.

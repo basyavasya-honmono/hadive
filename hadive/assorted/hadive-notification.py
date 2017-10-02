@@ -52,4 +52,3 @@ if __name__ == "__main__":
 
     for recipient in recipients.split(", "):
         send_status_email(recipient, login, password)
-
