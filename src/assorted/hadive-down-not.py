@@ -2,7 +2,7 @@ import os
 import time
 from getpass import getpass
 from smtplib import SMTP_SSL
-from email.header import header
+from email.header import Header
 from email.mime.text import MIMEText
 
 
