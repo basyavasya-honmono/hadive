@@ -51,7 +51,7 @@ if __name__ == "__main__":
     login = raw_input("Sender (e-mail adress): ")
     password = getpass("Gmail password: ")
 
-    db_len = day 0
+    db_len = day = 0
     while is_process_running(pid):
         # -- Check that the database size has grown.
         with psycopg2.connect("dbname='dot_pedestrian_counts'") as conn:
