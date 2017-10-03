@@ -90,16 +90,16 @@ if __name__ == '__main__':
                                     conn.commit()
                                     # print '{}, {}, {}, {}'.format(cam[0], time_, details, count, imtime)
                                 except: # Put data in database.
-                                    os.sytem("echo '{}, Error inserting data to database, Cam: {}' >> log.txt".format(time_, cam[0]))
+                                    os.system("echo '{}, Error inserting data to database, Cam: {}' >> log.txt".format(time_, cam[0]))
                                     pass
                             except: # Count pedestrians in image.
-                                os.sytem("echo '{}, Error counting pedestrians, Cam: {}' >> log.txt".format(time_, cam[0]))
+                                os.system("echo '{}, Error counting pedestrians, Cam: {}' >> log.txt".format(time_, cam[0]))
                                 pass
                         except: # Pull camera direction if available.
-                            os.sytem("echo '{}, Error pulling direction/imtime, Cam: {}' >> log.txt".format(time_, cam[0]))
+                            os.system("echo '{}, Error pulling direction/imtime, Cam: {}' >> log.txt".format(time_, cam[0]))
                             pass
                     except: # Download image, & get time when url is pinged.
-                        os.sytem("echo '{}, Error pulling direction/imtime, Cam: {}' >> log.txt".format(time_, cam[0]))
+                        os.system("echo '{}, Error pulling direction/imtime, Cam: {}' >> log.txt".format(time_, cam[0]))
                         pass
 
                     if _ == save: # Randomly save images.
