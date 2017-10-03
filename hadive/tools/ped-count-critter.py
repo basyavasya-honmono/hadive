@@ -60,6 +60,11 @@ def detect(sess, net, im, conf):
 if __name__ == '__main__':
     args = parse_args()
 
+    if not os.path.isfile("./log.txt"):
+        os.system("touch log.txt")
+    if not os.path.exists("./Images/"):
+        os.makedirs("./Images/")
+
     # Start TensorFlow
     sess = tf.Session(config=tf.ConfigProto(allow_soft_placement=True))          # init session
     net = get_network(args.demo_net)                                             # load network
@@ -72,36 +77,29 @@ if __name__ == '__main__':
             for iter_ in range(int(args.duration)):
                 save = randint(0, len(cams))
                 for _, cam in enumerate(cams):
-                    # Download image, & get time when url is pinged.
-                    try:
+                    try: # Download image, & get time when url is pinged.
                         time_ = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
                         im = get_im(cam[1])
-                    except:
-                        im = None
+                        try: # Pull camera direction if available.
+                            direction, imtime = get_time(im)
+                            try: # Count pedestrians in image.
+                                count = detect(sess, net, im, float(args.conf))
+                                try: # Put data in database.
+                                    cursor.execute("""INSERT INTO ped_count (cam_id, date, cam_dir, count, imtime) VALUES (%s, %s, %s, %s, %s);""", (cam[0], time_, direction, count, imtime))
+                                    conn.commit()
+                                    # print '{}, {}, {}, {}'.format(cam[0], time_, details, count, imtime)
+                                except: # Put data in database.
+                                    os.sytem("echo '{}, Error inserting data to database, Cam: {}' >> log.txt".format(time_, cam[0]))
+                                    pass
+                            except: # Count pedestrians in image.
+                                os.sytem("echo '{}, Error counting pedestrians, Cam: {}' >> log.txt".format(time_, cam[0]))
+                                pass
+                        except: # Pull camera direction if available.
+                            os.sytem("echo '{}, Error pulling direction/imtime, Cam: {}' >> log.txt".format(time_, cam[0]))
+                            pass
+                    except: # Download image, & get time when url is pinged.
+                        os.sytem("echo '{}, Error pulling direction/imtime, Cam: {}' >> log.txt".format(time_, cam[0]))
                         pass
-                    
-                    # Pull camera direction if availabe (needs to be improved and pull time).
-                    try:
-                        direction, imtime = get_time(im)
-                    except:
-                        pass
-                    
-                    # Count pedestrians in image.
-                    try:
-                        count = detect(sess, net, im, float(args.conf))
-                    except:
-                        count = 0
-                        time_ = 'Error'
-                        pass
-                    
-                    # Put data in database
-                    cursor.execute(
-                    """INSERT INTO ped_count (cam_id, date, cam_dir, count, imtime) VALUES (%s, %s, %s, %s, %s);""",
-                    (cam[0], time_, direction, count, imtime))
-                    conn.commit()
-#                    print '{}, {}, {}, {}'.format(cam[0], time_, details, count, imtime)
-                    
-                    # Randomly save images.
-                    if _ == save:
-                        cv2.imwrite("/home/jmv423/DOT_Faster-RCNN_TF/tools/Images/{}_{}.jpg".format(cam[0], int(time.time())), im)
 
+                    if _ == save: # Randomly save images.
+                        cv2.imwrite("./Images/{}_{}.jpg".format(cam[0], int(time.time())), im)

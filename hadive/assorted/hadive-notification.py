@@ -1,5 +1,8 @@
 import os
 import time
+import datetime
+import psycopg2
+import pandas as pd
 from getpass import getpass
 from smtplib import SMTP_SSL
 from email.header import Header
@@ -20,14 +23,15 @@ def is_process_running(pid):
         return False
 
 
-def send_status_email(recipients, login, password):
+def send_status_email(recipients, login, password, message):
     """Send composed message to recipients from hadive email.
     Args:
         recipients (str) - email recipients.
-        login - sending email address.
-        password - senders passwords."""
+        login (str) - sending email address.
+        password (str) - senders passwords.
+        message (str) - message to send."""
 
-    msg = MIMEText('The pedestrian count script has gone down.', 'plain', 'utf-8')
+    msg = MIMEText(message, 'plain', 'utf-8')
     msg['Subject'] = Header('HaDiVe Status', 'utf-8')
     msg['From'] = login
     msg['To'] = recipients
@@ -47,8 +51,29 @@ if __name__ == "__main__":
     login = raw_input("Sender (e-mail adress): ")
     password = getpass("Gmail password: ")
 
+    db_len = day 0
     while is_process_running(pid):
-        time.sleep(30)
+        # -- Check that the database size has grown.
+        with psycopg2.connect("dbname='dot_pedestrian_counts'") as conn:
+            with conn.cursor() as cc:
+                cc.execute("SELECT COUNT(*) FROM ped_count")
+                db_curr_len = cc.fetchal()[0][0]
+        if db_curr_len > db_len:
+            db_len = db_curr_len
+        else:
+            break
+
+        # -- Send daily update.
+        if day != datetime.datetime.now().day:
+            send_status_email(recipient, login, password,
+                              """The HaDiVe script is running as of {}.
+                              The database currently has {} rows.""".format(
+                              datetime.datetime.now().strftime("%Y-%m-%d"),
+                              db_len))
+
+            day = datetime.datetime.now().day
+
+        time.sleep(60 * 5)
 
     for recipient in recipients.split(", "):
-        send_status_email(recipient, login, password)
+        send_status_email(recipient, login, password, "The HaDiVe script has gone down.")

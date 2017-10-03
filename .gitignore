@@ -1,6 +1,6 @@
 data/external/
 
-data/results/*.pkl
+data/results/pkl/
 
 notebooks/.ipynb_checkpoints/
 
