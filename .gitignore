@@ -2,6 +2,8 @@ data/external/
 
 data/results/pkl/
 
+data/results/ckpt/
+
 notebooks/.ipynb_checkpoints/
 
 notebooks/Archive/
