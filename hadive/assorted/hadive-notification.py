@@ -1,4 +1,5 @@
 import os
+import sys
 import time
 import datetime
 import psycopg2
@@ -54,10 +55,14 @@ def main(cmd, recipients, login, password):
         login (str): email to send notifications.
         password (str): senders password."""
 
-    f = open("log.txt", "a")
     # Shoud quit if Popen fails.
-    proc = subprocess.Popen(cmd.split(), stdout=f)
+    proc = subprocess.Popen(cmd.split(), shell=True, stdin=subprocess.PIPE,
+                            stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                            creationflags=DETACHED_PROCESS | CREATE_NEW_PROCESS_GROUP)
     pid = proc.pid
+
+    print("{}, ".format(pid), cmd)
+    sys.stdout.flush()
 
     db_prev = day = 0
     while is_process_running(pid):
@@ -83,7 +88,6 @@ def main(cmd, recipients, login, password):
     message = "The HaDiVe script has gone down."
     send_status_email(recipients, login, password, message)
     # -- Restart.
-    f.close()
     main(cmd, recipients, login, password)
 
 

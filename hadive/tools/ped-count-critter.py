@@ -11,7 +11,7 @@ import numpy as np
 import tensorflow as tf
 from PIL import Image
 from random import randint
-from get_time import get_time
+from _get_time import get_time
 from utils.timer import Timer
 from fast_rcnn.config import cfg
 from fast_rcnn.test import im_detect
