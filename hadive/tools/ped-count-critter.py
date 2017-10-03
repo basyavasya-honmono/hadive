@@ -1,4 +1,5 @@
 import os
+import sys
 import cv2
 import time
 import urllib3
@@ -61,8 +62,6 @@ def detect(sess, net, im, conf):
 if __name__ == '__main__':
     args = parse_args()
 
-    if not os.path.isfile("./log.txt"):
-        os.system("touch log.txt")
     if not os.path.exists("./Images/"):
         os.makedirs("./Images/")
 
@@ -81,6 +80,8 @@ if __name__ == '__main__':
                     try: # Download image, & get time when url is pinged.
                         time_ = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
                         im = get_im(cam[1])
+                        if _ == save: # Randomly save images.
+                            cv2.imwrite("./Images/{}_{}.jpg".format(cam[0], int(time.time())), im)
                         try: # Pull camera direction if available.
                             direction, imtime = get_time(im)
                             try: # Count pedestrians in image.
@@ -90,17 +91,14 @@ if __name__ == '__main__':
                                     conn.commit()
                                     # print '{}, {}, {}, {}'.format(cam[0], time_, details, count, imtime)
                                 except: # Put data in database.
-                                    with open("./log.txt", "a") as f:
-                                        f.write("{0}, Error inserting data to database, Cam: {1}\n".format(time_, cam[0]))
+                                    print("{0}, Error inserting data to database, Cam: {1}\n".format(time_, cam[0]))
+                                    sys.stdout.flush()
                                     pass
                             except: # Count pedestrians in image.
-                                with open("./log.txt", "a") as f:
-                                    f.write("{0}, Error counting pedestrians, Cam: {1}\n".format(time_, cam[0]))
+                                print("{0}, Error counting pedestrians, Cam: {1}\n".format(time_, cam[0]))
+                                sys.stdout.flush()
                                 pass
                         except:
                             pass
                     except:
                         pass
-
-                    if _ == save: # Randomly save images.
-                        cv2.imwrite("./Images/{}_{}.jpg".format(cam[0], int(time.time())), im)

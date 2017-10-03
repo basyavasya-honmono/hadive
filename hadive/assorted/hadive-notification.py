@@ -2,6 +2,7 @@ import os
 import time
 import datetime
 import psycopg2
+import subprocess
 import pandas as pd
 from getpass import getpass
 from smtplib import SMTP_SSL
@@ -44,33 +45,52 @@ def send_status_email(recipients, login, password, message):
     finally:
         s.quit()
 
+def main(cmd, recipients, login, password):
+    """Start command, acquire pid, and monitor process. Send daily and failure
+    notifications, and try to restart.
+    Args:
+        cmd (str): bash cmd
+        recipients (str): notification recipients.
+        login (str): email to send notifications.
+        password (str): senders password."""
+
+    f = open("log.txt", "a")
+    # Shoud quit if Popen fails.
+    proc = subprocess.Popen(cmd.split(), stdout=f)
+    pid = proc.pid
+
+    db_prev = day = 0
+    while is_process_running(pid):
+        # -- Get length of db.
+        with psycopg2.connect("dbname='dot_pedestrian_counts'") as conn:
+            with conn.cursor() as cc:
+                cc.execute("SELECT COUNT(*) FROM ped_count")
+                db_now = cc.fetchall()[0][0]
+        # -- (Active notif.) If db has grown, continue.
+        if db_now > db_prev:
+            db_prev = db_now
+        else:
+            break
+        # -- (Passive notif.) Send a daily update.
+        if day != datetime.datetime.now().day:
+            day = datetime.datetime.now().day
+            message = ("The HaDiVe script is currently running.\n"
+                       "The database now has {} records.".format(db_prev))
+            send_status_email(recipients, login, password, message)
+        time.sleep(60 * 5)
+
+    # -- While loop has broken, send notification.
+    message = "The HaDiVe script has gone down."
+    send_status_email(recipients, login, password, message)
+    # -- Restart.
+    f.close()
+    main(cmd, recipients, login, password)
+
 
 if __name__ == "__main__":
-    pid = raw_input("Process ID to watch: ")
+    cmd = raw_input("cmd to start ped-count script: ")
     recipients = raw_input("Email recipients (comma deliminated): ")
     login = raw_input("Sender (e-mail adress): ")
     password = getpass("Gmail password: ")
 
-    db_len = day = 0
-    while is_process_running(pid):
-        # -- Check that the database size has grown.
-        with psycopg2.connect("dbname='dot_pedestrian_counts'") as conn:
-            with conn.cursor() as cc:
-                cc.execute("SELECT COUNT(*) FROM ped_count")
-                db_curr_len = cc.fetchall()[0][0]
-        if db_curr_len > db_len:
-            db_len = db_curr_len
-        else:
-            break
-
-        # -- Send daily update.
-        if day != datetime.datetime.now().day:
-            send_status_email(recipients, login, password,
-                              """The HaDiVe script is running as of {}.\nThe database currently has {} rows.""".format(
-                              datetime.datetime.now().strftime("%Y-%m-%d"), db_len))
-
-            day = datetime.datetime.now().day
-
-        time.sleep(60 * 5)
-
-    send_status_email(recipients, login, password, "The HaDiVe script has gone down.")
+    main(cmd, recipients, login, password)
