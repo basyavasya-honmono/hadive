@@ -57,7 +57,7 @@ if __name__ == "__main__":
         with psycopg2.connect("dbname='dot_pedestrian_counts'") as conn:
             with conn.cursor() as cc:
                 cc.execute("SELECT COUNT(*) FROM ped_count")
-                db_curr_len = cc.fetchal()[0][0]
+                db_curr_len = cc.fetchall()[0][0]
         if db_curr_len > db_len:
             db_len = db_curr_len
         else:
@@ -65,15 +65,12 @@ if __name__ == "__main__":
 
         # -- Send daily update.
         if day != datetime.datetime.now().day:
-            send_status_email(recipient, login, password,
-                              """The HaDiVe script is running as of {}.
-                              The database currently has {} rows.""".format(
-                              datetime.datetime.now().strftime("%Y-%m-%d"),
-                              db_len))
+            send_status_email(recipients, login, password,
+                              """The HaDiVe script is running as of {}.\nThe database currently has {} rows.""".format(
+                              datetime.datetime.now().strftime("%Y-%m-%d"), db_len))
 
             day = datetime.datetime.now().day
 
         time.sleep(60 * 5)
 
-    for recipient in recipients.split(", "):
-        send_status_email(recipient, login, password, "The HaDiVe script has gone down.")
+    send_status_email(recipients, login, password, "The HaDiVe script has gone down.")
