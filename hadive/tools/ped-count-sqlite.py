@@ -30,12 +30,9 @@ def get_cctv_links():
     """Return all cam_id and cctv url for all values in cameras db table"""
     conn = sqlite3.connect("../../data/results/ped-count.db")
     c = conn.cursor()
-
     cams = c.execute("""SELECT cam_id, cctv_id, description FROM cameras
     WHERE cctv_id != 'image' and cctv_id != 'No Response'""").fetchall()
-
     conn.close()
-
     return map(lambda x: (x[0], 'http://207.251.86.238/cctv{}.jpg'.format(x[1])), cams)
 
 def get_im(url):
