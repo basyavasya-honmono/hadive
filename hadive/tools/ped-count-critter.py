@@ -91,19 +91,15 @@ if __name__ == '__main__':
                                     # print '{}, {}, {}, {}'.format(cam[0], time_, details, count, imtime)
                                 except: # Put data in database.
                                     with open("./log.txt", "a") as f:
-                                        f.write("{}, Error inserting data to database, Cam: {}".format(time_, cam[0]))
+                                        f.write("{0}, Error inserting data to database, Cam: {1}\n".format(time_, cam[0]))
                                     pass
                             except: # Count pedestrians in image.
                                 with open("./log.txt", "a") as f:
-                                    f.write("{}, Error counting pedestrians, Cam: {}".format(time_, cam[0]))
+                                    f.write("{0}, Error counting pedestrians, Cam: {1}\n".format(time_, cam[0]))
                                 pass
-                        except: # Pull camera direction if available.
-                            with open("./log.txt", "a") as f:
-                                f.write("{}, Error pulling camera direction/time, Cam: {}".format(time_, cam[0]))
+                        except:
                             pass
-                    except: # Download image, & get time when url is pinged.
-                        with open("./log.txt", "a") as f:
-                            f.write("{}, Error downloading image, Cam: {}".format(time_, cam[0]))
+                    except:
                         pass
 
                     if _ == save: # Randomly save images.
