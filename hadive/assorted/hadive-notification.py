@@ -47,6 +47,7 @@ def send_status_email(recipients, login, password, message):
     finally:
         s.quit()
 
+
 def main(cmd, recipients, login, password):
     """Start command, acquire pid, and monitor process. Send daily and failure
     notifications, and try to restart.
@@ -59,8 +60,8 @@ def main(cmd, recipients, login, password):
     # Shoud quit if Popen fails.
     subprocess.call(cmd.split())
     for p in psutil.pids():
-        if psutil.Process(p).cmdline() == cmd.split():
-        pid = p
+        if cmd.split()[1] in psutil.Process(p).cmdline():
+            pid = p
 
     with open("./log.txt", "a") as f:
         f.write("{0}, {1}".format(pid, cmd))
