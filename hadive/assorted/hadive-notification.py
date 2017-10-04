@@ -1,6 +1,7 @@
 import os
 import sys
 import time
+import psutil
 import datetime
 import psycopg2
 import subprocess
@@ -56,13 +57,13 @@ def main(cmd, recipients, login, password):
         password (str): senders password."""
 
     # Shoud quit if Popen fails.
-    proc = subprocess.Popen(cmd.split(), shell=True, stdin=subprocess.PIPE,
-                            stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                            creationflags=DETACHED_PROCESS | CREATE_NEW_PROCESS_GROUP)
-    pid = proc.pid
+    subprocess.call(cmd.split())
+    for p in psutil.pids():
+        if psutil.Process(p).cmdline() == cmd.split():
+        pid = p
 
-    print("{}, ".format(pid), cmd)
-    sys.stdout.flush()
+    with open("./log.txt", "a") as f:
+        f.write("{0}, {1}".format(pid, cmd))
 
     db_prev = day = 0
     while is_process_running(pid):
