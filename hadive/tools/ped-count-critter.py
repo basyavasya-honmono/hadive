@@ -1,5 +1,4 @@
 import os
-import sys
 import cv2
 import time
 import urllib3
@@ -11,7 +10,7 @@ import numpy as np
 import tensorflow as tf
 from PIL import Image
 from random import randint
-from _get_time import get_time
+from get_time import get_time
 from utils.timer import Timer
 from fast_rcnn.config import cfg
 from fast_rcnn.test import im_detect
@@ -62,6 +61,8 @@ def detect(sess, net, im, conf):
 if __name__ == '__main__':
     args = parse_args()
 
+    if not os.path.isfile("./log.txt"):
+        os.system("touch log.txt")
     if not os.path.exists("./Images/"):
         os.makedirs("./Images/")
 
@@ -92,11 +93,12 @@ if __name__ == '__main__':
                                     # print '{}, {}, {}, {}'.format(cam[0], time_, details, count, imtime)
                                 except: # Put data in database.
                                     print("{0}, Error inserting data to database, Cam: {1}\n".format(time_, cam[0]))
-                                    sys.stdout.flush()
+                                    with open("./log.txt", "a") as f:
+                                        f.write("{0}, Error inserting data to database, Cam: {1}\n".format(time_, cam[0]))
                                     pass
                             except: # Count pedestrians in image.
-                                print("{0}, Error counting pedestrians, Cam: {1}\n".format(time_, cam[0]))
-                                sys.stdout.flush()
+                                with open("./log.txt", "a") as f:
+                                    f.write("{0}, Error counting pedestrians, Cam: {1}\n".format(time_, cam[0]))
                                 pass
                         except:
                             pass
