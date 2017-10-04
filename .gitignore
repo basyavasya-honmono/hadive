@@ -10,6 +10,8 @@ notebooks/Archive/
 
 outputs/example-dets-imgs/
 
+hadive/tools/secrets.json
+
 *.npy
 
 *.feather

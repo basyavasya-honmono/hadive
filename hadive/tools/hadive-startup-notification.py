@@ -12,20 +12,6 @@ from email.header import Header
 from email.mime.text import MIMEText
 
 
-def is_process_running(pid):
-    """Check if process is running.
-    Args:
-        pid - process id to watch.
-    Returns:
-        (bool)"""
-
-    try:
-        os.getpgid(int(pid))
-        return True
-    except OSError:
-        return False
-
-
 def send_status_email(recipients, login, password, message):
     """Send composed message to recipients from hadive email.
     Args:
@@ -57,17 +43,12 @@ def main(cmd, recipients, login, password):
         login (str): email to send notifications.
         password (str): senders password."""
 
-    # Shoud quit if Popen fails.
-    subprocess.call(cmd.split())
-    for p in psutil.pids():
-        if cmd.split()[1] in psutil.Process(p).cmdline():
-            pid = p
-
     with open("./log.txt", "a") as f:
-        f.write("{0}, {1}".format(pid, cmd))
+        f.write("{}, {}\n".format(datetime.datetime.now(), cmd))
 
     db_prev = day = 0
-    while is_process_running(pid):
+    proc = subprocess.Popen(cmd.split()) # Should quit if Popen fails.
+    while proc.poll() == None:
         # -- Get length of db.
         with psycopg2.connect("dbname='dot_pedestrian_counts'") as conn:
             with conn.cursor() as cc:
@@ -94,9 +75,8 @@ def main(cmd, recipients, login, password):
 
 
 if __name__ == "__main__":
-    cmd = raw_input("cmd to start ped-count script: ")
-    recipients = raw_input("Email recipients (comma deliminated): ")
-    login = raw_input("Sender (e-mail adress): ")
-    password = getpass("Gmail password: ")
 
-    main(cmd, recipients, login, password)
+    with open("./secrets.json", "r") as f:
+        secrets = json.load(f)
+
+    main(secrets["cmd"], secrets["recipients"], secrets["login"], secrets["password"])
