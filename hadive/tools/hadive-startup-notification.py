@@ -29,7 +29,7 @@ def send_status_email(recipients, login, password, message):
     s.set_debuglevel(1)
     try:
          s.login(login, password)
-         s.sendmail(msg['From'], recipients, msg.as_string())
+         s.sendmail(msg['From'], recipients.split(", "), msg.as_string())
     finally:
         s.quit()
 
