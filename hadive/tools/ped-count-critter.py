@@ -1,6 +1,7 @@
 import os
 import cv2
 import time
+import json
 import urllib3
 import argparse
 import psycopg2
