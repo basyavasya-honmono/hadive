@@ -12,6 +12,9 @@ outputs/example-dets-imgs/
 
 hadive/tools/secrets.json
 
-*.npy
+output
 
+*.npy
 *.feather
+*~
+*#
