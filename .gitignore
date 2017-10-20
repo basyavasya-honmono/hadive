@@ -1,8 +1,4 @@
-data/external/
-
-data/results/pkl/
-
-data/results/ckpt/
+data
 
 notebooks/.ipynb_checkpoints/
 
