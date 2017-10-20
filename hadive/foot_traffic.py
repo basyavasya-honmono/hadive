@@ -22,9 +22,16 @@ class FootTraffic(object):
 
         # -- read the file 
         print("FOOT_TRAFFIC: reading file {0}...".format(self.fname))
-        print("FOOT_TRAFFIC:   dropping NaN rows")
-        self.counts_full = pd.read_csv(self.fname, parse_dates=dates).dropna()
 
+        if self.fname.endswith("csv"):
+            print("FOOT_TRAFFIC:   dropping NaN rows")
+            self.counts_full = pd.read_csv(self.fname, parse_dates=dates) \
+                                 .dropna()
+        elif self.fname.endswith("feather"):
+            self.counts_full = pd.read_feather(self.fname)
+        else:
+            print("FOOT_TRAFFIC: only .csv and .feather formats supported!")
+            
         return
 
 
