@@ -16,5 +16,6 @@ output
 
 *.npy
 *.feather
+*.pyc
 *~
 *#
