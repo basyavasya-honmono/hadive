@@ -15,5 +15,6 @@ hadive/tools/secrets.json
 output
 
 *.npy
-
 *.feather
+*~
+*#
