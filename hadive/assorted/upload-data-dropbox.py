@@ -33,7 +33,7 @@ class transfer_data:
 
         FILE_SIZE = os.path.getsize(file_from)
         CHUNK_SIZE = 100 * 1024 * 1024
-        
+
         with open(file_from, 'rb') as f:
             upload_session_start_result = dbx.files_upload_session_start(f.read(CHUNK_SIZE))
             cursor = dropbox.files.UploadSessionCursor(session_id=upload_session_start_result.session_id, offset=f.tell())
@@ -75,4 +75,4 @@ if __name__ == "__main__":
         if month != datetime.datetime.now().month:
             month = datetime.datetime.now().month
             main()
-            time.sleep(3600*24)
+        time.sleep(3600*24)
