@@ -6,11 +6,13 @@ import datetime
 import argparse
 import pandas as pd
 
+
 def parse_args():
     """Parse input arguments."""
     parser = argparse.ArgumentParser(description="Input access token.")
     parser.add_argument("--token", dest="token", help="Dropbox app access tokent")
     return parser.parse_args()
+
 
 class transfer_data:
     """Dropbox transfer class."""
@@ -68,6 +70,10 @@ def main():
         df.to_csv("./hadive-data.csv", mode="w+")
         print "Wrote df to csv."
     hadive_data.upload_file("./hadive-data.csv", "/hadive-data.csv")
+
+    df = None
+    hadive_data = None
+
 
 if __name__ == "__main__":
     month = datetime.datetime.now().month - 1
