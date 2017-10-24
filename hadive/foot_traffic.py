@@ -45,8 +45,12 @@ class FootTraffic(object):
             ft_cams = self.counts_full.cam_id.unique()
             missing = (~np.in1d(cam_id, ft_cams)).nonzero()[0]
 
+            print("FOOT_TRAFFIC: sub-selecting {0} cameras" \
+                  .format(len(cam_id)))
+
             for ii in missing:
-                print("FOOT_TRAFFIC: cam_id {0} not found".format(cam_id[ii]))
+                print("FOOT_TRAFFIC:   cam_id {0} not found" \
+                      .format(cam_id[ii]))
 
             self.counts = self.counts_full[self.counts_full.cam_id \
                                            .isin(cam_id)]
