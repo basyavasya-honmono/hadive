@@ -1,6 +1,7 @@
 import os
 import sys
 import time
+import json
 import psutil
 import datetime
 import psycopg2
@@ -64,7 +65,8 @@ def main(cmd, recipients, login, password):
             day = datetime.datetime.now().day
             message = ("The HaDiVe script is currently running.\n"
                        "The database now has {} records.".format(db_prev))
-            send_status_email(recipients, login, password, message)
+            for recipient in recipients.split(", "):
+                send_status_email(recipient, login, password, message)
         time.sleep(60 * 5)
 
     # -- While loop has broken, send notification.
