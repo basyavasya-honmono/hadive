@@ -109,6 +109,15 @@ def get_cam_info(boro=None, street=True, nys=True, add_ct=True):
 
 
 
+def get_precipitation():
+    """ ADD DOCS!!! """
+
+    # -- set the filename
+    fname = os.path.join("..", "data", "external",
+                         "nyc_centralpark_2017precip.csv")
+
+    
+
 def load_ct_shapes(boro=None):
     """
     ADD DOCS!!!
