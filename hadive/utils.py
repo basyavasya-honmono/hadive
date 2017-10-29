@@ -8,6 +8,7 @@ import numpy as np
 import pandas as pd
 import geopandas as gp
 from shapely.geometry import Point
+from sqlalchemy import create_engine
 
 
 def deg_to_nys(lat, lon):
@@ -226,3 +227,24 @@ def load_mappluto_shapes(boro, add_ct=False):
                 sys.stdout.flush()
 
             pnt  = Point(mpx[ii], mpy[ii])
+
+
+
+def wunder_to_feather():
+    """
+    ADD DOCS!
+    """
+
+    # -- connect to database
+    engine = create_engine("postgresql:///weather_underground")
+
+    # -- grab data
+    print("UTILS: querying database...")
+    data = pd.read_sql_query("SELECT * FROM knyc_conditions", con=engine)
+    
+    # -- write to feather
+    fname = os.path.join("..", "output", "wunder_knyc_conditions.feather")
+    print("UTILS: writing {0} records to {1}...".format(len(data), fname))
+    data.to_feather(fname)
+
+    return
