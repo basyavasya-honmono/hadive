@@ -114,8 +114,10 @@ def get_precipitation():
     """ ADD DOCS!!! """
 
     # -- set the filename
-    fname = os.path.join("..", "data", "external",
-                         "nyc_centralpark_2017precip.csv")
+    fname = os.path.join("..", "output", "wunder_knyc_conditions.feather")
+
+    # -- read in the data
+    return pd.read_feather(fname)
 
     
 
