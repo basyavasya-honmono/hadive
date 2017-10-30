@@ -90,6 +90,23 @@ class FootTraffic(object):
         return
 
 
+    def merge_precipitation(self, sampling="daily"):
+        """
+        ADD DOCS!!!
+        """
+
+        # -- alert user
+        if sampling != "daily":
+            print("FOOT_TRAFFIC: only daily total of precipitation is "
+                  "implemented!")
+
+            return
+        
+        # -- get the precipitation data and sum to the day
+        precip = get_precipitation()
+
+    
+
     def bin_timeseries(self, interval="15Min", full=False):
         """
         ADD DOCS!!!
@@ -105,8 +122,12 @@ class FootTraffic(object):
                 print("FOOT_TRAFFIC:   use get_cams() or set full=True")
                 return
 
+            print("FOOT_TRAFFIC: binning time series to {0} interval..." \
+                  .format(interval))
+
             self.counts_bin = self.counts.set_index("date").groupby("cam_id") \
-                                    .resample(interval).mean()[["counts"]]
+                                    .resample(interval).mean()[["count"]]
+        return
 
 
 # # testing
