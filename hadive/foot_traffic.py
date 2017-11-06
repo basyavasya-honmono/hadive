@@ -90,20 +90,28 @@ class FootTraffic(object):
         return
 
 
-    def merge_precipitation(self, sampling="daily"):
+    def merge_precipitation(self, interval=None):
         """
         ADD DOCS!!!
         """
 
         # -- alert user
-        if sampling != "daily":
-            print("FOOT_TRAFFIC: only daily total of precipitation is "
-                  "implemented!")
-
+        if interval is None:
+            try:
+                self.interval
+            except:
+                print("FOOT_TRAFFIC: must set sampling interval or "
+                      "use bin_timeseries!")
             return
+        else:
+            interval = self.interval    
         
         # -- get the precipitation data and sum to the day
-        precip = get_precipitation()
+        precip = get_precipitation().set_index("time").resample(interval) \
+                                        .interpolate()["precip"].reset_index()
+
+        # -- merge with counts and/or binned counts
+        
 
     
 
@@ -119,17 +127,28 @@ class FootTraffic(object):
             except:
                 print("FOOT_TRAFFIC: the data has not been sub-selected by "
                       "camera")
-                print("FOOT_TRAFFIC:   use get_cams() or set full=True")
+                print("FOOT_TRAFFIC:   use get_cams() and full=False")
                 return
 
             print("FOOT_TRAFFIC: binning time series to {0} interval..." \
                   .format(interval))
 
+            self.interval   = interval
             self.counts_bin = self.counts.set_index("date").groupby("cam_id") \
                                     .resample(interval).mean()[["count"]]
         return
 
 
+    
+    def select(self, cam_id=None, year=None, month=None, day=None):
+        """
+        ADD DOCS!!!
+        """
+
+        # -- return full time series for a given camera
+        return self.counts_bin.loc[cam_id]
+
+        
 # # testing
 # 11033247
 # counts.loc[counts.index == 11033247, "count"] = np.NaN
