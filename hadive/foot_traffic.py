@@ -115,7 +115,7 @@ class FootTraffic(object):
 
     
 
-    def bin_timeseries(self, interval="15Min", full=False):
+    def bin_timeseries(self, interval="15min", full=False):
         """
         ADD DOCS!!!
         """
@@ -133,9 +133,22 @@ class FootTraffic(object):
             print("FOOT_TRAFFIC: binning time series to {0} interval..." \
                   .format(interval))
 
-            self.interval   = interval
+            # set the interval
+            if "min" not in interval.lower():
+                print("FOOT_TRAFFIC: sampling interval must be in of the "
+                      " form 'Xmin' where X is number of minutes!")
+                return 
+            self.interval = interval
+
+            # resample the counts
             self.counts_bin = self.counts.set_index("date").groupby("cam_id") \
                                     .resample(interval).mean()[["count"]]
+
+            # reindex to make sure time range is covered for all cameras
+            self.counts_bin = self.counts_bin.reindex( \
+                                pd.MultiIndex.from_product( \
+                                    self.counts_bin.index.levels))
+                
         return
 
 
