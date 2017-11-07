@@ -140,7 +140,7 @@ class FootTraffic(object):
 
 
     
-    def select(self, cam_id=None, st=None, en=None, date=None):
+    def select(self, cam_id=None, st=None, en=None, date=None, ind=None):
         """
         ADD DOCS!!!
         """
@@ -155,36 +155,40 @@ class FootTraffic(object):
             cam_id = slice(None)
             ncam   = len(self.cams)
         else:
-            ncam = 1 if type(cam_id) is int else len(cam_id)
+            try:
+                ncam = len(cam_id)
+            except TypeError:
+                ncam = 1
 
         # -- if no start and end times, return cam IDs
-        if (st is None) & (en is None):
+        if (st is None) & (en is None) & (ind is None):
             return self.counts_bin.loc[cam_id]
-        elif (st is None) | (en is None):
+        elif (ind is None) & ((st is None) | (en is None)):
             print("FOOT_TRAFFIC: must set BOTH start and end!")
             return None
 
-        # -- construct datetime
-        if type(st) is not datetime.datetime:
-            st = datetime.datetime(*st)
-        if type(en) is not datetime.datetime:
-            en = datetime.datetime(*en)
-
         # -- get temporal index
-        index = self.counts_bin.index.levels[1]
-        ind   = (index >= st) & (index < en)
+        if ind is None:
+            if type(st) is not datetime.datetime:
+                st = datetime.datetime(*st)
+            if type(en) is not datetime.datetime:
+                en = datetime.datetime(*en)
+
+            index = self.counts_bin.index.levels[1]
+            ind   = (index >= st) & (index < en)
 
         # -- return full time series for a given camera
         return self.counts_bin.loc[cam_id].loc[ind.tolist() * ncam]
 
 
 
-    def weekends(self):
+    def weekdays(self, cam_id=None):
         """
         ADD DOCS!!!
         """
 
-        
+        return self.select(cam_id, ind=self.counts_bin.index \
+                               .levels[1].weekday < 5)
         
 # # testing
 # 11033247
