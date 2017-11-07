@@ -202,9 +202,12 @@ class FootTraffic(object):
 
         return self.select(cam_id, ind=self.counts_bin.index \
                                .levels[1].weekday < 5)
-        
-# # testing
-# 11033247
-# counts.loc[counts.index == 11033247, "count"] = np.NaN
 
-# fname = '../data/results/hadive-data.csv'
+
+    def weekends(self, cam_id=None):
+        """
+        ADD DOCS!!!
+        """
+
+        return self.select(cam_id, ind=self.counts_bin.index \
+                               .levels[1].weekday >= 5)
