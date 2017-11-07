@@ -140,13 +140,33 @@ class FootTraffic(object):
 
 
     
-    def select(self, cam_id=None, year=None, month=None, day=None):
+    def select(self, cam_id=None, st=None, en=None):
         """
         ADD DOCS!!!
         """
 
+        # -- if no start and end times, return cam IDs
+        if (st is None) & (en is None):
+            return self.counts_bin.loc[cam_id]
+        elif (st is None) | (en is None):
+            print("FOOT_TRAFFIC: must set BOTH start and end!")
+            return None
+
+        # -- utility
+        ncam = 1 if type(cam_id) is int else len(cam_id)
+
+        # -- construct datetime
+        if type(st) is not datetime.datetime:
+            st = datetime.datetime(*st)
+        if type(en) is not datetime.datetime:
+            en = datetime.datetime(*en)
+
+        # -- get temporal index
+        index = self.counts_bin.index.levels[1]
+        ind   = (index >= st) & (index < en)
+
         # -- return full time series for a given camera
-        return self.counts_bin.loc[cam_id]
+        return self.counts_bin.loc[cam_id].loc[ind.tolist() * ncam]
 
         
 # # testing
