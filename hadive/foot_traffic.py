@@ -140,10 +140,22 @@ class FootTraffic(object):
 
 
     
-    def select(self, cam_id=None, st=None, en=None):
+    def select(self, cam_id=None, st=None, en=None, date=None):
         """
         ADD DOCS!!!
         """
+
+        # -- alert the user
+        if date is not None:
+            print("FOOT_TRAFFIC: single date not implemented yet!")
+            return None
+
+        # -- check if selecting on cam ID
+        if cam_id is None:
+            cam_id = slice(None)
+            ncam   = len(self.cams)
+        else:
+            ncam = 1 if type(cam_id) is int else len(cam_id)
 
         # -- if no start and end times, return cam IDs
         if (st is None) & (en is None):
@@ -151,9 +163,6 @@ class FootTraffic(object):
         elif (st is None) | (en is None):
             print("FOOT_TRAFFIC: must set BOTH start and end!")
             return None
-
-        # -- utility
-        ncam = 1 if type(cam_id) is int else len(cam_id)
 
         # -- construct datetime
         if type(st) is not datetime.datetime:
@@ -168,6 +177,14 @@ class FootTraffic(object):
         # -- return full time series for a given camera
         return self.counts_bin.loc[cam_id].loc[ind.tolist() * ncam]
 
+
+
+    def weekends(self):
+        """
+        ADD DOCS!!!
+        """
+
+        
         
 # # testing
 # 11033247
