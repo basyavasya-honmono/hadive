@@ -227,4 +227,5 @@ class FootTraffic(object):
         ustack = self.counts_bin["count"].unstack(0)
 
         # -- return the values
-        return ustack.values, ustack.index.values, ustack.columns.values
+        return ustack.values, ustack.index.to_pydatetime(), \
+            ustack.columns.values
