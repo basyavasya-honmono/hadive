@@ -211,3 +211,20 @@ class FootTraffic(object):
 
         return self.select(cam_id, ind=self.counts_bin.index \
                                .levels[1].weekday >= 5)
+
+
+    def counts_matrix(self, sampled=True):
+        """
+        ADD DOCS!!!
+        """
+
+        # -- alert the user
+        if not sampled:
+            print("FOOT_TRAFFIC: only implemented for sampled data")
+            return None
+        
+        # -- unstack the sampled counts
+        ustack = self.counts_bin["count"].unstack(0)
+
+        # -- return the values
+        return ustack.values, ustack.index.values, ustack.columns.values
