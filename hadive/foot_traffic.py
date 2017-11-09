@@ -213,6 +213,15 @@ class FootTraffic(object):
                                .levels[1].weekday >= 5)
 
 
+    def day_of_week(self, dow, cam_id=None):
+        """
+        ADD DOCS!!!
+        """
+
+        return self.select(cam_id, ind=self.counts_bin.index \
+                               .levels[1].weekday == dow)
+
+
     def counts_matrix(self, sampled=True):
         """
         ADD DOCS!!!
