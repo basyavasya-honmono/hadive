@@ -1,4 +1,5 @@
 import os
+import sys
 import cv2
 import time
 import json
@@ -94,12 +95,15 @@ if __name__ == '__main__':
                                     # print '{}, {}, {}, {}'.format(cam[0], time_, details, count, imtime)
                                 except: # Put data in database.
                                     print("{0}, Error inserting data to database, Cam: {1}\n".format(time_, cam[0]))
-                                    with open("./log.txt", "a") as f:
-                                        f.write("{0}, Error inserting data to database, Cam: {1}\n".format(time_, cam[0]))
+                                    sys.stdout.flush()
+                                    # with open("./log.txt", "a") as f:
+                                    #     f.write("{0}, Error inserting data to database, Cam: {1}\n".format(time_, cam[0]))
                                     pass
                             except: # Count pedestrians in image.
-                                with open("./log.txt", "a") as f:
-                                    f.write("{0}, Error counting pedestrians, Cam: {1}\n".format(time_, cam[0]))
+                                print("{0}, Error counting pedestrians, Cam: {1}\n".format(time_, cam[0]))
+                                sys.stdout.flush()
+                                # with open("./log.txt", "a") as f:
+                                #     f.write("{0}, Error counting pedestrians, Cam: {1}\n".format(time_, cam[0]))
                                 pass
                         except:
                             pass
