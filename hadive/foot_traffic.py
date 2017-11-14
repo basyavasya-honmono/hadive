@@ -148,6 +148,9 @@ class FootTraffic(object):
             self.counts_bin = self.counts_bin.reindex( \
                                 pd.MultiIndex.from_product( \
                                     self.counts_bin.index.levels))
+
+            # reset the index names
+            self.counts_bin.index.set_names(["cam_id", "date"], inplace=True)
                 
         return
 
