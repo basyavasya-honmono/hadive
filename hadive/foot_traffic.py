@@ -102,17 +102,22 @@ class FootTraffic(object):
             except:
                 print("FOOT_TRAFFIC: must set sampling interval or "
                       "use bin_timeseries!")
-            return
+                return
         else:
             interval = self.interval    
         
-        # -- get the precipitation data and sum to the day
-        precip = get_precipitation().set_index("time").resample(interval) \
-                                        .interpolate()["precip"].reset_index()
+        # -- get the precipitation data
+        print("FOOT_TRAFFIC: loading daily precipitation data...")
+        precip = get_precipitation().set_index("time")["daily_precip"]
+        precip = precip.groupby(precip.index.date).first()
 
-        # -- merge with counts and/or binned counts
-        
+        # -- get the counts dates
+        cdates = self.counts_bin.index.get_level_values(1).date
 
+        # -- merge with counts
+        self.counts_bin["daily_precip"] = precip.loc[cdates].values
+
+        return
     
 
     def bin_timeseries(self, interval="15min", full=False):
